@@ -1,0 +1,11 @@
+integer a = 100;
+boolean b = "SomeLexicalThing";
+character a = x;
+boolean b = true;
+
+
+if(a<b)
+##get out of hereeeeeeeeeeeee
+/#
+no matter
+#/
