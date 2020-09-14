@@ -17,7 +17,11 @@ digito=[0-9]
 //Characters definition
 puntocoma = ";"
 colon = ":"
-asignacion = "="
+coma = ","
+define = define
+as = as
+asignacion = ":="
+
 
 leftpar = "("
 rightpar = ")"
@@ -41,22 +45,37 @@ variable = {letra}({letra}|{digito})*
 numero = {digito}+
 espacios = [ \n\r\t]+
 // palabras reservadas
-main = main
+main = open-main
+close-main = close-main
 true = true
 false = false
 integerdecl = integer
 booleandecl = boolean
 characterdecl = character
-if = if
-else = else
+arraydecl = list
+if = open-test
+close-if = close-test
+else = or
 then = then
-switch = switch
-case = case
-break = break
-for = for
+switch = open-match
+when = when
+no-match = no-match
+break = stop
+close-switch = close-match
+for = open-for
+close-for = close-for
 oprel = "<"|">"|"=="|"!="
 mathop = "+"|"-"|"*"|"/"|"^"
 logicalop = {true}|{false}
+lectura = eat
+print = throw
+println = throwln
+until= open-until
+do = do
+close-until = close-until
+open-method = open-method
+close-method = close-method
+
 
 %{
     public String globalacum = "";
@@ -68,9 +87,21 @@ logicalop = {true}|{false}
     {main}      {String output = "<"+yytext()+",MAIN reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
                 }
+    {close-main}      {String output = "<"+yytext()+",CLOSE-MAIN reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output); 
+                }
     {quote}     {   globalacum = "\"";
                     yybegin(String);
                 } 
+    {lectura}   {String output = "<"+yytext()+",eat(lectura) reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                    System.out.println(output);
+                 }
+    {throw}   {String output = "<"+yytext()+",throw(impresion) reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                    System.out.println(output);
+                 }
+    {throwln}   {String output = "<"+yytext()+",throwln(lectura con salto de linea) reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                    System.out.println(output);
+                 }
     {linecomment} { globalacum = "<##"; 
                     yybegin(LineComment);
                     }
@@ -86,29 +117,57 @@ logicalop = {true}|{false}
     {characterdecl} {String output = "<"+yytext()+",Character reserved word>, linea: "+yyline+" columna: "+yycolumn;
                     System.out.println(output);
                     }
-    {switch}    {String output = "<"+yytext()+",SWITCH reserved word>, linea: "+yyline+" columna: "+yycolumn;
+    {arraydecl}     {String output = "<"+yytext()+",Array reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                    System.out.println(output);
+                     }
+    {switch}    {String output = "<"+yytext()+",OPEN-MATCH reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
                 }
-    {case}    {String output = "<"+yytext()+",CASE reserved word>, linea: "+yyline+" columna: "+yycolumn;
+    {close-switch}    {String output = "<"+yytext()+",CLOSE-MATCH reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                        System.out.println(output); 
+                        }
+    {when}    {String output = "<"+yytext()+",WHEN reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
                 }
-    {break}    {String output = "<"+yytext()+",BREAK reserved word>, linea: "+yyline+" columna: "+yycolumn;
+    {no-match}  {String output = "<"+yytext()+",NO-MATCH reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
                 }
-    {if}    {String output = "<"+yytext()+",IF reserved word>, linea: "+yyline+" columna: "+yycolumn;
+    {break}    {String output = "<"+yytext()+",STOP reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output); 
+                }
+    {if}    {String output = "<"+yytext()+",OPEN-TEST reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
             }
-    {else}    {String output = "<"+yytext()+",ELSE reserved word>, linea: "+yyline+" columna: "+yycolumn;
+    {close-if}    {String output = "<"+yytext()+",CLOSE-TEST reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output); 
+            }
+    {else}    {String output = "<"+yytext()+",OR reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
               }
     {then}    {String output = "<"+yytext()+",THEN reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
               }
-    {for}    {String output = "<"+yytext()+",FOR reserved word>, linea: "+yyline+" columna: "+yycolumn;
+    {until}   {String output = "<"+yytext()+",OPEN-UNTIL reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output); 
+               }
+    {do}      {String output = "<"+yytext()+",DO reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output); 
+              }       
+    {close-until}   {String output = "<"+yytext()+",CLOSE-UNTIL reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                        System.out.println(output); 
+                    } 
+    {for}    {String output = "<"+yytext()+",OPEN-FOR reserved word>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output); 
+              }
+    {close-for}    {String output = "<"+yytext()+",CLOSE-FOR reserved word>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output); 
               }
     {puntocoma} {String output = "<"+yytext()+",Punto y Coma>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output);    
+                }
+
+    {coma}      {String output = "<"+yytext()+",Coma>, linea: "+yyline+" columna: "+yycolumn;
+                System.out.println(output);  
                 }
     {colon}     {String output = "<"+yytext()+",Colon>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output);    
@@ -151,6 +210,12 @@ logicalop = {true}|{false}
     {variable}  {String output = "<"+yytext()+",ID>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output);
                 }
+    {open-method}  {String output = "<"+yytext()+",FUNCION>, linea: "+yyline+" columna: "+yycolumn;
+                    System.out.println(output);
+                   } 
+    {open-method}  {String output = "<"+yytext()+",FIN FUNCION>, linea: "+yyline+" columna: "+yycolumn;
+                    System.out.println(output);
+                    } 
     {espacios}   {}
     .           {String output = "<"+yytext()+",NOT CODED>, linea: "+yyline+" columna: "+yycolumn;
                 System.out.println(output);
