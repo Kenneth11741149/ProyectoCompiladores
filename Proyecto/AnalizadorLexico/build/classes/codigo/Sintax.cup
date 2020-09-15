@@ -1,0 +1,119 @@
+package codigo;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal Linea, Comillas, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,Do, While, For,
+    Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,
+    Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,
+    Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,
+    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,Throw;
+non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
+    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA;
+
+start with INICIO;
+
+INICIO ::= 
+    
+    Main Parentesis_a Parentesis_c  SENTENCIA CloseMain
+;
+SENTENCIA ::= 
+    SENTENCIA DECLARACION |
+    DECLARACION |
+    SENTENCIA IF | 
+    IF |
+    SENTENCIA IF_ELSE |
+    IF_ELSE |
+    SENTENCIA WHILE |
+    WHILE |
+    SENTENCIA DO_WHILE
+    DO_WHILE |
+    SENTENCIA FOR |
+    FOR |
+    SENTENCIA LECTURA|
+    LECTURA|
+    SENTENCIA ESCRITURA|
+    ESCRITURA
+;
+DECLARACION ::= 
+    //Int
+    Define Identificador As Int P_coma|
+    Define Identificador As Int Igual Numero P_coma|
+    Define L As Int P_coma|
+    Define L As Int Igual Numero P_coma|
+
+    //Char
+    Define Identificador As Character P_coma|
+    Define Identificador As Character Igual Comillas Identificador Comillas P_coma|
+    Define L As Character P_coma|
+    Define L As Character Igual Comillas Identificador Comillas P_coma|
+
+    //boolean
+    Define Identificador As Boolean P_coma|
+    Define Identificador As Boolean Igual Op_booleano P_coma|
+    Define L As Boolean P_coma|
+    Define L As Boolean Igual Op_booleano P_coma
+
+
+    
+
+
+    /*Int Identificador P_coma | 
+    Int Identificador Op_atribucion Numero P_coma |
+    Int Identificador Igual Numero P_coma |
+    Int Identificador Op_incremento P_coma | 
+    Int Op_incremento Identificador P_coma | 
+    T_dato Identificador P_coma | 
+    T_dato Identificador Op_atribucion Numero P_coma |
+    T_dato Identificador Igual Numero P_coma |
+    T_dato Identificador Op_incremento P_coma | 
+    T_dato Op_incremento Identificador P_coma | 
+    Cadena Identificador Op_atribucion Comillas Comillas P_coma |
+    Cadena Identificador Igual Comillas Comillas P_coma |
+    Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
+    Cadena Identificador Igual Comillas Identificador Comillas P_coma*/
+;
+IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest
+;
+SENTENCIA_BOOLEANA ::= 
+    Op_booleano | 
+    Identificador Op_relacional Op_booleano |
+    Identificador Op_relacional Numero |
+    Identificador Op_relacional Identificador |
+    Identificador Op_relacional Comillas Comillas |
+    Identificador Op_relacional Comillas Identificador Comillas
+;
+IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA  Or SENTENCIA CloseTest
+;
+WHILE ::= While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c
+;
+DO_WHILE ::= Do Llave_a SENTENCIA Llave_c While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c P_coma
+;
+FOR ::= For Parentesis_a SENTENCIA_FOR Parentesis_c Llave_a SENTENCIA Llave_c
+;
+SENTENCIA_FOR ::=
+    T_dato Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR |
+    Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR
+;
+
+LECTURA ::= Eat Identificador P_coma | Eat L P_coma
+;
+ESCRITURA ::= Throw Parentesis_a Identificador Parentesis_c P_coma |  Throwln Parentesis_a Identificador Parentesis_c P_coma
+;
+DECLARACION_FOR ::= 
+    Identificador Op_atribucion Numero |
+    Identificador Op_incremento | 
+    Op_incremento Identificador
+;

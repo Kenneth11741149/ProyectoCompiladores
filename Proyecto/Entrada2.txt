@@ -1,0 +1,14 @@
+//Prueba Comentario
+open-main()
+	
+       define x as integer;
+        eat x;
+       open-test(x>5) then
+              throwln(x);
+       or
+              eat x;
+        close-test
+       define a as character := 'x' ;
+       define prueba as boolean := true;
+  
+close-main
