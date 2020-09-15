@@ -55,7 +55,7 @@ espacio=[ ,\t,\r]+
 
 
 /* Palabra reservada Throw */
-( throw ) {lexeme=yytext(); return Throw;}
+( throw ) {lexeme=yytext(); return THrow;}
 
 /* Palabra reservada Println */
 ( throwln ) {lexeme=yytext(); return Throwln;}
@@ -66,11 +66,12 @@ espacio=[ ,\t,\r]+
 /* Palabra reservada Do */
 ( do ) {lexeme=yytext(); return Do;}
 
-/* Palabra reservada While */
-( while ) {lexeme=yytext(); return While;}
+
 
 /* Palabra reservada For */
-( for ) {lexeme=yytext(); return For;}
+( open-for ) {lexeme=yytext(); return OpenFor;}
+/* Palabra reservada For */
+( close-for ) {lexeme=yytext(); return CloseFor;}
 
 /* Operador Igual */
 ( ":=" ) {lexeme=yytext(); return Igual;}

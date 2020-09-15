@@ -8,6 +8,12 @@ parser code
     
     public void syntax_error(Symbol s){
         this.s = s;
+        String error = "";
+        if(s.value != null){
+            error = "Error Sintactico en la linea "+s.right+ " Columna "+(s.left+1)+ ". No se esperaba esto: "+ "\""+ s.value+ "\""+ "\n" ;
+           System.out.print(error);
+        }
+        //errores.add(error)
     }
 
     public Symbol getS(){
@@ -15,13 +21,13 @@ parser code
 }
 :};
 
-terminal Linea, Comillas, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,Do, While, For,
+terminal Linea, Comillas, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,OpenUntil,CloseUntil,Do,OpenFor,CloseFor,
     Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,
     Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,
     Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,
-    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,Throw;
+    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA;
+    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE;
 
 start with INICIO;
 
@@ -29,6 +35,7 @@ INICIO ::=
     
     Main Parentesis_a Parentesis_c  SENTENCIA CloseMain
 ;
+
 SENTENCIA ::= 
     SENTENCIA DECLARACION |
     DECLARACION |
@@ -36,23 +43,29 @@ SENTENCIA ::=
     IF |
     SENTENCIA IF_ELSE |
     IF_ELSE |
-    SENTENCIA WHILE |
-    WHILE |
-    SENTENCIA DO_WHILE
-    DO_WHILE |
+    SENTENCIA UNTIL |
+    UNTIL |
     SENTENCIA FOR |
     FOR |
     SENTENCIA LECTURA|
     LECTURA|
     SENTENCIA ESCRITURA|
-    ESCRITURA
+    ESCRITURA|
+    SENTENCIA MATCH|
+    MATCH
+    
+    
+    
 ;
 DECLARACION ::= 
     //Int
     Define Identificador As Int P_coma|
     Define Identificador As Int Igual Numero P_coma|
+    //Define Identificador As Int Igual error P_coma|
     Define L As Int P_coma|
     Define L As Int Igual Numero P_coma|
+    //Define L As Int Igual error P_coma|
+
 
     //Char
     Define Identificador As Character P_coma|
@@ -64,7 +77,8 @@ DECLARACION ::=
     Define Identificador As Boolean P_coma|
     Define Identificador As Boolean Igual Op_booleano P_coma|
     Define L As Boolean P_coma|
-    Define L As Boolean Igual Op_booleano P_coma
+    Define L As Boolean Igual Op_booleano P_coma|
+    Define error P_coma
 
 
     
@@ -85,7 +99,7 @@ DECLARACION ::=
     Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
     Cadena Identificador Igual Comillas Identificador Comillas P_coma*/
 ;
-IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest
+IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest | OpenTest error CloseTest
 ;
 SENTENCIA_BOOLEANA ::= 
     Op_booleano | 
@@ -97,23 +111,30 @@ SENTENCIA_BOOLEANA ::=
 ;
 IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA  Or SENTENCIA CloseTest
 ;
-WHILE ::= While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c
+UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do SENTENCIA CloseUntil | OpenUntil error CloseUntil
 ;
-DO_WHILE ::= Do Llave_a SENTENCIA Llave_c While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c P_coma
-;
-FOR ::= For Parentesis_a SENTENCIA_FOR Parentesis_c Llave_a SENTENCIA Llave_c
+FOR ::= OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c  SENTENCIA CloseFor | OpenFor error CloseFor
 ;
 SENTENCIA_FOR ::=
-    T_dato Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR |
+    Int Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR |
     Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR
 ;
 
-LECTURA ::= Eat Identificador P_coma | Eat L P_coma
+LECTURA ::= Eat Identificador P_coma | Eat L P_coma | Eat error
 ;
-ESCRITURA ::= Throw Parentesis_a Identificador Parentesis_c P_coma |  Throwln Parentesis_a Identificador Parentesis_c P_coma
+ESCRITURA ::= THrow Parentesis_a Identificador Parentesis_c P_coma |  Throwln Parentesis_a Identificador Parentesis_c P_coma | THrow error | Throwln error
 ;
 DECLARACION_FOR ::= 
     Identificador Op_atribucion Numero |
     Identificador Op_incremento | 
     Op_incremento Identificador
+;
+
+MATCH ::= 
+    OpenMatch Parentesis_a Identificador Parentesis_c CASE CloseMatch  |   OpenMatch Parentesis_a Identificador Parentesis_c error CloseMatch
+;
+
+CASE ::=
+    CASE When Comillas Identificador Comillas Igual SENTENCIA Stop P_coma|
+    When Comillas Identificador Comillas Igual SENTENCIA Stop P_coma
 ;

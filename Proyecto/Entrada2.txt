@@ -8,7 +8,17 @@ open-main()
        or
               eat x;
         close-test
+ 	open-for(integer x := 0;x<2;x++)
+          eat x;
+         close-for
+        
        define a as character := 'x' ;
        define prueba as boolean := true;
-  
+      open-until(x>2) do
+	eat x;
+       close-until  
+       open-match(c)
+     		when 'x' := eat x;
+                            stop;
+       close-match
 close-main

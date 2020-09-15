@@ -53,7 +53,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Eat:
                     resultado += "  <Reservada eat>\t" + lexer.lexeme + "\n";
                     break;
-                case Throw:case Throwln:
+                case THrow:case Throwln:
                     resultado += "  <Reservada throw>\t" + lexer.lexeme + "\n";
                     break;
                 case Int: case Boolean: case Character: 
@@ -74,12 +74,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Do:
                     resultado += "  <Reservada do>\t" + lexer.lexeme + "\n";
                     break;
-                case While:
-                    resultado += "  <Reservada while>\t" + lexer.lexeme + "\n";
+                
+                case OpenFor:
+                    resultado += "  <Reservada openfor>\t" + lexer.lexeme + "\n";
                     break;
-                case For:
-                    resultado += "  <Reservada while>\t" + lexer.lexeme + "\n";
+                case CloseFor:
+                    resultado += "  <Reserva closefor>\t" + lexer.lexeme + "\n";
                     break;
+                case OpenUntil:
+                    resultado += "  <Reservada openuntil>\t" + lexer.lexeme + "\n";
+                    break;
+                case CloseUntil:
+                    resultado += "  <Reserva closeuntil>\t" + lexer.lexeme + "\n";
+                    break;
+                
                 case Igual:
                     resultado += "  <Operador igual>\t" + lexer.lexeme + "\n";
                     break;

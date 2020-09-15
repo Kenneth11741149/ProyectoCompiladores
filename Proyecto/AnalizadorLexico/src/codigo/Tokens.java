@@ -12,7 +12,7 @@ package codigo;
 public enum Tokens {
     Define,
     Eat,
-    Throw,
+    THrow,
     Throwln,
     As,
     Linea,
@@ -25,9 +25,8 @@ public enum Tokens {
     CloseTest,
     Or,
     Then,
-    Do,
-    While,
-    For,
+    OpenFor,
+    CloseFor,
     Igual,
     Suma,
     Resta,
@@ -49,5 +48,14 @@ public enum Tokens {
     P_coma,
     Identificador,
     Numero,
-    ERROR
+    ERROR,
+    OpenUntil,
+    CloseUntil,
+    Do,
+    OpenMatch,
+    CloseMatch,
+    When,
+    Stop
+    
+    
 }

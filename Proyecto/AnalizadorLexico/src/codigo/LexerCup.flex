@@ -46,7 +46,7 @@ espacio=[ ,\t,\r,\n]+
 (eat) {return new Symbol(sym.Eat, yychar, yyline, yytext());}
 
 /* Palabra reservada Throw */
-(throw) {return new Symbol(sym.Throw, yychar, yyline, yytext());}
+(throw) {return new Symbol(sym.THrow, yychar, yyline, yytext());}
 
 /* Palabra reservada Throwln */
 (throwln) {return new Symbol(sym.Throwln, yychar, yyline, yytext());}
@@ -74,11 +74,32 @@ espacio=[ ,\t,\r,\n]+
 /* Palabra reservada Do */
 ( do ) {return new Symbol(sym.Do, yychar, yyline, yytext());}
 
-/* Palabra reservada While */
-( while ) {return new Symbol(sym.While, yychar, yyline, yytext());}
+
 
 /* Palabra reservada For */
-( for ) {return new Symbol(sym.For, yychar, yyline, yytext());}
+( open-for ) {return new Symbol(sym.OpenFor, yychar, yyline, yytext());}
+
+/* Palabra reservada For */
+( close-for ) {return new Symbol(sym.CloseFor, yychar, yyline, yytext());}
+
+/* Palabra reservada UNTIL */
+( open-until ) {return new Symbol(sym.OpenUntil, yychar, yyline, yytext());}
+
+/* Palabra reservada For */
+( close-until ) {return new Symbol(sym.CloseUntil, yychar, yyline, yytext());}
+
+
+/* Palabra reservada openmatch */
+( open-match ) {return new Symbol(sym.OpenMatch, yychar, yyline, yytext());}
+
+/* Palabra reservada closematch */
+( close-match ) {return new Symbol(sym.CloseMatch, yychar, yyline, yytext());}
+
+/* Palabra reservada when */
+( when ) {return new Symbol(sym.When, yychar, yyline, yytext());}
+
+/* Palabra reservada Stop */
+( stop ) {return new Symbol(sym.Stop, yychar, yyline, yytext());}
 
 /* Operador Igual */
 ( ":=" ) {return new Symbol(sym.Igual, yychar, yyline, yytext());}
