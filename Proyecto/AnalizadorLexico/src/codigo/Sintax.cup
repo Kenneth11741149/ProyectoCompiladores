@@ -15,10 +15,12 @@ parser code
         }
         //errores.add(error)
     }
+    
+
 
     public Symbol getS(){
         return this.s;
-}
+    }
 :};
 
 terminal Linea, Comillas, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,OpenUntil,CloseUntil,Do,OpenFor,CloseFor,
@@ -32,8 +34,13 @@ non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
 start with INICIO;
 
 INICIO ::= 
+
+    Main Parentesis_a Parentesis_c SENTENCIA CloseMain|
+    Main Parentesis_a Parentesis_c CloseMain|
+    error SENTENCIA CloseMain|
+    error CloseMain|
     
-    Main Parentesis_a Parentesis_c  SENTENCIA CloseMain
+
 ;
 
 SENTENCIA ::= 
@@ -78,8 +85,9 @@ DECLARACION ::=
     Define Identificador As Boolean Igual Op_booleano P_coma|
     Define L As Boolean P_coma|
     Define L As Boolean Igual Op_booleano P_coma|
-    Define error P_coma
 
+    /* ERROR HANDLING BLOCK FOR DECLARATIONS*/
+    error P_coma
 
     
 
@@ -99,7 +107,8 @@ DECLARACION ::=
     Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
     Cadena Identificador Igual Comillas Identificador Comillas P_coma*/
 ;
-IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest | OpenTest error CloseTest
+IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest |
+       OpenTest error CloseTest
 ;
 SENTENCIA_BOOLEANA ::= 
     Op_booleano | 
@@ -109,7 +118,10 @@ SENTENCIA_BOOLEANA ::=
     Identificador Op_relacional Comillas Comillas |
     Identificador Op_relacional Comillas Identificador Comillas
 ;
-IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA  Or SENTENCIA CloseTest
+IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA  Or SENTENCIA CloseTest |
+            OpenTest error Then SENTENCIA error SENTENCIA CloseTest|
+            OpenTest error Then SENTENCIA Or SENTENCIA CloseTest |
+            OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA error SENTENCIA CloseTest
 ;
 UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do SENTENCIA CloseUntil | OpenUntil error CloseUntil
 ;

@@ -34,7 +34,9 @@ public class Principal {
         Path rutaSym = Paths.get("./src/codigo/sym.java");
         if (Files.exists(rutaSym)) {
             Files.delete(rutaSym);
+            
         }
+            
         Files.move(
                 Paths.get("./sym.java"), 
                 Paths.get("./src/codigo/sym.java")
