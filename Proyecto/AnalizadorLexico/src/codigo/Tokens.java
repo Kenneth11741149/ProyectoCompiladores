@@ -11,6 +11,7 @@ public enum Tokens {
     Comillas,
     Int,
     Character,
+    Caracter,
     Boolean,
     L,
     OpenTest,

@@ -23,13 +23,13 @@ parser code
     }
 :};
 
-terminal Linea, Comillas, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,OpenUntil,CloseUntil,Do,OpenFor,CloseFor,
+terminal Linea, Comillas,Caracter, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,OpenUntil,CloseUntil,Do,OpenFor,CloseFor,
     Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,
     Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,
     Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,
     Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE;
+    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra;
 
 start with INICIO;
 
@@ -64,27 +64,48 @@ SENTENCIA ::=
     
     
 ;
+Identificadoroletra ::= 
+    Identificador|
+    L
+;
 DECLARACION ::= 
     //Int
-    Define Identificador As Int P_coma|
-    Define Identificador As Int Igual Numero P_coma|
-    //Define Identificador As Int Igual error P_coma|
-    Define L As Int P_coma|
-    Define L As Int Igual Numero P_coma|
-    //Define L As Int Igual error P_coma|
+    Define Identificadoroletra As Int P_coma|
+    Define Identificadoroletra As Int Igual Numero P_coma|
+
+    // int array
+    Define Identificadoroletra As Int Corchete_a Numero Corchete_c P_coma|
+    // int matriz
+    Define Identificadoroletra As Int Corchete_a Numero Corchete_c Corchete_a Numero Corchete_c P_coma|
+
+   
+    //Deprecated
+    //Define L As Int P_coma|  
+    //Define L As Int Igual Numero P_coma|
+    
 
 
     //Char
-    Define Identificador As Character P_coma|
-    Define Identificador As Character Igual Comillas Identificador Comillas P_coma|
-    Define L As Character P_coma|
-    Define L As Character Igual Comillas Identificador Comillas P_coma|
+    Define Identificadoroletra As Character P_coma|
+    Define Identificadoroletra As Character Igual Caracter P_coma|
+    
+     // int array
+    Define Identificadoroletra As Character Corchete_a Numero Corchete_c P_coma|
+    // int matriz
+    Define Identificadoroletra As Character Corchete_a Numero Corchete_c Corchete_a Numero Corchete_c P_coma|
+
+
+    //Deprecated
+    //Define L As Character P_coma|
+    //Define L As Character Igual Comillas Identificador Comillas P_coma|
 
     //boolean
-    Define Identificador As Boolean P_coma|
-    Define Identificador As Boolean Igual Op_booleano P_coma|
-    Define L As Boolean P_coma|
-    Define L As Boolean Igual Op_booleano P_coma|
+    Define Identificadoroletra As Boolean P_coma|
+    Define Identificadoroletra As Boolean Igual Op_booleano P_coma|
+    
+    //Deprecated
+    //Define L As Boolean P_coma|
+    //Define L As Boolean Igual Op_booleano P_coma|
 
     /* ERROR HANDLING BLOCK FOR DECLARATIONS*/
     error P_coma
@@ -107,10 +128,11 @@ DECLARACION ::=
     Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
     Cadena Identificador Igual Comillas Identificador Comillas P_coma*/
 ;
-IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest |
-       OpenTest error CloseTest
+IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA CloseTest
+       // Errro handler OpenTest error CloseTest
 ;
 SENTENCIA_BOOLEANA ::= 
+    //Esta parte hace falta ajustarla para lo de recursividad y lo de operaciones con precedencia y asociatividad
     Op_booleano | 
     Identificador Op_relacional Op_booleano |
     Identificador Op_relacional Numero |
@@ -118,23 +140,34 @@ SENTENCIA_BOOLEANA ::=
     Identificador Op_relacional Comillas Comillas |
     Identificador Op_relacional Comillas Identificador Comillas
 ;
-IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA  Or SENTENCIA CloseTest |
+IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA  Or SENTENCIA CloseTest 
+
+
+    /*
             OpenTest error Then SENTENCIA error SENTENCIA CloseTest|
             OpenTest error Then SENTENCIA Or SENTENCIA CloseTest |
             OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA error SENTENCIA CloseTest
+    */
 ;
-UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do SENTENCIA CloseUntil | OpenUntil error CloseUntil
+UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do SENTENCIA CloseUntil 
+         //Error Handling block OpenUntil error CloseUntil
 ;
-FOR ::= OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c  SENTENCIA CloseFor | OpenFor error CloseFor
+FOR ::= OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c  SENTENCIA CloseFor 
+            // Error Handling Block | OpenFor error CloseFor
 ;
 SENTENCIA_FOR ::=
     Int Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR |
     Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR
 ;
 
-LECTURA ::= Eat Identificador P_coma | Eat L P_coma | Eat error
+LECTURA ::= Eat Identificadoroletra P_coma
+            //Deprecation Eat L P_coma |
+            //Error handling block Eat error
 ;
-ESCRITURA ::= THrow Parentesis_a Identificador Parentesis_c P_coma |  Throwln Parentesis_a Identificador Parentesis_c P_coma | THrow error | Throwln error
+ESCRITURA ::= THrow Parentesis_a Identificador Parentesis_c P_coma |
+              Throwln Parentesis_a Identificador Parentesis_c P_coma
+              //Error handling block THrow error | Throwln error
+              //Posible validacion de throw strings strings.
 ;
 DECLARACION_FOR ::= 
     Identificador Op_atribucion Numero |
@@ -143,10 +176,12 @@ DECLARACION_FOR ::=
 ;
 
 MATCH ::= 
-    OpenMatch Parentesis_a Identificador Parentesis_c CASE CloseMatch  |   OpenMatch Parentesis_a Identificador Parentesis_c error CloseMatch
+    OpenMatch Parentesis_a Identificador Parentesis_c CASE CloseMatch  
+    //Error Handling Block|OpenMatch Parentesis_a Identificador Parentesis_c error CloseMatch
 ;
 
 CASE ::=
+    //Might need some modification later
     CASE When Comillas Identificador Comillas Igual SENTENCIA Stop P_coma|
     When Comillas Identificador Comillas Igual SENTENCIA Stop P_coma
 ;

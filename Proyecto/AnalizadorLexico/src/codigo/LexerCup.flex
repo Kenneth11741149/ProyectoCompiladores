@@ -7,11 +7,12 @@ import java_cup.runtime.Symbol;
 %full
 %line
 %char
-
+%state multilinecomment
 L=[a-zA-Z_]
 P = L+
 D=[0-9]+
 espacio=[ ,\t,\r,\n]+
+caracter = "'"[^]"'"|"'""'"
 %{
     private Symbol symbol(int type, Object value){
         return new Symbol(type, yyline, yycolumn, value);
@@ -21,13 +22,15 @@ espacio=[ ,\t,\r,\n]+
     }
 %}
 %%
-
+<YYINITIAL>{
 /* Espacios en blanco */
 {espacio} {/*Ignore*/}
 
 /* Comentarios */
 ( "//"(.)* ) {/*Ignore*/}
 
+("/*")  {yybegin(multilinecomment);}
+{caracter} {return new Symbol(sym.Caracter, yychar, yyline, yytext());}
 /* Comillas */
 ( "\'" ) {return new Symbol(sym.Comillas, yychar, yyline, yytext());}
 
@@ -169,3 +172,10 @@ espacio=[ ,\t,\r,\n]+
 
 /* Error de analisis */
  . {return new Symbol(sym.ERROR, yychar, yyline, yytext());}
+}
+
+<multilinecomment>{
+    ("*/") {yybegin(YYINITIAL);}
+    .  {}
+    ("\n") {}
+}

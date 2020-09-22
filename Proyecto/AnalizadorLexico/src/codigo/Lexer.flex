@@ -3,24 +3,26 @@ import static codigo.Tokens.*;
 %%
 %class Lexer
 %type Tokens
+%state multilinecomment
 L=[a-zA-Z_]
 P = L+
 D=[0-9]+
 espacio=[ ,\t,\r]+
+caracter = "'"[^]"'"|"'""'"
 %{
     public String lexeme;
 %}
 %%
-
+<YYINITIAL>{
 /* Espacios en blanco */
 {espacio} {/*Ignore*/}
 
 /* Comentarios */
 ( "//"(.)* ) {/*Ignore*/}
-
+("/*")  {yybegin(multilinecomment);}
+{caracter} {lexeme=yytext(); return Caracter;}
 /* Salto de linea */
 ( "\n" ) {return Linea;}
-
 /* Comillas */
 ( "\'" ) {lexeme=yytext(); return Comillas;}
 
@@ -141,3 +143,10 @@ espacio=[ ,\t,\r]+
 
 /* Error de analisis */
  . {return ERROR;}
+}
+
+<multilinecomment>{
+    ("*/") {yybegin(YYINITIAL);}
+    .  {}
+    ("\n") {return Linea;}
+}

@@ -29,10 +29,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
-    private void analizarLexico() throws IOException{
+
+    private void analizarLexico() throws IOException {
         int cont = 1;
-        
+
         String expr = (String) txtResultado.getText();
         Lexer lexer = new Lexer(new StringReader(expr));
         String resultado = "LINEA " + cont + "\t\tSIMBOLO\n";
@@ -53,10 +53,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Eat:
                     resultado += "  <Reservada eat>\t" + lexer.lexeme + "\n";
                     break;
-                case THrow:case Throwln:
+                case THrow:
+                case Throwln:
                     resultado += "  <Reservada throw>\t" + lexer.lexeme + "\n";
                     break;
-                case Int: case Boolean: case Character: 
+                case Int:
+                case Boolean:
+                case Character:
                     resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
                     break;
                 case OpenTest:
@@ -74,7 +77,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Do:
                     resultado += "  <Reservada do>\t" + lexer.lexeme + "\n";
                     break;
-                
+
                 case OpenFor:
                     resultado += "  <Reservada openfor>\t" + lexer.lexeme + "\n";
                     break;
@@ -87,7 +90,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case CloseUntil:
                     resultado += "  <Reserva closeuntil>\t" + lexer.lexeme + "\n";
                     break;
-                
+
                 case Igual:
                     resultado += "  <Operador igual>\t" + lexer.lexeme + "\n";
                     break;
@@ -139,9 +142,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Main:
                     resultado += "  <Reservada open-main>\t" + lexer.lexeme + "\n";
                     break;
-                    
-                 case CloseMain:
-                     resultado += "  <Reservada close-main>\t"+lexer.lexeme + "\n";
+
+                case CloseMain:
+                    resultado += "  <Reservada close-main>\t" + lexer.lexeme + "\n";
                     break;
                 case P_coma:
                     resultado += "  <Punto y coma>\t" + lexer.lexeme + "\n";
@@ -149,14 +152,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Identificador:
                     resultado += "  <Identificador>\t\t" + lexer.lexeme + "\n";
                     break;
+                case Caracter:
+                    resultado += "  <Caracter>\t\t" + lexer.lexeme + "\n";
+                    break;
+                    
                 case Numero:
                     resultado += "  <Numero>\t\t" + lexer.lexeme + "\n";
                     break;
                 case Define:
-                     resultado += "  <Reservada define>\t"+lexer.lexeme + "\n";
+                    resultado += "  <Reservada define>\t" + lexer.lexeme + "\n";
                     break;
                 case As:
-                     resultado += "  <Reservada as>\t"+lexer.lexeme + "\n";
+                    resultado += "  <Reservada as>\t" + lexer.lexeme + "\n";
                     break;
                 case ERROR:
                     resultado += "  <Simbolo no definido>\n";
@@ -334,7 +341,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File archivo = new File(chooser.getSelectedFile().getAbsolutePath());
-        
+
         try {
             String ST = new String(Files.readAllBytes(archivo.toPath()));
             txtResultado.setText(ST);
@@ -367,7 +374,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         String ST = txtResultado.getText();
         Sintax s = new Sintax(new codigo.LexerCup(new StringReader(ST)));
-        
+
         try {
             s.parse();
             txtAnalizarSin.setText("Analisis realizado correctamente");
