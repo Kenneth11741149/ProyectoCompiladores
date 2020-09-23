@@ -1,0 +1,40 @@
+MAIN
+       SENTENCIA
+              SENTENCIA
+                     SENTENCIA
+                            DECLARACION
+                                   integer
+                                   x
+                     OPEN-FOR
+                            SENTENCIA FOR
+                                   i
+                                   0
+                                   SENTENCIA_BOOLEANA
+                                          i
+                                          <
+                                          6
+                                   DECLARACION FOR
+                                          i
+                                          ++
+                            DO
+                                   SENTENCIA
+                                          OPEN-TEST
+                                                 SENTENCIA_BOOLEANA
+                                                        x
+                                                        <
+                                                        3
+                                                 THEN
+                                                        SENTENCIA
+                                                               THROWLN
+                                                                      x
+                                                 OR
+                                                        SENTENCIA
+                                                               THROW
+                                                                      i
+              OPEN-UNTIL
+                     SENTENCIA_BOOLEANA
+                            true
+                     DO
+                            SENTENCIA
+                                   THROW
+                                          x
