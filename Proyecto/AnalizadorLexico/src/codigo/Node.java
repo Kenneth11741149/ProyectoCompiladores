@@ -83,15 +83,16 @@ public class Node {
     public String Imprimir(int profundidad) {
 
         String temp = "";
-
-        for (int i = 0; i < profundidad; i++) {
+        
+        for (int i = 0; i < profundidad-1; i++) {
 
             temp += "       ";
 
         }
-
-        temp += this.GetValue()+"\n";
-
+        if(profundidad == 0){
+        }else{
+            temp += this.GetValue()+"\n";
+        }
         for (int i = 0; i < hijos.size(); i++) {
             temp += this.getHijos().get(i).Imprimir(profundidad + 1);
 

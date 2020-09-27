@@ -25,7 +25,9 @@ public enum Tokens {
     Resta,
     Multiplicacion,
     Division,
-    Op_logico,
+    AND,
+    OR,
+    NOT,
     Op_incremento,
     Op_relacional,
     Op_atribucion,
@@ -48,7 +50,11 @@ public enum Tokens {
     OpenMatch,
     CloseMatch,
     When,
-    Stop
+    Stop,
+    OpenMethod,
+    CloseMethod,
+    Return,
+    Coma
     
     
 }

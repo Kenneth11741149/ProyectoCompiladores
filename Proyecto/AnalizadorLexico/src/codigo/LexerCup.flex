@@ -85,6 +85,12 @@ caracter = "'"[^]"'"|"'""'"
 /* Palabra reservada For */
 ( close-for ) {return new Symbol(sym.CloseFor, yychar, yyline, yytext());}
 
+/* Palabra reservada open */
+( open-method ) {return new Symbol(sym.OpenMethod, yychar, yyline, yytext());}
+
+/* Palabra reservada For */
+( close-method ) {return new Symbol(sym.CloseMethod, yychar, yyline, yytext());}
+
 /* Palabra reservada UNTIL */
 ( open-until ) {return new Symbol(sym.OpenUntil, yychar, yyline, yytext());}
 
@@ -119,8 +125,15 @@ caracter = "'"[^]"'"|"'""'"
 /* Operador Division */
 ( "/" ) {return new Symbol(sym.Division, yychar, yyline, yytext());}
 
+
+
 /* Operadores logicos */
-( "&&" | "||" | "!" | "&" | "|" ) {return new Symbol(sym.Op_logico, yychar, yyline, yytext());}
+( "&") {return new Symbol(sym.AND, yychar, yyline, yytext());}
+
+/* Operadores logicos */
+( "!") {return new Symbol(sym.NOT, yychar, yyline, yytext());}
+/* Operadores logicos */
+( "|") {return new Symbol(sym.OR, yychar, yyline, yytext());}
 
 /*Operadores Relacionales */
 ( ">" | "<" | "==" | "!=" | ">=" | "<=" | "<<" | ">>" ) {return new Symbol(sym.Op_relacional, yychar, yyline, yytext());}
@@ -152,6 +165,11 @@ caracter = "'"[^]"'"|"'""'"
 /* Corchete de cierre */
 ( "]" ) {return new Symbol(sym.Corchete_c, yychar, yyline, yytext());}
 
+
+/* Corchete de cierre */
+( "return" ) {return new Symbol(sym.Return, yychar, yyline, yytext());}
+
+
 /* Marcador de inicio de algoritmo */
 ( "open-main" ) {return new Symbol(sym.Main, yychar, yyline, yytext());}
 
@@ -160,6 +178,9 @@ caracter = "'"[^]"'"|"'""'"
 
 /* Punto y coma */
 ( ";" ) {return new Symbol(sym.P_coma, yychar, yyline, yytext());}
+
+/* coma */
+( "," ) {return new Symbol(sym.Coma, yychar, yyline, yytext());}
 
 /* Identificador */
 {L}+({L}+|{D})* {return new Symbol(sym.Identificador, yychar, yyline, yytext());}

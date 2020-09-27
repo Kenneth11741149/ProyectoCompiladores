@@ -24,12 +24,18 @@ parser code
 :};
 
 terminal Linea, Comillas,Caracter, T_dato, Int,Character,OpenTest,CloseTest,Or,Then,OpenUntil,CloseUntil,Do,OpenFor,CloseFor,
-    Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,
-    Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,
-    Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,
-    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop;
+    Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,Return,
+    Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,OpenMethod,CloseMethod,
+    Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,Coma,
+    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop,AND,OR,NOT;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra;
+    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS;
+
+/* Precedences */
+precedence left OR;
+precedence left AND;
+precedence left NOT;
+
 
 start with INICIO;
 
@@ -37,25 +43,56 @@ INICIO ::=
 
     Main Parentesis_a Parentesis_c SENTENCIA:h2 CloseMain
          {: 
+           Node raiz = new Node("ROOT",false);
            Node x = new Node("MAIN",false);
-           x.addHijo((Node)h2);
-           System.out.println(x.Imprimir(0)); 
+           for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                x.addHijo(((Node)h2).getHijos().get(i));
+            }
+           //x.addHijo((Node)h2);
+           raiz.addHijo(x);
+           System.out.println(raiz.Imprimir(0)); 
+          
           
           
         :} 
     |
     Main Parentesis_a Parentesis_c CloseMain|
+    Main Parentesis_a Parentesis_c SENTENCIA:h2 CloseMain METHOD:h3
+    {: 
+           Node raiz = new Node("ROOT",false);
+           
+           Node x = new Node("MAIN",false);
+           for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                x.addHijo(((Node)h2).getHijos().get(i));
+            }
+           //x.addHijo((Node)h2);
+           raiz.addHijo(x);
+           for(int i = 0;i<((Node)h3).getHijos().size();i++){
+                raiz.addHijo(((Node)h3).getHijos().get(i));
+            }
+           
+           System.out.println(raiz.Imprimir(0));
+           
+          
+          
+        :} 
+    |
     error SENTENCIA CloseMain|
     error CloseMain|
     
 
 ;
 
+
+
 SENTENCIA ::= 
     SENTENCIA:h1 DECLARACION:h2
         {:
-        Node x = new Node("SENTENCIA",false);
-           x.addHijo((Node)h1);
+           
+           Node x = new Node("SENTENCIA",false);
+           for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+            }
            x.addHijo((Node)h2);
            RESULT = x; 
     :}
@@ -69,7 +106,9 @@ SENTENCIA ::=
     SENTENCIA:h1 IF:h2
            {:
            Node x = new Node("SENTENCIA",false);
-           x.addHijo((Node)h1);
+            for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+            }
            x.addHijo((Node)h2);
            RESULT = x; 
     :}
@@ -83,7 +122,9 @@ SENTENCIA ::=
     SENTENCIA:h1 IF_ELSE:h2
             {:
                 Node x = new Node("SENTENCIA",false);
-                x.addHijo((Node)h1);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                }
                 x.addHijo((Node)h2);
                 RESULT = x; 
             :}
@@ -98,7 +139,10 @@ SENTENCIA ::=
     SENTENCIA:h1 UNTIL:h2
     {:
                 Node x = new Node("SENTENCIA",false);
-                x.addHijo((Node)h1);
+                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                }
+               
                 x.addHijo((Node)h2);
                 RESULT = x; 
     :}
@@ -113,7 +157,10 @@ SENTENCIA ::=
     SENTENCIA:h1 FOR:h2
      {:
                 Node x = new Node("SENTENCIA",false);
-                x.addHijo((Node)h1);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                }
+               
                 x.addHijo((Node)h2);
                 RESULT = x; 
     :}
@@ -129,7 +176,10 @@ SENTENCIA ::=
     SENTENCIA:h1 LECTURA:h2
        {:
                 Node x = new Node("SENTENCIA",false);
-                x.addHijo((Node)h1);
+                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                }
+                
                 x.addHijo((Node)h2);
                 RESULT = x; 
     :}
@@ -144,7 +194,10 @@ SENTENCIA ::=
     SENTENCIA:h1 ESCRITURA:h2
                {:
                 Node x = new Node("SENTENCIA",false);
-                x.addHijo((Node)h1);
+                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+            }
+                
                 x.addHijo((Node)h2);
                 RESULT = x; 
     :}
@@ -152,6 +205,7 @@ SENTENCIA ::=
     ESCRITURA:h2
            {:
             Node x = new Node("SENTENCIA",false);
+            
             x.addHijo((Node)h2);
             RESULT = x;
     :}
@@ -160,11 +214,13 @@ SENTENCIA ::=
     SENTENCIA:h1 MATCH:h2
               {:
                 Node x = new Node("SENTENCIA",false);
-                x.addHijo((Node)h1);
+                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                }
+                
                 x.addHijo((Node)h2);
                 RESULT = x; 
-    :}
-        
+    :}     
     |
     MATCH:h2
 
@@ -173,8 +229,183 @@ SENTENCIA ::=
             x.addHijo((Node)h2);
             RESULT = x;
     :}
+    | SENTENCIA:h1 CALLMETHOD:h2
+    {:
+        Node x = new Node("SENTENCIA",false);
+                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                }
+                
+                x.addHijo((Node)h2);
+                RESULT = x; 
+    :}
+    |
+    CALLMETHOD:h2
+
+         {:
+            Node x = new Node("SENTENCIA",false);
+            x.addHijo((Node)h2);
+            RESULT = x;
+    :}
     
     
+;
+
+PARAMETROS::=  Int Identificadoroletra:h1{:
+           Node raiz = new Node("RAIZ",false);
+           raiz.addHijo(new Node("INTEGER",false));
+           raiz.addHijo((Node)h1);
+           RESULT = raiz;
+           :}
+        |
+        PARAMETROS:h1 P_coma Int Identificadoroletra:h2
+        {:
+        Node raiz = new Node("RAIZ",false);
+        
+        for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                raiz.addHijo(((Node)h1).getHijos().get(i));
+                }
+        raiz.addHijo(new Node("INTEGER",false));
+           raiz.addHijo((Node)h2);
+           RESULT = raiz;
+:}
+;
+EXP ::= E:e 
+{: RESULT = e;  :}
+;
+
+E ::=   E:e Suma T:t {: 
+        Node x = new Node("+",false);
+        x.addHijo((Node)e);
+        x.addHijo((Node)t);
+        RESULT = x;  :}
+        |
+        E:e Resta T:t {: 
+        Node x = new Node("-",false);
+        x.addHijo((Node)e);
+        x.addHijo((Node)t);
+        RESULT = x;  :}
+        |
+        T:t{:
+            RESULT = t;
+        :}
+        
+
+;
+
+T ::=  T:t Multiplicacion F:f{:
+        Node x = new Node("*",false);
+        x.addHijo((Node)t);
+        x.addHijo((Node)f);
+        RESULT = x;
+        :} 
+        |
+        T:t Division F:f{:
+        Node x = new Node("/",false);
+        x.addHijo((Node)t);
+        x.addHijo((Node)f);
+        RESULT = x;
+        :}
+        |
+        F:f {:
+        RESULT = f;
+        :}
+;
+
+F ::=   Numero:h1{:
+            Node x = new Node(h1.toString(),false);
+            RESULT = x;
+            :}
+        |
+        Identificadoroletra:h1{:
+        RESULT = h1;
+        :}
+        |Parentesis_a E:e Parentesis_c{:
+            RESULT = e;
+        :}
+        
+;
+
+
+METHOD ::=
+    OpenMethod Int Identificadoroletra:h1 Parentesis_a Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+        Node raiz = new Node("Raiz",false);
+        Node x = new Node("INTEGER METHOD",false);
+        x.addHijo((Node)h1);
+        Node BLOCK = new Node("BLOQUE",false);
+        for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                BLOCK.addHijo(((Node)h2).getHijos().get(i));
+            }
+        x.addHijo(BLOCK);
+        Node RETURN = new Node("RETURN",false);
+        RETURN.addHijo((Node)h3);
+        x.addHijo(RETURN);
+        raiz.addHijo(x);
+        RESULT =  raiz; 
+    :}
+
+    |
+    OpenMethod Int Identificadoroletra:h1 Parentesis_a PARAMETROS:params Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+        Node raiz = new Node("Raiz",false);
+        Node x = new Node("INTEGER METHOD",false);
+        x.addHijo((Node)h1);
+        for(int i = 0;i<((Node)params).getHijos().size();i++){
+                x.addHijo(((Node)params).getHijos().get(i));
+            }
+        Node BLOCK = new Node("BLOQUE",false);
+        for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                BLOCK.addHijo(((Node)h2).getHijos().get(i));
+            }
+        x.addHijo(BLOCK);
+        Node RETURN = new Node("RETURN",false);
+        RETURN.addHijo((Node)h3);
+        x.addHijo(RETURN);
+        raiz.addHijo(x);
+        RESULT =  raiz; 
+    :}
+    
+    |
+     METHOD:m1 OpenMethod Int Identificadoroletra:h1 Parentesis_a  Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+        Node raiz = new Node("Raiz",false);
+        for(int i = 0;i<((Node)m1).getHijos().size();i++){
+                raiz.addHijo(((Node)m1).getHijos().get(i));
+            }
+        Node x = new Node("INTEGER METHOD",false);
+        x.addHijo((Node)h1);
+        
+        Node BLOCK = new Node("BLOQUE",false);
+        for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                BLOCK.addHijo(((Node)h2).getHijos().get(i));
+            }
+        x.addHijo(BLOCK);
+        Node RETURN = new Node("RETURN",false);
+        RETURN.addHijo((Node)h3);
+        x.addHijo(RETURN);
+        raiz.addHijo(x);
+        RESULT = raiz; 
+    :}
+    |
+    METHOD:m1 OpenMethod Int Identificadoroletra:h1 Parentesis_a PARAMETROS:params Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+        Node raiz = new Node("Raiz",false);
+        for(int i = 0;i<((Node)m1).getHijos().size();i++){
+                raiz.addHijo(((Node)m1).getHijos().get(i));
+            }
+        Node x = new Node("INTEGER METHOD",false);
+        x.addHijo((Node)h1);
+        for(int i = 0;i<((Node)params).getHijos().size();i++){
+                x.addHijo(((Node)params).getHijos().get(i));
+            }
+        Node BLOCK = new Node("BLOQUE",false);
+        for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                BLOCK.addHijo(((Node)h2).getHijos().get(i));
+            }
+        x.addHijo(BLOCK);
+        Node RETURN = new Node("RETURN",false);
+        RETURN.addHijo((Node)h3);
+        x.addHijo(RETURN);
+        raiz.addHijo(x);
+        RESULT = raiz; 
+    :}
     
 ;
 Identificadoroletra ::= 
@@ -190,11 +421,20 @@ Identificadoroletra ::=
             RESULT = x;
             :}
 ;
+
+CALLMETHOD ::=
+    Identificadoroletra:h1 Parentesis_a Parentesis_c P_coma
+    {:
+    Node x = new Node("METHOD-CALL",true);
+    x.addHijo((Node)h1);
+    RESULT = x;
+    :}
+;
 DECLARACION ::= 
     //Int
     Define Identificadoroletra:h2 As Int P_coma
          {: 
-        Node x = new Node("DECLARACION",false);
+        Node x = new Node("DECLARATION",false);
         Node x2 = new Node("integer",false);
         
         x.addHijo(x2);
@@ -202,23 +442,33 @@ DECLARACION ::=
         RESULT = x;
         :} 
     |
-    Define Identificadoroletra:h2 As Int Igual Numero:n P_coma
+     
+     Define Identificadoroletra:h2 As Int Igual EXP:h1 P_coma
         {: 
-        Node x = new Node("DECLARACION",false);
+        Node x = new Node("DECLARATION",false);
         Node x2 = new Node("integer",false);
-        Node x4 = new Node(n.toString(),false);
+       
         x.addHijo(x2);
         x.addHijo((Node)h2);
-        x.addHijo(x4);
+        x.addHijo((Node)h1);
         RESULT = x;
         :} 
     |
-
+    Identificadoroletra:h1 Igual EXP:h2 P_coma
+        {:
+        Node x = new Node("ASSIGNMENT",false);
+        x.addHijo((Node)h1);
+        x.addHijo((Node)h2);
+        RESULT = x;
+        :}
+    
+    |
+    
     // int array
     Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c P_coma
         {:
               
-                Node x = new Node("DECLARACION",false);
+                Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("integer array",false);
                 Node x4 = new Node("["+n.toString()+"]",false);
                 x.addHijo(x2);
@@ -232,7 +482,7 @@ DECLARACION ::=
     Define Identificadoroletra:h1 As Int Corchete_a Numero:n1 Corchete_c Corchete_a Numero:n2 Corchete_c P_coma
           {:
               
-                Node x = new Node("DECLARACION",false);
+                Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("integer matrix",false);
                 Node x4 = new Node("["+n1.toString()+"]"+"["+n2.toString()+"]",false);
                 x.addHijo(x2);
@@ -253,7 +503,7 @@ DECLARACION ::=
     //Char
     Define Identificadoroletra:h1 As Character P_coma
         {: 
-            Node x = new Node("DECLARACION",false);
+            Node x = new Node("DECLARATION",false);
             Node x2 = new Node("character",false);
             x.addHijo(x2);
             x.addHijo((Node)h1);
@@ -262,7 +512,7 @@ DECLARACION ::=
     |
     Define Identificadoroletra:h1 As Character Igual Caracter:c1 P_coma
           {: 
-            Node x = new Node("DECLARACION",false);
+            Node x = new Node("DECLARATION",false);
             Node x2 = new Node("character",false);
             Node x3 = new Node(c1.toString(),false);
             x.addHijo(x2);
@@ -276,7 +526,7 @@ DECLARACION ::=
     Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c P_coma
           {:
               
-                Node x = new Node("DECLARACION",false);
+                Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("character array",false);
                 Node x4 = new Node("["+c1.toString()+"]",false);
                 x.addHijo(x2);
@@ -290,7 +540,7 @@ DECLARACION ::=
     Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c Corchete_a Numero:c2 Corchete_c P_coma
           {:
               
-                Node x = new Node("DECLARACION",false);
+                Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("character matrix",false);
                 Node x4 = new Node("["+c1.toString()+"]"+"["+c2.toString()+"]",false);
                 x.addHijo(x2);
@@ -310,7 +560,7 @@ DECLARACION ::=
     //boolean
     Define Identificadoroletra:h1 As Boolean P_coma
             {: 
-                Node x = new Node("DECLARACION",false);
+                Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("boolean",false);
                
                 x.addHijo(x2);
@@ -320,7 +570,7 @@ DECLARACION ::=
     |
     Define Identificadoroletra:h1 As Boolean Igual Op_booleano:b1 P_coma
           {: 
-                Node x = new Node("DECLARACION",false);
+                Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("boolean",false);
                 
                 Node x4 = new Node(b1.toString(),false);
@@ -356,34 +606,106 @@ DECLARACION ::=
     Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
     Cadena Identificador Igual Comillas Identificador Comillas P_coma*/
 ;
-IF ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Then SENTENCIA:h2 CloseTest
+IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTest
          {: 
-           Node x = new Node("OPEN-TEST",false);
+           Node x = new Node("TEST",false);
            Node x2 = new Node("THEN",false);
-           x.addHijo((Node)h1);
-           x2.addHijo((Node)h2);
-            
-            x.addHijo(x2);
-            RESULT = x;
+           for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                x2.addHijo(((Node)h2).getHijos().get(i));
+           }
+           for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        x.addHijo(((Node)h1).getHijos().get(i));
+           }
+           
+           x.addHijo(x2);
+           RESULT = x;
             
            
         :} 
        // Errro handler OpenTest error CloseTest
 ;
+
+
+LISTABOOL ::= LISTABOOL:h1 SENTENCIA_BOOLEANA:h2{:
+                    Node Raiz = new Node("raiz",false);
+                    for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        Raiz.addHijo(((Node)h1).getHijos().get(i));
+                     }
+                     for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                        Raiz.addHijo(((Node)h2).getHijos().get(i));
+                     }
+                     RESULT =Raiz;
+                :}|
+                SENTENCIA_BOOLEANA:h1{:
+                    Node Raiz = new Node("raiz",false);
+                    Raiz.addHijo((Node)h1);
+                    RESULT = Raiz;
+                :}
+             
+                
+;
 SENTENCIA_BOOLEANA ::= 
+    
     //Esta parte hace falta ajustarla para lo de recursividad y lo de operaciones con precedencia y asociatividad
+    SENTENCIA_BOOLEANA:h1 AND SENTENCIA_BOOLEANA:h2{:
+                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node and = new Node("&",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        and.addHijo(((Node)h1).getHijos().get(i));
+                     }
+               
+                
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                        and.addHijo(((Node)h2).getHijos().get(i));
+                     }
+                x.addHijo(and);
+                RESULT = x;
+              :}
+                
+              |
+              SENTENCIA_BOOLEANA:h1 OR SENTENCIA_BOOLEANA:h2
+              {:
+                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node or = new Node("|",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        or.addHijo(((Node)h1).getHijos().get(i));
+                     }
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                        or.addHijo(((Node)h2).getHijos().get(i));
+                     }
+                x.addHijo(or);
+                RESULT = x;
+              :}
+              |
+            NOT SENTENCIA_BOOLEANA:h1 {:
+                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node not = new Node("!",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        not.addHijo(((Node)h1).getHijos().get(i));
+                     }
+                x.addHijo(not);
+                RESULT = x;
+                
+              :}
+              |
+              
     Op_booleano:h2
           {: 
-            Node x = new Node("SENTENCIA_BOOLEANA",false);
+            Node x = new Node("BOOLEAN SATEMENT",false);
             Node x2 = new Node(h2.toString(),false);
             x.addHijo(x2);
             RESULT = x;
            
         :} 
+    |
+    Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c{:
+            
+            RESULT = h1;
+    :}
     | 
     Identificadoroletra:h1 Op_relacional:h2 Op_booleano:h3
         {: 
-            Node x = new Node("SENTENCIA_BOOLEANA",false);
+            Node x = new Node("BOOLEAN STATEMENT",false);
             
             Node x3 = new Node(h2.toString(),false);
             Node x4 = new Node(h3.toString(),false);
@@ -396,7 +718,7 @@ SENTENCIA_BOOLEANA ::=
      |
     Identificadoroletra:h1 Op_relacional:h2 Numero:h3
             {: 
-                Node x = new Node("SENTENCIA_BOOLEANA",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 
                 Node x3 = new Node(h2.toString(),false);
                 Node x4 = new Node(h3.toString(),false);
@@ -410,7 +732,7 @@ SENTENCIA_BOOLEANA ::=
      |
     Identificadoroletra:h1 Op_relacional:h2 Identificador:h3
                {: 
-                    Node x = new Node("SENTENCIA_BOOLEANA",false);
+                    Node x = new Node("BOOLEANA STATEMENT",false);
                     
                     Node x3 = new Node(h2.toString(),false);
                     Node x4 = new Node(h3.toString(),false);
@@ -423,7 +745,7 @@ SENTENCIA_BOOLEANA ::=
     |
     Identificadoroletra:h1 Op_relacional:h2 Comillas Comillas
         {: 
-            Node x = new Node("SENTENCIA_BOOLEANA",false);
+            Node x = new Node("BOOLEAN STATEMENT",false);
             
             Node x3 = new Node(h2.toString(),false);
             Node x4 = new Node(" ",false);
@@ -436,7 +758,7 @@ SENTENCIA_BOOLEANA ::=
      |
         Identificadoroletra:h1 Op_relacional:h2 Caracter:h3
           {: 
-            Node x = new Node("SENTENCIA_BOOLEANA",false);
+            Node x = new Node("BOOLEAN STATEMENT",false);
             
             Node x3 = new Node(h2.toString(),false);
             Node x4 = new Node(h3.toString(),false);
@@ -448,14 +770,20 @@ SENTENCIA_BOOLEANA ::=
         :} 
             
 ;
-IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Then SENTENCIA:h2  Or SENTENCIA:h3 CloseTest 
+IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  Or SENTENCIA:h3 CloseTest 
      {: 
-           Node x = new Node("OPEN-TEST",false);
+           Node x = new Node("TEST",false);
            Node x2 = new Node("THEN",false);
-           x.addHijo((Node)h1);
-           x2.addHijo((Node)h2);
+           for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                x2.addHijo(((Node)h2).getHijos().get(i));
+           }
+            for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        x.addHijo(((Node)h1).getHijos().get(i));
+           }
            Node x3 = new Node("OR",false);
-           x3.addHijo((Node)h3);
+           for(int i = 0;i<((Node)h3).getHijos().size();i++){
+                x3.addHijo(((Node)h3).getHijos().get(i));
+           }
            x.addHijo(x2);
            x.addHijo(x3);
             RESULT = x;
@@ -471,10 +799,12 @@ IF_ELSE ::= OpenTest Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Then SENTEN
 ;
 UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA:h2 CloseUntil
             {:
-                Node x = new Node("OPEN-UNTIL",false);
+                Node x = new Node("UNTIL",false);
                 x.addHijo((Node)h1);
                 Node x2 = new Node("DO",false);
-                x2.addHijo((Node)h2);
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                    x2.addHijo(((Node)h2).getHijos().get(i));
+                }
                 x.addHijo(x2);
                 RESULT = x;
 
@@ -483,10 +813,15 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
 ;
 FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c  SENTENCIA:h2 CloseFor 
         {:
-                Node x = new Node("OPEN-FOR",false);
-                x.addHijo((Node)h1);
-                Node x2 = new Node("DO",false);
-                x2.addHijo((Node)h2);
+                Node x = new Node("FOR",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                x.addHijo(((Node)h1).getHijos().get(i));
+                 }
+           
+                Node x2 = new Node("THEN",false);
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                x2.addHijo(((Node)h2).getHijos().get(i));
+                }
                 x.addHijo(x2);
                 RESULT = x;
         :}
@@ -496,12 +831,15 @@ FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c  SENTENCIA:h2 CloseFo
 SENTENCIA_FOR ::=
     Int Identificadoroletra:h1 Igual Numero:n P_coma SENTENCIA_BOOLEANA:h2 P_coma DECLARACION_FOR:h3
         {:
-            Node x = new Node("SENTENCIA FOR",false);
+            Node raiz = new Node("ROOT",false);
+            Node x = new Node("FOR STATEMENT",false);
+            
             x.addHijo((Node)h1);
             x.addHijo(new Node(n.toString(),false));
-            x.addHijo((Node)h2);
-            x.addHijo((Node)h3);
-            RESULT = x;
+            raiz.addHijo(x);
+            raiz.addHijo((Node)h2);
+            raiz.addHijo((Node)h3);
+            RESULT = raiz;
         :}
      |
     Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR
@@ -533,18 +871,18 @@ ESCRITURA ::= THrow Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
               //Posible validacion de throw strings strings.
 ;
 DECLARACION_FOR ::= 
-    Identificadoroletra:h1 Op_atribucion:h2 Numero:h3
+    Identificadoroletra:h1 Op_atribucion:h2 EXP:h3
     {:
-        Node x = new Node("DECLARACION FOR",false);
+        Node x = new Node("FOR DECLARATION",false);
         x.addHijo((Node)h1);
         x.addHijo(new Node(h2.toString(),false));
-        x.addHijo(new Node(h3.toString(),false));
+        x.addHijo((Node)h3);
         RESULT = x;
     :}
      |
     Identificadoroletra:h1 Op_incremento:h2
             {:
-                Node x = new Node("DECLARACION FOR",false);
+                Node x = new Node("FOR DECLARATION",false);
                 x.addHijo((Node)h1);
                 x.addHijo(new Node(h2.toString(),false));
                 RESULT = x;
@@ -552,7 +890,7 @@ DECLARACION_FOR ::=
      | 
     Op_incremento:h2 Identificadoroletra:h1
          {:
-                Node x = new Node("DECLARACION FOR",false);
+                Node x = new Node("FOR DECLARATION",false);
                 x.addHijo((Node)h1);
                 x.addHijo(new Node(h2.toString(),false));
                 RESULT = x;
@@ -560,26 +898,84 @@ DECLARACION_FOR ::=
 ;
 
 MATCH ::= 
-    OpenMatch Parentesis_a Identificadoroletra Parentesis_c CASE CloseMatch 
+    OpenMatch Parentesis_a Identificadoroletra:h1 Parentesis_c CASE:h2 CloseMatch 
     {:
           Node x = new Node("OPENMATCH",false);
+          x.addHijo((Node)h1);
+          for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                x.addHijo(((Node)h2).getHijos().get(i));
+           }
           RESULT = x;
     :}
     //Error Handling Block|OpenMatch Parentesis_a Identificador Parentesis_c error CloseMatch
+    
 ;
 
 CASE ::=
     //Might need some modification later
-    CASE When Comillas Identificadoroletra Comillas Igual SENTENCIA Stop P_coma
+    CASE:h1 When Caracter:h2 Igual SENTENCIA:h3 Stop P_coma
             {:
-                Node x = new Node("CASE",false);
-                RESULT = x;
+                
+                Node raiz = new Node("ROOT",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                raiz.addHijo(((Node)h1).getHijos().get(i));
+                }
+                Node x = new Node("CHAR-CASE",false);
+                x.addHijo(new Node((h2.toString()).substring(1,2),false));
+                Node THEN = new Node("THEN",false);
+                for(int i = 0;i<((Node)h3).getHijos().size();i++){
+                THEN.addHijo(((Node)h3).getHijos().get(i));
+                }
+                x.addHijo(THEN);
+                raiz.addHijo(x);
+                RESULT = raiz;
     :}
     |
-    When Comillas Identificadoroletra Comillas Igual SENTENCIA Stop P_coma
+    When Caracter:h1 Igual SENTENCIA:h2 Stop P_coma
 
        {:
+                Node raiz = new Node("ROOT",false);
+                Node x = new Node("CHAR-CASE",false);
+                x.addHijo(new Node((h1.toString()).substring(1,2),false));
+                Node THEN = new Node("THEN",false);
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                THEN.addHijo(((Node)h2).getHijos().get(i));
+                }
+                x.addHijo(THEN);
+                raiz.addHijo(x);
+                RESULT = raiz;
+    :}
+    |
+      CASE:h1 When Identificadoroletra:h2 Igual SENTENCIA:h3 Stop P_coma
+            {:
+                
+                Node raiz = new Node("ROOT",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                raiz.addHijo(((Node)h1).getHijos().get(i));
+                }
                 Node x = new Node("CASE",false);
-                RESULT = x;
+                x.addHijo((Node)h2);
+                Node THEN = new Node("THEN",false);
+                for(int i = 0;i<((Node)h3).getHijos().size();i++){
+                THEN.addHijo(((Node)h3).getHijos().get(i));
+                }
+                x.addHijo(THEN);
+                raiz.addHijo(x);
+                RESULT = raiz;
+    :}
+    |
+     When Identificadoroletra:h1 Igual SENTENCIA:h2 Stop P_coma
+
+       {:
+                Node raiz = new Node("Raiz",false);
+                Node x = new Node("CASE",false);
+                x.addHijo((Node)h1);
+                Node THEN = new Node("THEN",false);
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                THEN.addHijo(((Node)h2).getHijos().get(i));
+                }
+                x.addHijo(THEN);
+                raiz.addHijo(x);
+                RESULT = raiz;
     :}
 ;

@@ -109,9 +109,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case Division:
                     resultado += "  <Operador division>\t" + lexer.lexeme + "\n";
                     break;
-                case Op_logico:
-                    resultado += "  <Operador logico>\t" + lexer.lexeme + "\n";
-                    break;
                 case Op_incremento:
                     resultado += "  <Operador incremento>\t" + lexer.lexeme + "\n";
                     break;
@@ -167,6 +164,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case ERROR:
                     resultado += "  <Simbolo no definido>\n";
                     break;
+                case Coma:
+                    resultado += "COMA";
+                    break;
                 default:
                     resultado += "  < " + lexer.lexeme + " >\n";
                     break;
@@ -214,7 +214,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         txtResultado.setColumns(20);
         txtResultado.setRows(5);
-        txtResultado.setText("open-main()\n    define x as integer;\n   open-for(integer i :=0;i<6;i++)\n\topen-test(x <3 ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main");
+        txtResultado.setText("open-main()\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++)\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1;integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
         jScrollPane1.setViewportView(txtResultado);
 
         txtAnalizarLex.setEditable(false);
@@ -256,8 +256,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(431, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(392, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +270,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 50, Short.MAX_VALUE)
+                    .addGap(0, 88, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 

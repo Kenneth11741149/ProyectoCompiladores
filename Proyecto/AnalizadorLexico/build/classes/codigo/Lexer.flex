@@ -91,7 +91,13 @@ caracter = "'"[^]"'"|"'""'"
 ( "/" ) {lexeme=yytext(); return Division;}
 
 /* Operadores logicos */
-( "&&" | "||" | "!" | "&" | "|" ) {lexeme=yytext(); return Op_logico;}
+( "&") {lexeme=yytext(); return AND;}
+
+/* Operadores logicos */
+( "!") {lexeme=yytext(); return  NOT;}
+
+/* Operadores logicos */
+( "|") {lexeme=yytext(); return OR;}
 
 /*Operadores Relacionales */
 ( ">" | "<" | "==" | "!=" | ">=" | "<=" | "<<" | ">>" ) {lexeme = yytext(); return Op_relacional;}
@@ -123,11 +129,20 @@ caracter = "'"[^]"'"|"'""'"
 /* Corchete de cierre */
 ( "]" ) {lexeme = yytext(); return Corchete_c;}
 
+/* Retorno */
+( "return" ) {lexeme=yytext(); return Return;}
+
 /* Marcador de inicio de algoritmo */
 ( "open-main" ) {lexeme=yytext(); return Main;}
 
 /* Marcador de fin de algoritmo */
 ( "close-main" ) {lexeme=yytext(); return CloseMain;}
+
+/* Marcador de inicio de funciom */
+( "open-method" ) {lexeme=yytext(); return OpenMethod;}
+
+/* Marcador de fin de funcion */
+( "close-method" ) {lexeme=yytext(); return CloseMethod;}
 
 /* Punto y coma */
 ( ";" ) {lexeme=yytext(); return P_coma;}

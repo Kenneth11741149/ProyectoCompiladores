@@ -1,40 +1,65 @@
 MAIN
-       SENTENCIA
-              SENTENCIA
-                     SENTENCIA
-                            DECLARACION
-                                   integer
-                                   x
-                     OPEN-FOR
-                            SENTENCIA FOR
-                                   i
-                                   0
-                                   SENTENCIA_BOOLEANA
-                                          i
-                                          <
-                                          6
-                                   DECLARACION FOR
-                                          i
-                                          ++
-                            DO
-                                   SENTENCIA
-                                          OPEN-TEST
-                                                 SENTENCIA_BOOLEANA
-                                                        x
-                                                        <
-                                                        3
-                                                 THEN
-                                                        SENTENCIA
-                                                               THROWLN
-                                                                      x
-                                                 OR
-                                                        SENTENCIA
-                                                               THROW
-                                                                      i
-              OPEN-UNTIL
-                     SENTENCIA_BOOLEANA
-                            true
-                     DO
-                            SENTENCIA
-                                   THROW
+       DECLARATION
+              integer
+              x
+              +
+                     5
+                     /
+                            3
+                            -
+                                   5
+                                   2
+       FOR
+              FOR STATEMENT
+                     i
+                     0
+              BOOLEAN STATEMENT
+                     i
+                     <
+                     6
+              FOR DECLARATION
+                     i
+                     ++
+              THEN
+                     TEST
+                            BOOLEAN SATEMENT
+                                   |
                                           x
+                                          <
+                                          3
+                                          &
+                                                 !
+                                                        x
+                                                        >
+                                                        15
+                                                 x
+                                                 >
+                                                 10
+                            THEN
+                                   THROWLN
+                                          x
+                            OR
+                                   THROW
+                                          i
+       UNTIL
+              BOOLEAN SATEMENT
+                     |
+                            true
+                            false
+              DO
+                     THROW
+                            x
+INTEGER METHOD
+       f2
+       INTEGER
+       x1
+       INTEGER
+       x2
+       BLOQUE
+              DECLARATION
+                     integer
+                     x
+              METHOD-CALL
+                     f2
+       RETURN
+              x
