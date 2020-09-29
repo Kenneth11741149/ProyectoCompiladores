@@ -1,3 +1,9 @@
-              FOR DECLARATION
-                     i
-                     ++
+MAIN
+       OPENMATCH
+              letra
+              CASE
+                     x
+                     THEN
+                            DECLARATION
+                                   integer
+                                   x
