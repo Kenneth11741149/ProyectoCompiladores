@@ -675,56 +675,56 @@ DECLARACION ::=
     | error FOR
     {: System.out.println("error FOr en Declaracion"); :} //hubo un error en la declaracion de variable.
     |  Define Identificadoroletra As Int
-        {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        {: // System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra As Int Igual EXP
         {: System.out.println("error NO PCOMA EXP ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Identificadoroletra Igual EXP
         {: System.out.println("error NO PCOMA EXP ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     /*|  Identificadoroletra Igual CALLMETHOD
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}*/
     |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n1 Corchete_c Corchete_a Numero:n2 Corchete_c
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Character
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Character Igual Caracter:c1
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c Corchete_a Numero:c2 Corchete_c
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Boolean
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Boolean Igual Op_booleano:b1
         {: System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+            parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     /*|  Identificadoroletra Igual EXP
         {: System.out.println("error NO PCOMA EXP ISSUE"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra As
         {: System.out.println("error NO PCOMA EXP ISSUE"); 
@@ -766,7 +766,23 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
             
            
         :} 
+
+     
        // Errro handler OpenTest error CloseTest
+      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA CloseTest
+        {:
+        //System.out.println("open-test con error de sentencia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If con sentencia incorrecta.")); 
+      :}
+
+      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error CloseTest
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If con sentencia-then incorrecta.")); 
+      :}
+
+
+
       | OpenTest Parentesis_a Parentesis_c Then SENTENCIA CloseTest
       {:
         //System.out.println("If sin condicion"); 
