@@ -1,20 +1,6 @@
 MAIN
-       THROW
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-INTEGER METHOD
-       f2
-       INTEGER
-       x1
-       INTEGER
-       x2
-       BLOQUE
-              DECLARATION
-                     integer
-                     x
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-       RETURN
+       ASSIGNMENT
               x
+              METHOD-CALL
+                     fb
+                     PARAMETROS

@@ -521,6 +521,15 @@ DECLARACION ::=
         :}
     
     |
+    Identificadoroletra:h1 Igual CALLMETHOD:h2
+        {:
+        Node x = new Node("ASSIGNMENT",false);
+        x.addHijo((Node)h1);
+        x.addHijo((Node)h2);
+        RESULT = x;
+        :}
+    
+    |
     
     // int array
     Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c P_coma
