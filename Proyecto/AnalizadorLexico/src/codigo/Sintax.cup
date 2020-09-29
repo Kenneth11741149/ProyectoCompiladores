@@ -767,6 +767,13 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
            
         :} 
 
+        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then CloseTest
+            {:
+            System.out.println("SENTENCIA VACIA VALIDA");
+            //LEONARDO PODES AGREGAR EL ARBOL AQUI?
+                return Node x = new Node("TEST",false);
+            :}
+
      
        // Errro handler OpenTest error CloseTest
        
@@ -1205,6 +1212,18 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
                 RESULT = x;
 
         :}
+
+        | OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do  CloseUntil
+            {:
+            System.out.println("SENTENCIA VACIA VALIDA");
+            //LEONARDO PODES AGREGAR EL ARBOL AQUI?
+            :}
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
          //Error Handling block OpenUntil error CloseUntil
 
         |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error SENTENCIA CloseUntil //OpenUntil sin Do
