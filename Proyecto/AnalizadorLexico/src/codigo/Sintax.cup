@@ -771,71 +771,68 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
        // Errro handler OpenTest error CloseTest
        
 
-      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA CloseTest
+      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA CloseTest //if sin then
         {:
         //System.out.println("open-test con error de sentencia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"IF sin THEN correcto.")); 
       :}
 
-      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error CloseTest
+      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error CloseTest //If sin then y sentencia
         {:
-        //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"If con sentencia-then incorrecta.")); 
+        //System.out.println("open-test con error de sentencia-then");
+        parser.syntax_error(new Symbol(sym.error,0,0,"If con sentencia-then incorrecta. No hay nada que hacer en el then.")); 
       :}
-      
 
-
-
-      | OpenTest Parentesis_a Parentesis_c Then SENTENCIA CloseTest
+      | OpenTest Parentesis_a Parentesis_c Then SENTENCIA CloseTest  // parametros if vacios
       {:
         //System.out.println("If sin condicion"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If con condicion vacia.")); 
       :}
-      | OpenTest Parentesis_a Parentesis_c Then  CloseTest
+      | OpenTest Parentesis_a Parentesis_c Then  CloseTest  //Parametro vacio sin sentencia.
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y sentencia vacia.")); 
       :}
       
-      | OpenTest Parentesis_a Parentesis_c error  CloseTest
+      | OpenTest Parentesis_a Parentesis_c error  CloseTest //Parametro vacio con error en then, SENTENCIA vacia
+      {:
+        //System.out.println("If sin condicion y sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y then no localizado. SENTENCIA VACIA.")); 
+      :}
+      | OpenTest Parentesis_a Parentesis_c error  SENTENCIA CloseTest //Parametro vacio y con error en then pero con sentencia despues.
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y then no localizado")); 
       :}
-      | OpenTest Parentesis_a Parentesis_c error  SENTENCIA CloseTest
-      {:
-        //System.out.println("If sin condicion y sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y then no localizado")); 
-      :}
-      | OpenTest  Then  CloseTest //Agregado
+      | OpenTest  Then  CloseTest //If sin condicion ni sentencia ni parentesis
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y sentencia vacia.")); 
       :}
-      | OpenTest error Then SENTENCIA CloseTest
+      | OpenTest error Then SENTENCIA CloseTest //If con error en condicio.
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN SENTENCIA CLOSETEST If con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN SENTENCIA CLOSETEST. If con error en condicion")); 
       :}
-      | OpenTest error Then error CloseTest
+      | OpenTest error Then error CloseTest //If con error en parametros de condicion y sentencia. 
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN ERROR CLOSETEST If con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN ERROR CLOSETEST If con error en condicion y sentencia")); 
       :}
-      | OpenTest error Then CloseTest
+      | OpenTest error Then CloseTest //If con error en condicion sin sentencia.
       {:
         //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN CLOSETEST If con error en condicion. If con sentencia vacia")); 
       :}
-      | error Then CloseTest //Possible error arising here.
+      | error Then CloseTest //Possible error arising here. //If sin opentest o con error en condicion.")); 
       {:
         //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR THEN CLOSETEST If sin opentest con error en condicion. If con sentencia vacia")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR THEN CLOSETEST. No hay openmain sentencia vacia" ));
       :}
-      | error Then SENTENCIA CloseTest
+      | error Then SENTENCIA CloseTest //If sin opentest o con error en condicion. y CON sentencia.")); 
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR THEN SENTENCIA CLOSETEST. No open-main Closetest")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR THEN SENTENCIA CLOSETEST. No open-main")); 
       :}
       
       
@@ -1008,33 +1005,154 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
             
            
         :} 
+        ////////////////////ERROR HANDLING SECTION.
         
-
-        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA Or SENTENCIA CloseTest
+        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA Or SENTENCIA CloseTest ////If else con error en then
         {:
         //System.out.println("open-test con error de sentencia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en [then].")); 
         :}
-        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or SENTENCIA CloseTest
+
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
         {:
         //System.out.println("open-test con error de sentencia-then"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio.")); 
         :}
-        | OpenTest Parentesis_a Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest
+
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or error CloseTest ///////Error en ambas sentencias del IF ELSE
         {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE sin condicion")); 
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio y en sentencia-closetest")); 
         :}
-        | OpenTest  Then SENTENCIA Or SENTENCIA CloseTest
+
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then Or error CloseTest  ////// Error en sentencia-closetest
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-closetest")); 
+        :}
+        
+       
+      
+
+
+
+
+        | OpenTest Parentesis_a Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest //IF ELSE con condicion vacia
         {:
         parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE sin condicion")); 
         :}
 
+        | OpenTest Parentesis_a  Parentesis_c error SENTENCIA Or SENTENCIA CloseTest ////If else con error en then y condicion vacia
+        {:
+        //System.out.println("open-test con error de sentencia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en [then], y condicion vacia.")); 
+        :}
+        |OpenTest Parentesis_a  Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio, condicion vacia.")); 
+        :}
+        |OpenTest Parentesis_a  Parentesis_c error Or error CloseTest ///////Error en ambas sentencias del IF ELSE
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio y en sentencia-closetest. condicion vacia.")); 
+        :}
+        |OpenTest Parentesis_a  Parentesis_c Then Or error CloseTest  ////// Error en sentencia-closetest
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-closetest , condicion vacia")); 
+        :}
+        
+
+        
+
+
+
+
+        /*| OpenTest Parentesis_a error Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest // If else con error en la condicion
+        {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en condicion")); 
+        :}
+        | OpenTest Parentesis_a error Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest //IF ELSE con condicion vacia
+        {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE error condicion")); 
+        :}
+
+        | OpenTest Parentesis_a error Parentesis_c error SENTENCIA Or SENTENCIA CloseTest ////If else con error en then y condicion vacia
+        {:
+        //System.out.println("open-test con error de sentencia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en [then], y condicion vacia.")); 
+        :}
+        |OpenTest Parentesis_a error  Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio, condicion vacia.")); 
+        :}
+        |OpenTest Parentesis_a error Parentesis_c error Or error CloseTest ///////Error en ambas sentencias del IF ELSE
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio y en sentencia-closetest. condicion vacia.")); 
+        :}
+        |OpenTest Parentesis_a error Parentesis_c Then Or error CloseTest  ////// Error en sentencia-closetest
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-closetest , condicion vacia")); 
+        :}*/
+
+
+
+        | OpenTest Then SENTENCIA Or SENTENCIA CloseTest   // if sin parentesis
+        {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE sin condicion ni parentesis")); 
+        :}
+
+
+         |OpenTest error Or error CloseTest /////// Error en sentencia then y sentencia-closetest
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then y sentencia-closetest")); 
+        :}
+
+        |OpenTest error SENTENCIA Or SENTENCIA CloseTest /////// Error en sentencia then.
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then y sentencia-closetest")); 
+        :}
+
+         |OpenTest error Or SENTENCIA CloseTest /////// Error en sentencia then y sentencia-closetest
+        {:
+        
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then y sentencia-closetest")); 
+        :}
+
+        
+
+        |OpenTest error Then SENTENCIA Or SENTENCIA CloseTest /////// Error en sentencia then 
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error irreconosible en la condicion.")); 
+        :}
+
+        |OpenTest error Then error Or SENTENCIA CloseTest /////// Error en sentencia then 
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error irreconosible en la condicion sentencia.")); 
+        :}
+
+        |OpenTest error Then SENTENCIA Or error CloseTest /////// Error en sentencia then 
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error irreconosible en la condicion sentencia.")); 
+        :}
+        
+        
+        |OpenTest Then Or error CloseTest /////// Error en sentencia-closetest.
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then")); 
+        :}
     
-    /*
-            OpenTest error Then SENTENCIA error SENTENCIA CloseTest|
-            OpenTest error Then SENTENCIA Or SENTENCIA CloseTest |
-            OpenTest Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then SENTENCIA error SENTENCIA CloseTest
-    */
 ;
 UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA:h2 CloseUntil
             {:
