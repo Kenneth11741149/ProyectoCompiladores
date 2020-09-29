@@ -928,6 +928,23 @@ ESCRITURA ::= THrow Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
                     Node x = new Node("THROWLN",false);
                     x.addHijo((Node)h1);
                     RESULT = x;
+               :} 
+                |
+               Throwln Parentesis_a SENTENCIA:h1 Parentesis_c P_coma
+                {:
+                    Node x = new Node("THROWLN",false);
+                    for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                            x.addHijo(((Node)h1).getHijos().get(i));
+                        }
+                    RESULT = x;
+               :}
+               |THrow Parentesis_a SENTENCIA:h1 Parentesis_c P_coma
+                {:
+                    Node x = new Node("THROW",false);
+                    for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                            x.addHijo(((Node)h1).getHijos().get(i));
+                        }
+                    RESULT = x;
                :}
               //Error handling block THrow error | Throwln error
               //Posible validacion de throw strings strings.
