@@ -1,6 +1,11 @@
 MAIN
-       ASSIGNMENT
+       DECLARATION
+              integer
               x
-              METHOD-CALL
-                     fb
-                     PARAMETROS
+              +
+                     5
+                     /
+                            3
+                            -
+                                   5
+                                   2

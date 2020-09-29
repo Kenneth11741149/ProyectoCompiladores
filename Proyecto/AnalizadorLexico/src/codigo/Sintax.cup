@@ -16,6 +16,10 @@ parser code
         //errores.add(error)
     }
     
+    protected int error_sync_size(){
+        return 2;
+    }
+    
 
 
     public Symbol getS(){
@@ -76,13 +80,15 @@ INICIO ::=
           
           
         :} 
-    |error SENTENCIA CloseMain
+    | Main Parentesis_a Parentesis_c error CloseMain 
+        {: System.out.println("Main() Error CloseMain. Hay presencia de errores en el cuerpo de sentencia del main."); :}
+    | error SENTENCIA CloseMain
       {: System.out.println("Error SENTENCIA CloseMain");  :} //Todo error desde el inicio hasta alguna sentencia.
                                                               //Error en la declaracion del main.
-    |error CloseMain
+    | error CloseMain
       {: System.out.println("Error CloseMain");  :} //Todo error que venga desde el inicio hasta el CloseMain es cubierto.
                                                     //Error en la declaracion de un main vacio.
-    |error
+    | error
       {: System.out.println("ERROR No se reconoce la intencion ingresada.");  :} //Todo error que no se recupere
                                                                           //Unrecognized code.
 
@@ -90,6 +96,7 @@ INICIO ::=
       {: System.out.println("Main Error");  :} //Todo error que no se recupere
                                                                           //Unrecognized code.
     | {: System.out.println("No hay un codigo para analizar.");  :} //No hay codigo para
+
     
 
 ;
@@ -656,27 +663,93 @@ DECLARACION ::=
     | error P_coma
     {: System.out.println("error P_Coma en Declaracion de sentencia"); :} //hubo un error en la declaracion de variable.
     | error DECLARACION
-    {: System.out.println("error SENTENCIA en Declaracion"); :} //hubo un error en la declaracion de variable.
-    
-
-    
-
-
-    /*Int Identificador P_coma | 
-    Int Identificador Op_atribucion Numero P_coma |
-    Int Identificador Igual Numero P_coma |
-    Int Identificador Op_incremento P_coma | 
-    Int Op_incremento Identificador P_coma | 
-    T_dato Identificador P_coma | 
-    T_dato Identificador Op_atribucion Numero P_coma |
-    T_dato Identificador Igual Numero P_coma |
-    T_dato Identificador Op_incremento P_coma | 
-    T_dato Op_incremento Identificador P_coma | 
-    Cadena Identificador Op_atribucion Comillas Comillas P_coma |
-    Cadena Identificador Igual Comillas Comillas P_coma |
-    Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
-    Cadena Identificador Igual Comillas Identificador Comillas P_coma*/
+    {: System.out.println("error DECLARACION en Declaracion"); :} //hubo un error en la declaracion de variable. se recupero con otra expresion
+    | error IF_ELSE
+    {: System.out.println("error IF_ELSE en Declaracion"); :} //hubo un error en la declaracion de variable.
+    | error UNTIL
+    {: System.out.println("error UNTIL en Declaracion"); :} //hubo un error en la declaracion de variable.
+    | error CloseMain
+    {: System.out.println("error CloseMain en Declaracion"); :} //hubo un error en la declaracion de variable.\
+    | error IF
+    {: System.out.println("error IF en Declaracion"); :} //hubo un error en la declaracion de variable.
+    | error FOR
+    {: System.out.println("error FOr en Declaracion"); :} //hubo un error en la declaracion de variable.
+    |  Define Identificadoroletra As Int
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra As Int Igual EXP
+        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Identificadoroletra Igual EXP
+        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    /*|  Identificadoroletra Igual CALLMETHOD
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}*/
+    |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n1 Corchete_c Corchete_a Numero:n2 Corchete_c
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Character
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Character Igual Caracter:c1
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c Corchete_a Numero:c2 Corchete_c
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Boolean
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra:h1 As Boolean Igual Op_booleano:b1
+        {: System.out.println("error NO PCOMA ISSUE"); 
+            parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    /*|  Identificadoroletra Igual EXP
+        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra As
+        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    |  Define Identificadoroletra
+        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}*/
+    /*| error Identificador
+          {: System.out.println("error NO PCOMA EXP ISSUE NEW"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    | error As
+        {: System.out.println("error NO PCOMA EXP ISSUE NEW2"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}
+    | error Igual
+        {: System.out.println("error NO PCOMA EXP ISSUE NEW3"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
+        :}*/
+        
 ;
+
+
 IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTest
          {: 
            Node x = new Node("TEST",false);
@@ -694,6 +767,45 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
            
         :} 
        // Errro handler OpenTest error CloseTest
+      | OpenTest Parentesis_a Parentesis_c Then SENTENCIA CloseTest
+      {:
+        //System.out.println("If sin condicion"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion")); 
+      :}
+      | OpenTest Parentesis_a Parentesis_c Then  CloseTest
+      {:
+        //System.out.println("If sin condicion y sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y sentencia vacia.")); 
+      :}
+      | OpenTest error Then SENTENCIA CloseTest
+      {:
+        //System.out.println("Error en la condicion del If"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN SENTENCIA CLOSETEST If con error en condicion")); 
+      :}
+      | OpenTest error Then error CloseTest
+      {:
+        //System.out.println("Error en la condicion del If"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN SENTENCIA CLOSETEST If con error en condicion")); 
+      :}
+      | OpenTest error Then CloseTest
+      {:
+        //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN CLOSETEST If con error en condicion. If con sentencia vacia")); 
+      :}
+      | error Then CloseTest //Possible error arising here.
+      {:
+        //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR THEN CLOSETEST If sin opentest con error en condicion. If con sentencia vacia")); 
+      :}
+      | error Then SENTENCIA CloseTest
+      {:
+        //System.out.println("Error en la condicion del If"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR THEN SENTENCIA CLOSETEST. No open-main Closetest")); 
+      :}
+      
+      
+      
+      
 ;
 
 
