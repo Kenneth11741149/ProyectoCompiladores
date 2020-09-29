@@ -43,9 +43,7 @@ MAIN
                                           i
        UNTIL
               BOOLEAN SATEMENT
-                     |
-                            true
-                            false
+                     true
               DO
                      THROW
                             x
@@ -61,5 +59,8 @@ INTEGER METHOD
                      x
               METHOD-CALL
                      f2
+                     PARAMETROS
+                            2
+                            xx
        RETURN
               x

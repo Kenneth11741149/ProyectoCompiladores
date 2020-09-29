@@ -29,7 +29,7 @@ terminal Linea, Comillas,Caracter, T_dato, Int,Character,OpenTest,CloseTest,Or,T
     Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,Coma,
     Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop,AND,OR,NOT;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS;
+    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS,PARAMETROS2;
 
 /* Precedences */
 precedence left OR;
@@ -82,6 +82,8 @@ INICIO ::=
     
 
 ;
+
+
 
 
 
@@ -249,6 +251,50 @@ SENTENCIA ::=
     :}
     
     
+;
+
+PARAMETROS2::= Identificadoroletra:h1{:
+           Node raiz = new Node("PARAMETROS",false);
+           raiz.addHijo((Node)h1);
+           RESULT = raiz;
+           :}
+
+        |  Numero:h1{:
+           Node raiz = new Node("PARAMETROS",false);
+           Node x = new Node(h1.toString(),false);
+           raiz.addHijo(x);
+           RESULT = raiz;
+           :}
+
+        |
+        PARAMETROS2:h1 P_coma Identificadoroletra:h2
+        {:
+        Node raiz = new Node("PARAMETROS",false);
+        
+        for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                raiz.addHijo(((Node)h1).getHijos().get(i));
+                }
+        
+           raiz.addHijo((Node)h2);
+           RESULT = raiz;
+:}
+    |
+        PARAMETROS2:h1 P_coma Numero:h2
+        {:
+        Node raiz = new Node("PARAMETROS",false);
+        
+        for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                raiz.addHijo(((Node)h1).getHijos().get(i));
+                }
+           Node x = new Node(h2.toString(),false);
+           raiz.addHijo(x);
+           RESULT = raiz;
+:}
+
+|{:
+    Node raiz = new Node("PARAMETROS",false);
+    RESULT = raiz;
+:}
 ;
 
 PARAMETROS::=  Int Identificadoroletra:h1{:
@@ -423,10 +469,11 @@ Identificadoroletra ::=
 ;
 
 CALLMETHOD ::=
-    Identificadoroletra:h1 Parentesis_a Parentesis_c P_coma
+    Identificadoroletra:h1 Parentesis_a PARAMETROS2:h2 Parentesis_c P_coma
     {:
     Node x = new Node("METHOD-CALL",true);
     x.addHijo((Node)h1);
+    x.addHijo((Node)h2);
     RESULT = x;
     :}
 ;

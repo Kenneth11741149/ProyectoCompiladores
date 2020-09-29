@@ -149,6 +149,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case P_coma:
                     resultado += "  <Punto y coma>\t" + lexer.lexeme + "\n";
                     break;
+                case Coma:
+                    resultado += "  <coma>\t" + lexer.lexeme + "\n";
+                    break;
                 case Identificador:
                     resultado += "  <Identificador>\t\t" + lexer.lexeme + "\n";
                     break;
@@ -164,9 +167,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case ERROR:
                     resultado += "  <Simbolo no definido>\n";
                     break;
-                case Coma:
-                    resultado += "COMA";
-                    break;
+                
                 default:
                     resultado += "  < " + lexer.lexeme + " >\n";
                     break;
