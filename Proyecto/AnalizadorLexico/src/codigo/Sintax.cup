@@ -1315,7 +1315,7 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
 
 
 ;
-FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c  SENTENCIA:h2 CloseFor 
+FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c Do SENTENCIA:h2 CloseFor 
         {:
                 Node x = new Node("FOR",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
@@ -1330,7 +1330,73 @@ FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c  SENTENCIA:h2 CloseFo
                 RESULT = x;
         :}
 
+        
+
+
+////////////////////////////////////////////////////////////////////////////////////////
             // Error Handling Block | OpenFor error CloseFor
+
+       |OpenFor Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error SENTENCIA CloseFor //OpenFor sin Do
+        {:
+         parser.syntax_error(new Symbol(sym.error,0,0,"1. OpenFor sin DO correcto.")); 
+        :}
+
+      |OpenFor Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error CloseFor //OpenFor sin do y sentencia
+        {:
+        
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenFor con sentencia-do incorrecta. No hay nada que hacer en el do.")); 
+      :}
+
+      | OpenFor Parentesis_a Parentesis_c Do SENTENCIA CloseFor  // parametros For vacios
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenFor con condicion vacia. .")); 
+      :}
+      | OpenFor Parentesis_a Parentesis_c Do  CloseFor  //Parametro vacio sin sentencia.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenFor sin condicion y sentencia vacia.")); 
+      :}
+      
+      | OpenFor Parentesis_a Parentesis_c error  CloseFor //Parametro vacio con error en Do, SENTENCIA vacia
+      {: 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenFor sin condicion y Do no localizado. SENTENCIA VACIA.")); 
+      :}
+
+      | OpenFor Parentesis_a Parentesis_c error  SENTENCIA CloseFor //Parametro vacio y con error en Do pero con sentencia despues.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenFor sin condicion y Do no localizado")); 
+      :}
+
+      | OpenFor Do CloseFor //Openfor sin condicion ni sentencia ni parentesis
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"Openfor sin condicion ni sentencia ni parentesis")); 
+      :}
+
+      | OpenFor error Do SENTENCIA CloseFor //OpenFor con error en condicion.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENFOR ERROR DO SENTENCIA CLOSEFOR. OpenFor con error en condicion")); 
+      :}
+
+      | OpenFor error Do error CloseFor //OpenFor con error en parametros de condicion y sentencia. 
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENFOR ERROR DO ERROR CLOSEFOR con error en condicion y sentencia")); 
+      :}
+
+      | OpenFor error Do CloseFor //OpenFor con error en condicion sin sentencia.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENFOR ERROR DO CLOSEFOR. OPENFOR con error en condicion. OPENFOR con sentencia vacia")); 
+      :}
+
+      | error Do CloseFor //Possible error arising here. //Until sin openUntil o con error en condicion.")); 
+      {: 
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR DO CLOSEFOR. No hay OpenFor sentencia vacia" ));
+      :}
+
+      | error Do SENTENCIA CloseFor//Do sin OpenFor o con error en condicion. y CON sentencia.")); 
+      {:        
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR Do SENTENCIA CLOSEFOR OPENFOR. Do sin OpenFor o con error en condicion.")); 
+      :}
+
+
 ;
 SENTENCIA_FOR ::=
     Int Identificadoroletra:h1 Igual Numero:n P_coma SENTENCIA_BOOLEANA:h2 P_coma DECLARACION_FOR:h3

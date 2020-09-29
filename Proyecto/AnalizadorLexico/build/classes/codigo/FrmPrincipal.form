@@ -106,7 +106,7 @@
                       <Component id="btnLimpiarLex" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="387" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="388" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
@@ -140,7 +140,7 @@
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
-                <Property name="text" type="java.lang.String" value="open-main()&#xa;    define x as integer := 5+3/(5-2);&#xa;   open-for(integer i :=0;i&lt;6;i++)&#xa;&#x9;open-test(x &lt;3 | (!(x&gt;15) &amp; x&gt;10 ) ) then&#xa;&#x9;    throwln(x);&#xa;&#x9;or&#xa;&#x9;     throw(i);&#xa;                             close-test&#xa;   close-for&#xa;    open-until(true) do&#xa;           throw(x);&#xa;     close-until&#xa;&#xa;close-main&#xa;open-method integer f2(integer x1;integer x2)&#xa;    define x as integer;&#xa;    f2();&#xa;   return := x;&#xa; &#xa;close-method"/>
+                <Property name="text" type="java.lang.String" value="open-main()&#xa;    define x as integer := 5+3/(5-2);&#xa;   open-for(integer i :=0;i&lt;6;i++) do&#xa;&#x9;open-test(x &lt;3 | (!(x&gt;15) &amp; x&gt;10 ) ) then&#xa;&#x9;    throwln(x);&#xa;&#x9;or&#xa;&#x9;     throw(i);&#xa;                             close-test&#xa;   close-for&#xa;    open-until(true) do&#xa;           throw(x);&#xa;     close-until&#xa;&#xa;close-main&#xa;open-method integer f2(integer x1;integer x2)&#xa;    define x as integer;&#xa;    f2();&#xa;   return := x;&#xa; &#xa;close-method"/>
               </Properties>
             </Component>
           </SubComponents>

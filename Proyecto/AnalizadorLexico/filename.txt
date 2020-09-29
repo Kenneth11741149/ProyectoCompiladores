@@ -1,2 +1,3 @@
-              BOOLEAN SATEMENT
-                     true
+              FOR DECLARATION
+                     i
+                     ++
