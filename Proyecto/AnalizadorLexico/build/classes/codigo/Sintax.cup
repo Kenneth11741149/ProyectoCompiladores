@@ -1513,8 +1513,48 @@ ESCRITURA ::= THrow Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
                         }
                     RESULT = x;
                :}
+
+/////////////////////////////////////////////////////////////////////////////////
               //Error handling block THrow error | Throwln error
               //Posible validacion de throw strings strings.
+
+              | THrow Parentesis_a Parentesis_c P_coma
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"Throw sin Identificador o letra.")); 
+             :}
+              | THrow Parentesis_a Parentesis_c
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"Throw sin Identificador o letra. y no tiene P_coma.")); 
+             :}
+              | THrow Parentesis_a Identificadoroletra:h1 Parentesis_c
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"Throw sin Pcoma.")); 
+             :}
+              | THrow error P_coma
+             {: 
+                 parser.syntax_error(new Symbol(sym.error,0,0,"Parametros del Throw no son reconocidos."));
+             :}
+
+
+
+
+             | Throwln Parentesis_a Parentesis_c P_coma
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"Throwln sin Identificar o letra.")); 
+             :}
+              | Throwln Parentesis_a Parentesis_c
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"Throwln sin Identificador o letra. y no tiene P_coma.")); 
+             :}
+              | Throwln Parentesis_a Identificadoroletra:h1 Parentesis_c
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"Throwln sin Pcoma.")); 
+             :}
+              | Throwln error P_coma
+             {: 
+                 parser.syntax_error(new Symbol(sym.error,0,0,"Parametros del Throwln no son reconocidos."));
+             :}
+             
 ;
 
 
@@ -1633,12 +1673,6 @@ MATCH ::=
       {:        
         parser.syntax_error(new Symbol(sym.error,0,0,"ERROR Do CASE CLOSEMATCH OPENMATCH. Do sin OpenMATCH o con error en condicion.")); 
       :}
-
-
-
-
-
-
 
 ;
 

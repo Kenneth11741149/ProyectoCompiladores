@@ -1,9 +1,3 @@
 MAIN
-       OPENMATCH
-              letra
-              CASE
-                     x
-                     THEN
-                            DECLARATION
-                                   integer
-                                   x
+       THROWLN
+              x
