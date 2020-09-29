@@ -769,10 +769,12 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
 
      
        // Errro handler OpenTest error CloseTest
+       
+
       |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA CloseTest
         {:
         //System.out.println("open-test con error de sentencia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"If con sentencia incorrecta.")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF sin THEN correcto.")); 
       :}
 
       |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error CloseTest
@@ -780,6 +782,7 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
         //System.out.println("open-test con error de sentencia-then"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"If con sentencia-then incorrecta.")); 
       :}
+      
 
 
 
@@ -793,6 +796,22 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
         //System.out.println("If sin condicion y sentencia vacia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y sentencia vacia.")); 
       :}
+      
+      | OpenTest Parentesis_a Parentesis_c error  CloseTest
+      {:
+        //System.out.println("If sin condicion y sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y then no localizado")); 
+      :}
+      | OpenTest Parentesis_a Parentesis_c error  SENTENCIA CloseTest
+      {:
+        //System.out.println("If sin condicion y sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y then no localizado")); 
+      :}
+      | OpenTest  Then  CloseTest //Agregado
+      {:
+        //System.out.println("If sin condicion y sentencia vacia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"If sin condicion y sentencia vacia.")); 
+      :}
       | OpenTest error Then SENTENCIA CloseTest
       {:
         //System.out.println("Error en la condicion del If"); 
@@ -801,7 +820,7 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
       | OpenTest error Then error CloseTest
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN SENTENCIA CLOSETEST If con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENTEST ERROR THEN ERROR CLOSETEST If con error en condicion")); 
       :}
       | OpenTest error Then CloseTest
       {:
@@ -989,6 +1008,27 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
             
            
         :} 
+        
+
+        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA Or SENTENCIA CloseTest
+        {:
+        //System.out.println("open-test con error de sentencia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en [then].")); 
+        :}
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or SENTENCIA CloseTest
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE con error en sentencia-then al inicio.")); 
+        :}
+        | OpenTest Parentesis_a Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest
+        {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE sin condicion")); 
+        :}
+        | OpenTest  Then SENTENCIA Or SENTENCIA CloseTest
+        {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"IF ELSE sin condicion")); 
+        :}
+
     
     /*
             OpenTest error Then SENTENCIA error SENTENCIA CloseTest|
