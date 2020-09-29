@@ -76,9 +76,20 @@ INICIO ::=
           
           
         :} 
-    |
-    error SENTENCIA CloseMain|
-    error CloseMain|
+    |error SENTENCIA CloseMain
+      {: System.out.println("Error SENTENCIA CloseMain");  :} //Todo error desde el inicio hasta alguna sentencia.
+                                                              //Error en la declaracion del main.
+    |error CloseMain
+      {: System.out.println("Error CloseMain");  :} //Todo error que venga desde el inicio hasta el CloseMain es cubierto.
+                                                    //Error en la declaracion de un main vacio.
+    |error
+      {: System.out.println("ERROR No se reconoce la intencion ingresada.");  :} //Todo error que no se recupere
+                                                                          //Unrecognized code.
+
+    | Main error
+      {: System.out.println("Main Error");  :} //Todo error que no se recupere
+                                                                          //Unrecognized code.
+    | {: System.out.println("No hay un codigo para analizar.");  :} //No hay codigo para
     
 
 ;
@@ -626,14 +637,18 @@ DECLARACION ::=
                 x.addHijo(x4);
                 RESULT = x;
         :} 
-    |
+    
     
     //Deprecated
     //Define L As Boolean P_coma|
     //Define L As Boolean Igual Op_booleano P_coma|
 
     /* ERROR HANDLING BLOCK FOR DECLARATIONS*/
-    error P_coma
+    | error P_coma
+    {: System.out.println("error P_Coma en Declaracion de sentencia"); :} //hubo un error en la declaracion de variable.
+    | error DECLARACION
+    {: System.out.println("error SENTENCIA en Declaracion"); :} //hubo un error en la declaracion de variable.
+    
 
     
 
