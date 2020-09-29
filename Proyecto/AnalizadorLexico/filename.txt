@@ -1,10 +1,7 @@
-       DECLARATION
-              integer
-              x
-              +
-                     5
-                     /
-                            3
-                            -
-                                   5
-                                   2
+MAIN
+       UNTIL
+              BOOLEAN SATEMENT
+                     true
+              DO
+                     THROW
+                            x

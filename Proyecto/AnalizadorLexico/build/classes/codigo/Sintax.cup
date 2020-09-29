@@ -1206,6 +1206,76 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
 
         :}
          //Error Handling block OpenUntil error CloseUntil
+
+        |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error SENTENCIA CloseUntil //OpenUntil sin Do
+        {:
+         parser.syntax_error(new Symbol(sym.error,0,0,"Open Until sin DO correcto.")); 
+        :}
+
+      |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error CloseUntil //OpenUnitl sin do y sentencia
+        {:
+        
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenUntil con sentencia-do incorrecta. No hay nada que hacer en el do.")); 
+      :}
+
+      | OpenUntil Parentesis_a Parentesis_c Do SENTENCIA CloseUntil  // parametros Until vacios
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OpenUntil con condicion vacia. .")); 
+      :}
+      | OpenUntil Parentesis_a Parentesis_c Do  CloseUntil  //Parametro vacio sin sentencia.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"Until sin condicion y sentencia vacia.")); 
+      :}
+      
+      | OpenUntil Parentesis_a Parentesis_c error  CloseUntil //Parametro vacio con error en Do, SENTENCIA vacia
+      {: 
+        parser.syntax_error(new Symbol(sym.error,0,0,"Until sin condicion y Do no localizado. SENTENCIA VACIA.")); 
+      :}
+
+      | OpenUntil Parentesis_a Parentesis_c error  SENTENCIA CloseUntil //Parametro vacio y con error en Do pero con sentencia despues.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"Until sin condicion y Do no localizado")); 
+      :}
+
+      | OpenUntil Do CloseUntil //Until sin condicion ni sentencia ni parentesis
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"Until sin condicion ni sentencia ni parentesis")); 
+      :}
+
+      | OpenUntil error Do SENTENCIA CloseUntil //Until con error en condicion.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENUNTIL ERROR DO SENTENCIA CLOSEUNTIL. Until con error en condicion")); 
+      :}
+
+      | OpenUntil error Do error CloseUntil //Until con error en parametros de condicion y sentencia. 
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENUNTIL ERROR DO ERROR CLOSEUNTIL con error en condicion y sentencia")); 
+      :}
+
+      | OpenUntil error Do CloseUntil //Until con error en condicion sin sentencia.
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"OPENUNTIL ERROR DO CLOSETUNTIL. Until con error en condicion. Until con sentencia vacia")); 
+      :}
+
+      | error Do CloseUntil //Possible error arising here. //Until sin openUntil o con error en condicion.")); 
+      {: 
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR DO CLOSEUNTIL. No hay openuntil sentencia vacia" ));
+      :}
+
+      | error Do SENTENCIA CloseUntil//Do sin openuntil o con error en condicion. y CON sentencia.")); 
+      {:        
+        parser.syntax_error(new Symbol(sym.error,0,0,"ERROR Do SENTENCIA CLOSEUNTIl. No open-until")); 
+      :}
+
+
+
+
+
+
+
+
+
+
 ;
 FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c  SENTENCIA:h2 CloseFor 
         {:
