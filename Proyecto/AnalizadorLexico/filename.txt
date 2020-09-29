@@ -1,7 +1,4 @@
 MAIN
-       UNTIL
-              BOOLEAN SATEMENT
-                     true
-              DO
-                     THROW
-                            x
+       DECLARATION
+              integer
+              x
