@@ -766,12 +766,21 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
             
            
         :} 
-
+        
+        
         | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then CloseTest
             {:
             System.out.println("SENTENCIA VACIA VALIDA");
             //LEONARDO PODES AGREGAR EL ARBOL AQUI?
-                RESULT = new Node("ERROR",false);
+                 Node x = new Node("TEST",false);
+                 Node x2 = new Node("THEN",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        x.addHijo(((Node)h1).getHijos().get(i));
+                }
+                    
+                
+                x.addHijo(x2);
+                RESULT = x;
             :}
 
      
@@ -1217,8 +1226,17 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
             {:
             System.out.println("SENTENCIA VACIA VALIDA");
             //LEONARDO PODES AGREGAR EL ARBOL AQUI?
-            RESULT = new Node("ERROR",false);
+                 Node x = new Node("TEST",false);
+                 Node x2 = new Node("THEN",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                        x.addHijo(((Node)h1).getHijos().get(i));
+                }
+                    
+                
+                x.addHijo(x2);
+                RESULT = x;
             :}
+
 
 
 

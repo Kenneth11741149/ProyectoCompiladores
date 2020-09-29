@@ -1,4 +1,2 @@
-MAIN
-       DECLARATION
-              integer
-              x
+              BOOLEAN SATEMENT
+                     true
