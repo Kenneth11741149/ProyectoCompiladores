@@ -1,0 +1,11 @@
+open-main()
+    define x as integer [2][4];
+    define n as integer;
+    eat (n);
+    open-test(n>2) then
+	throwln(n);
+     or 
+	throw(a);
+    close-test
+   
+close-main

@@ -1,0 +1,28 @@
+/*sadas
+asd
+*/
+open-main()
+    //define x as integer := 5+3/(5-2);
+   open-for(integer i :=0;i<6;i++)
+ do
+	open-test(x <3 | (!(x>15) & x>10 ) ) then
+	    throwln(x);
+	or
+	     throw(i);
+                             close-test
+   close-for
+    open-until(true) do
+           throw(x);
+     close-until
+       open-match(letra)
+ do
+                   when  x :=  define x as integer;
+		stop;
+         close-match
+close-main
+open-method integer f2(integer x1;integer x2)
+    define x as integer;
+    f2();
+   return := x;
+ 
+close-method
