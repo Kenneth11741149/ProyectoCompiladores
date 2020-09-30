@@ -1,7 +1,8 @@
 package codigo;
 
 import java_cup.runtime.Symbol;
-
+import java.io.FileWriter;
+import java.io.IOException;
 parser code
 {:
     private Symbol s;
@@ -11,6 +12,16 @@ parser code
         String error = "";
         if(s.value != null){
             error = "Error Sintactico en la linea "+s.right+ " Columna "+(s.left+1)+ ". No se esperaba esto: "+ "\""+ s.value+ "\""+ "\n" ;
+            try {
+                FileWriter myWriter = new FileWriter("errors.txt",true);
+                myWriter.append(error);
+            
+                myWriter.close();
+            
+            } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+             }
            System.out.print(error);
         }
         //errores.add(error)
@@ -576,7 +587,51 @@ DECLARACION ::=
         :}
     
     |
-    
+    Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Caracter:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = new Node(n.toString(),false);
+                corchetes.addHijo(new Node(h2.toString(),false));
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}
+   
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual  Identificadoroletra:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = new Node(n.toString(),false);
+                corchetes.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}
+
+    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Identificadoroletra:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = new Node(n.toString(),false);
+                Node corchetes2 = new Node(n2.toString(),false);
+                corchetes2.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
+        
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Caracter:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = new Node(n.toString(),false);
+                Node corchetes2 = new Node(n2.toString(),false);
+                corchetes2.addHijo(new Node(h2.toString(),false));
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
+
+    |
     // int array
     Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c P_coma
         {:

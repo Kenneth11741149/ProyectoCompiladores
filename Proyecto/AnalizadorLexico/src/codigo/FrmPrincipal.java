@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
@@ -405,7 +406,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         String ST = txtResultado.getText();
         Sintax s = new Sintax(new codigo.LexerCup(new StringReader(ST)));
-
+        try {
+            FileWriter myWriter = new FileWriter("errors.txt");
+            myWriter.write("");
+            
+            myWriter.close();
+            
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
         try {
             s.parse();
             txtAnalizarSin.setText("Analisis realizado correctamente");
@@ -430,8 +440,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         } catch (Exception ex) {
             Symbol sym = s.getS();
-
-            txtAnalizarSin.setText("Error de sintaxis. Linea: " + (sym.right + 1) + " Columna: " + (sym.left + 1) + ", Texto: \"" + sym.value + "\"");
+            txtAnalizarSin.setText("");
+            try {
+                File myObj = new File("errors.txt");
+                Scanner myReader = new Scanner(myObj);
+                String data = "";
+                while (myReader.hasNextLine()) {
+                     data = myReader.nextLine();
+                     txtAnalizarSin.append("\n");
+                     txtAnalizarSin.append(data);
+                    
+                }
+                
+                myReader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
             txtAnalizarSin.setForeground(Color.red);
         }
     }//GEN-LAST:event_btnAnalizarSinActionPerformed
