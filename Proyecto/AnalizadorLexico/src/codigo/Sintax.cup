@@ -96,6 +96,22 @@ INICIO ::=
          parser.syntax_error(new Symbol(sym.error,0,0,"Error Closemain. Error en la declaracion del main."));
       :} //Todo error que venga desde el inicio hasta el CloseMain es cubierto.
                                                     //Error en la declaracion de un main vacio.
+
+    | Main Parentesis_a Parentesis_c error CloseMain METHOD
+        {: //System.out.println("Main() Error CloseMain. Hay presencia de errores en el cuerpo de sentencia del main.");
+            parser.syntax_error(new Symbol(sym.error,0,0,"Main() Error CloseMain. Hay presencia de errores en el cuerpo de sentencia del main.")); 
+         :}
+    | error SENTENCIA CloseMain METHOD
+        {: //System.out.println("Error SENTENCIA CloseMain");  
+        parser.syntax_error(new Symbol(sym.error,0,0,"Error SENTENCIA CloseMain. Problema en la declaracion del main."));
+        :} //Todo error desde el inicio hasta alguna sentencia.
+                                                              //Error en la declaracion del main.
+    | error CloseMain METHOD
+      {: //System.out.println("Error CloseMain");  
+         parser.syntax_error(new Symbol(sym.error,0,0,"Error Closemain. Error en la declaracion del main."));
+      :} //Todo error que venga desde el inicio hasta el CloseMain es cubierto.
+    
+    
     | error
       {:// System.out.println("");  
         parser.syntax_error(new Symbol(sym.error,0,0,"ERROR No se reconoce la intencion ingresada. No se encontro un main."));
@@ -500,6 +516,10 @@ Identificadoroletra ::=
             :}
 ;
 
+
+
+
+
 CALLMETHOD ::=
     Identificadoroletra:h1 Parentesis_a PARAMETROS2:h2 Parentesis_c P_coma
     {:
@@ -509,6 +529,11 @@ CALLMETHOD ::=
     RESULT = x;
     :}
 ;
+
+
+
+
+
 DECLARACION ::= 
     //Int
     Define Identificadoroletra:h2 As Int P_coma
