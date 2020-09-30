@@ -754,7 +754,7 @@ DECLARACION ::=
             parser.syntax_error(new Symbol(sym.error,0,0,"[16] Declaracion sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Boolean
-        {: /System.out.println("error NO PCOMA ISSUE"); 
+        {: //System.out.println("error NO PCOMA ISSUE"); 
             parser.syntax_error(new Symbol(sym.error,0,0,"[17] Declaracion sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Boolean Igual Op_booleano:b1
