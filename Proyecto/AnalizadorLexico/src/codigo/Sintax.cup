@@ -1039,6 +1039,8 @@ SENTENCIA_BOOLEANA ::=
             RESULT = x;
            
         :} 
+
+     
             
 ;
 IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  Or SENTENCIA:h3 CloseTest 
@@ -1067,6 +1069,11 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
         {:
         //System.out.println("open-test con error de sentencia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"[1] IF ELSE con error en then.")); 
+        :}
+        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Do SENTENCIA CloseTest ////If else con error en then
+        {:
+        //System.out.println("open-test con error de sentencia"); 
+        parser.syntax_error(new Symbol(sym.error,0,0,"[23] IF ELSE sin Or.")); 
         :}
 
         |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
@@ -1344,6 +1351,14 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
       {:        
         parser.syntax_error(new Symbol(sym.error,0,0,"[12]  No open-until")); 
       :}
+      | OpenUntil Parentesis_a Parentesis_c Do error CloseUntil  // parametros Until vacios
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"[13] OpenUntil con un error en su cuerpo de declaracion. .")); 
+      :}
+      | OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do error CloseUntil  // parametros Until vacios
+      {:
+        parser.syntax_error(new Symbol(sym.error,0,0,"[14] OpenUntil con un error en su cuerpo de declaracion. .")); 
+      :}
 
 
 
@@ -1493,12 +1508,18 @@ LECTURA ::= Eat Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
              {: 
                 parser.syntax_error(new Symbol(sym.error,0,0,"[2] Eat sin Pcoma.")); 
              :}
+             
 
              | Eat error P_coma
              {: 
                  parser.syntax_error(new Symbol(sym.error,0,0,"[3] Parametros del Eat no son reconocidos."));
              :}
       
+             | Eat P_coma
+             {: 
+                parser.syntax_error(new Symbol(sym.error,0,0,"[4] Eat sin parametro y Pcoma.")); 
+             :}
+              
 
 ;
 
