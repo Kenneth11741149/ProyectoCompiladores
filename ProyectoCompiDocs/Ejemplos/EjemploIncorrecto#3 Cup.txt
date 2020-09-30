@@ -1,0 +1,14 @@
+open-main()
+	define classic as character[9];
+	classic[0] := 'H'
+	classic[1] := '0'
+	classic[2]:=  'L'
+	classic[3] := 'A'
+	classic[4] :=  ''
+	classic[5] := 'M'
+	classic[6] := 'U'
+	classic[7] := 'N'
+	classic[8] := 'D'
+	classic[9] := 'O'
+	throwln(classic)
+close-main

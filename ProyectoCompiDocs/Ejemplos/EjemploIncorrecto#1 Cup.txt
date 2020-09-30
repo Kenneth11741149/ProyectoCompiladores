@@ -1,0 +1,18 @@
+open-main()
+    define x as integer := 5+3/(5-2);
+   open-for(integer i :=0;i<6;i++) 
+	open-test(x <3 | (!(x>15) & x>10 ) ) 
+	    throwln(x)
+	   define y as integer
+	   Define z as integer;
+	
+	     throw(i);
+	   define a as integer
+                             define b as caracter;
+                             close-test
+   close-for
+    open-until(true) do
+           throw(x)
+     close-until
+
+close-main

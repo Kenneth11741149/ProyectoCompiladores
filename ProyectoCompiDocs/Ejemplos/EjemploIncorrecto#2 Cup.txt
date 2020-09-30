@@ -1,0 +1,20 @@
+open-main()
+    define x as integer := 5+3/(5-2)
+   open-for() do
+	open-test( ) then
+	    throwln(x)
+	or
+	     throw()
+                             close-test
+   close-for
+    open-until(true) do
+           throw();
+     close-until
+
+close-main
+open-method integer f2(integer x1;integer x2)
+    define x as integer;
+    f2();
+   return := x;
+ 
+close-method

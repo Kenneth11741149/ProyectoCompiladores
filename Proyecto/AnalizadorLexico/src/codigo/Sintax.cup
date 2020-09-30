@@ -860,6 +860,56 @@ DECLARACION ::=
         {: //System.out.println("error NO PCOMA EXP ISSUE NEW3"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"[22] Problema en Declaracion"));
         :}*/
+
+
+
+
+
+     |   Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Caracter
+            {:
+             parser.syntax_error(new Symbol(sym.error,0,0,"[23] Declaracion sin PComa"));
+            :}
+    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Numero
+            {:
+             parser.syntax_error(new Symbol(sym.error,0,0,"[24] Declaracion sin PComa"));
+            :}        
+   
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual  Identificadoroletra
+            {:
+             parser.syntax_error(new Symbol(sym.error,0,0,"[25] Declaracion sin PComa"));
+            :}
+
+    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Identificadoroletra
+            {:
+             parser.syntax_error(new Symbol(sym.error,0,0,"[26] Declaracion sin PComa"));
+            :}
+        
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Caracter
+            {:
+            parser.syntax_error(new Symbol(sym.error,0,0,"[27] Declaracion sin PComa"));
+            :}
+
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Numero
+            {:
+                parser.syntax_error(new Symbol(sym.error,0,0,"[28] Declaracion sin PComa"));
+            :}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
 ;
 

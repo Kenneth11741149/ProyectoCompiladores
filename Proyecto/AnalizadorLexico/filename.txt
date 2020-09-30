@@ -9,8 +9,26 @@ MAIN
                             -
                                    5
                                    2
-       ASSIGNMENT MATRIX
+       THROWLN
+              METHOD-CALL
+                     f2
+                     PARAMETROS
+                            2
+                            x
+                            e
+                            w
+                            3
+                            5
+INTEGER METHOD
+       f2
+       INTEGER
+       x1
+       BLOQUE
+              DECLARATION
+                     integer
+                     x
+                     +
+                            x1
+                            1
+       RETURN
               x
-              2
-              4
-                     5
