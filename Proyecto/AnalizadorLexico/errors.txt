@@ -1,6 +1,1 @@
-Error Sintactico en la linea 1 Columna 15. No se esperaba esto: "integer"
-Error Sintactico en la linea 2 Columna 14. No se esperaba esto: "2"
-Error Sintactico en la linea 2 Columna 19. No se esperaba esto: ";"
-Error Sintactico en la linea 2 Columna 21. No se esperaba esto: ";"
-Error Sintactico en la linea 2 Columna 23. No se esperaba esto: ";"
-Error Sintactico en la linea 5 Columna 33. No se esperaba esto: ";"
+Error Sintactico en la linea 1 Columna 10. No se esperaba esto: "="
