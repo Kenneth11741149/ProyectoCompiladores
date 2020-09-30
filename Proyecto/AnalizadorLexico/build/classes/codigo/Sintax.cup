@@ -718,11 +718,11 @@ DECLARACION ::=
             parser.syntax_error(new Symbol(sym.error,0,0,"[8] Declaracion sin PComa"));
         :}
     |  Define Identificadoroletra As Int Igual EXP
-        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        {: //System.out.println("error NO PCOMA EXP ISSUE"); 
             parser.syntax_error(new Symbol(sym.error,0,0,"[9] Declaracion sin PComa"));
         :}
     |  Identificadoroletra Igual EXP
-        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        {: //System.out.println("error NO PCOMA EXP ISSUE"); 
             parser.syntax_error(new Symbol(sym.error,0,0,"[10] Asignacion sin Punto y Coma"));
         :}
     /*|  Identificadoroletra Igual CALLMETHOD
@@ -750,11 +750,11 @@ DECLARACION ::=
             parser.syntax_error(new Symbol(sym.error,0,0,"[15] Declaracion sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c Corchete_a Numero:c2 Corchete_c
-        {: System.out.println("error NO PCOMA ISSUE"); 
+        {: //System.out.println("error NO PCOMA ISSUE"); 
             parser.syntax_error(new Symbol(sym.error,0,0,"[16] Declaracion sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Boolean
-        {: System.out.println("error NO PCOMA ISSUE"); 
+        {: /System.out.println("error NO PCOMA ISSUE"); 
             parser.syntax_error(new Symbol(sym.error,0,0,"[17] Declaracion sin PComa"));
         :}
     |  Define Identificadoroletra:h1 As Boolean Igual Op_booleano:b1
@@ -762,7 +762,7 @@ DECLARACION ::=
             parser.syntax_error(new Symbol(sym.error,0,0,"[18] Declaracion sin PComa"));
         :}
     /*|  Identificadoroletra Igual EXP
-        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        {: //System.out.println("error NO PCOMA EXP ISSUE"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
         :}
     |  Define Identificadoroletra As
@@ -770,19 +770,19 @@ DECLARACION ::=
         parser.syntax_error(new Symbol(sym.error,0,0,"[19] Problema en Declaracion"));
         :}
     |  Define Identificadoroletra
-        {: System.out.println("error NO PCOMA EXP ISSUE"); 
+        {: // System.out.println("error NO PCOMA EXP ISSUE"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"[20] Problema en Declaracion"));
         :}*/
     /*| error Identificador
-          {: System.out.println("error NO PCOMA EXP ISSUE NEW"); 
+          {: //System.out.println("error NO PCOMA EXP ISSUE NEW"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
         :}
     | error As
-        {: System.out.println("error NO PCOMA EXP ISSUE NEW2"); 
+        {: //System.out.println("error NO PCOMA EXP ISSUE NEW2"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"[21] Problema en Declaracion"));
         :}
     | error Igual
-        {: System.out.println("error NO PCOMA EXP ISSUE NEW3"); 
+        {: //System.out.println("error NO PCOMA EXP ISSUE NEW3"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"[22] Problema en Declaracion"));
         :}*/
         
