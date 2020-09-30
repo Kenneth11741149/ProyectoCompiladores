@@ -12,5 +12,5 @@ MAIN
        ASSIGNMENT MATRIX
               x
               2
-              2
-                     's'
+              4
+                     5
