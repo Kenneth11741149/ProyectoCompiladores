@@ -1,2 +1,3 @@
-Error Sintactico en la linea 2 Columna 4. No se esperaba esto: "%"
-Error Sintactico en la linea 0 Columna 1. No se esperaba esto: "[1] Hay presencia de errores en el cuerpo de sentencia del main."
+Error Sintactico en la linea 1 Columna 39. No se esperaba esto: "Do"
+Error Sintactico en la linea 0 Columna 1. No se esperaba esto: "[7] Throwln sin Pcoma."
+Error Sintactico en la linea 0 Columna 1. No se esperaba esto: "[1] IF ELSE con error en then."

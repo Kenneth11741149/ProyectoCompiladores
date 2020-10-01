@@ -1211,11 +1211,8 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
         //System.out.println("open-test con error de sentencia"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"[1] IF ELSE con error en then.")); 
         :}
-        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Do SENTENCIA CloseTest ////If else con error en then
-        {:
-        //System.out.println("open-test con error de sentencia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[23] IF ELSE sin Or.")); 
-        :}
+        
+       
 
         |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
         {:
