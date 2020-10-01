@@ -72,7 +72,6 @@ INICIO ::=
           
         :} 
     |
-    Main Parentesis_a Parentesis_c CloseMain|
     Main Parentesis_a Parentesis_c SENTENCIA:h2 CloseMain METHOD:h3
     {: 
            Node raiz = new Node("ROOT",false);
@@ -92,6 +91,19 @@ INICIO ::=
           
           
         :} 
+
+        |Main Parentesis_a Parentesis_c CloseMain METHOD:h3
+        {:
+        Node raiz = new Node("ROOT",false);
+           
+           Node x = new Node("MAIN",false);
+           raiz.addHijo(x);
+           for(int i = 0;i<((Node)h3).getHijos().size();i++){
+                raiz.addHijo(((Node)h3).getHijos().get(i));
+            }
+           
+           System.out.println(raiz.Imprimir(0));
+        :}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     | Main Parentesis_a Parentesis_c error CloseMain 
@@ -144,7 +156,7 @@ INICIO ::=
 ;
 
 LEXE ::= ERROR:h1 {:
-         
+     
          
          try {
                 FileWriter myWriter = new FileWriter("errors.txt",true);
@@ -527,8 +539,20 @@ METHOD ::=
         raiz.addHijo(x);
         RESULT = raiz; 
     :}
-    
+    | OpenMethod error CloseMethod
+    {:
+    System.out.println("Error en el cuerpo de la funcion");
+    :}
+    | METHOD:m1 OpenMethod error CloseMethod
+    {:
+    System.out.println("Error en el cuerpo de la funcion");
+    :}
+
 ;
+
+
+
+
 Identificadoroletra ::= 
     Identificador:h1
          {:  Node x = new Node(h1.toString(),false);
@@ -555,6 +579,15 @@ CALLMETHOD ::=
     x.addHijo((Node)h2);
     RESULT = x;
     :}
+
+    ///////////////////////////////
+    //Error handling block
+    ///////////////////////////////
+
+    |   Identificadoroletra:h1 Parentesis_a PARAMETROS2:h2 Parentesis_c:erp
+       {:
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[23] Declaracion de callmethod sin PComa"));
+       :}
 ;
 
 
@@ -804,67 +837,67 @@ DECLARACION ::=
     {: System.out.println("[6] error en Declaracion"); :} //hubo un error en la declaracion de variable.
     | error FOR
     {: System.out.println("[7] error ne Declaracion"); :} //hubo un error en la declaracion de variable.
-    |  Define Identificadoroletra As Int
+    |  Define Identificadoroletra As Int:erp
         {: // System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[8] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra As Int Igual EXP
+    |  Define Identificadoroletra As Int Igual EXP:erp
         {: //System.out.println("error NO PCOMA EXP ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[9] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[9] Declaracion sin PComa"));
         :}
-    |  Identificadoroletra Igual EXP
+    |  Identificadoroletra Igual EXP:erp
         {: //System.out.println("error NO PCOMA EXP ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[10] Asignacion sin Punto y Coma"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[10] Asignacion sin Punto y Coma"));
         :}
-    /*|  Identificadoroletra Igual CALLMETHOD
+    /*|  Identificadoroletra Igual CALLMETHOD:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0," Asignacion sin punto y coma."));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright," Asignacion sin punto y coma."));
         :}*/
-    |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c
+    |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[11] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[11] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n1 Corchete_c Corchete_a Numero:n2 Corchete_c
+    |  Define Identificadoroletra:h1 As Int Corchete_a Numero:n1 Corchete_c Corchete_a Numero:n2 Corchete_c:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[12] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[12] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Character
+    |  Define Identificadoroletra:h1 As Character:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[13] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[13] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Character Igual Caracter:c1
+    |  Define Identificadoroletra:h1 As Character Igual Caracter:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[14] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[14] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c
+    |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[15] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[15] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c Corchete_a Numero:c2 Corchete_c
+    |  Define Identificadoroletra:h1 As Character Corchete_a Numero:c1 Corchete_c Corchete_a Numero:c2 Corchete_c:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[16] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[16] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Boolean
+    |  Define Identificadoroletra:h1 As Boolean:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[17] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[17] Declaracion sin PComa"));
         :}
-    |  Define Identificadoroletra:h1 As Boolean Igual Op_booleano:b1
+    |  Define Identificadoroletra:h1 As Boolean Igual Op_booleano:erp
         {: //System.out.println("error NO PCOMA ISSUE"); 
-            parser.syntax_error(new Symbol(sym.error,0,0,"[18] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[18] Declaracion sin PComa"));
         :}
-    /*|  Identificadoroletra Igual EXP
+    /*|  Identificadoroletra Igual EXP:erp
         {: //System.out.println("error NO PCOMA EXP ISSUE"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"Sentencia sin PComa"));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"Sentencia sin PComa"));
         :}
-    |  Define Identificadoroletra As
+    |  Define Identificadoroletra As:erp
         {: //System.out.println("error NO PCOMA EXP ISSUE"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[19] Problema en Declaracion"));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[19] Problema en Declaracion"));
         :}
-    |  Define Identificadoroletra
+    |  Define Identificadoroletra:erp
         {: // System.out.println("error NO PCOMA EXP ISSUE"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[20] Problema en Declaracion"));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[20] Problema en Declaracion"));
         :}*/
-    /*| error Identificador
+    /*| error Identificador:erp
           {: //System.out.println("error NO PCOMA EXP ISSUE NEW"); 
         parser.syntax_error(new Symbol(sym.error,0,0,"lol"));
         :}
@@ -881,33 +914,33 @@ DECLARACION ::=
 
 
 
-     |   Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Caracter
+     |   Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Caracter:erp
             {:
-             parser.syntax_error(new Symbol(sym.error,0,0,"[23] Declaracion sin PComa"));
+             parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[23] Declaracion sin PComa"));
             :}
-    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Numero
+    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Numero:erp
             {:
-             parser.syntax_error(new Symbol(sym.error,0,0,"[24] Declaracion sin PComa"));
+             parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[24] Declaracion sin PComa"));
             :}        
    
-    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual  Identificadoroletra
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual  Identificadoroletra:erp
             {:
-             parser.syntax_error(new Symbol(sym.error,0,0,"[25] Declaracion sin PComa"));
+             parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[25] Declaracion sin PComa"));
             :}
 
-    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Identificadoroletra
+    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Identificadoroletra:erp
             {:
-             parser.syntax_error(new Symbol(sym.error,0,0,"[26] Declaracion sin PComa"));
+             parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[26] Declaracion sin PComa"));
             :}
         
-    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Caracter
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Caracter:erp
             {:
-            parser.syntax_error(new Symbol(sym.error,0,0,"[27] Declaracion sin PComa"));
+            parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[27] Declaracion sin PComa"));
             :}
 
-    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Numero
+    |Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Numero:erp
             {:
-                parser.syntax_error(new Symbol(sym.error,0,0,"[28] Declaracion sin PComa"));
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[28] Declaracion sin PComa"));
             :}
 
 
@@ -967,69 +1000,69 @@ IF ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2 CloseTe
        // Errro handler OpenTest error CloseTest
        
 
-      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA CloseTest //if sin then
+      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error:erp SENTENCIA CloseTest //if sin then
         {:
         //System.out.println("open-test con error de sentencia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[1] IF sin THEN")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1] IF sin THEN")); 
       :}
 
-      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error CloseTest //If sin then y sentencia
+      |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error:erp CloseTest //If sin then y sentencia
         {:
         //System.out.println("open-test con error de sentencia-then");
-        parser.syntax_error(new Symbol(sym.error,0,0,"[2] If con sentencia-then incorrecta. No hay nada que hacer en el then.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] If con sentencia-then incorrecta. No hay nada que hacer en el then.")); 
       :}
 
-      | OpenTest Parentesis_a Parentesis_c Then SENTENCIA CloseTest  // parametros if vacios
+      | OpenTest Parentesis_a:erp Parentesis_c Then SENTENCIA CloseTest  // parametros if vacios
       {:
         //System.out.println("If sin condicion"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[3] If con condicion vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] If con condicion vacia.")); 
       :}
-      | OpenTest Parentesis_a Parentesis_c Then  CloseTest  //Parametro vacio sin sentencia.
+      | OpenTest Parentesis_a:erp Parentesis_c Then  CloseTest  //Parametro vacio sin sentencia.
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[4] If sin condicion y sentencia vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] If sin condicion y sentencia vacia.")); 
       :}
       
-      | OpenTest Parentesis_a Parentesis_c error  CloseTest //Parametro vacio con error en then, SENTENCIA vacia
+      | OpenTest Parentesis_a Parentesis_c error:erp  CloseTest //Parametro vacio con error en then, SENTENCIA vacia
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[5] If sin condicion y then no localizado. ")); //SENTENCIA VACIA.
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[5] If sin condicion y then no localizado. ")); //SENTENCIA VACIA.
       :}
-      | OpenTest Parentesis_a Parentesis_c error  SENTENCIA CloseTest //Parametro vacio y con error en then pero con sentencia despues.
+      | OpenTest Parentesis_a Parentesis_c error:erp SENTENCIA CloseTest //Parametro vacio y con error en then pero con sentencia despues.
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[6] If sin condicion y then no localizado")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[6] If sin condicion y then no localizado")); 
       :}
-      | OpenTest  Then  CloseTest //If sin condicion ni sentencia ni parentesis
+      | OpenTest:erp  Then  CloseTest //If sin condicion ni sentencia ni parentesis
       {:
         //System.out.println("If sin condicion y sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[7] If sin condicion y sentencia vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[7] If sin condicion y sentencia vacia.")); 
       :}
-      | OpenTest error Then SENTENCIA CloseTest //If con error en condicio.
+      | OpenTest error:erp Then SENTENCIA CloseTest //If con error en condicio.
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[8] If con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] If con error en condicion")); 
       :}
-      | OpenTest error Then error CloseTest //If con error en parametros de condicion y sentencia. 
+      | OpenTest error:erp Then error CloseTest //If con error en parametros de condicion y sentencia. 
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[9] If con error en condicion y sentencia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[9] If con error en condicion y sentencia")); 
       :}
 
-      | OpenTest error Then CloseTest //If con error en condicion sin sentencia.
+      | OpenTest error:erp Then CloseTest //If con error en condicion sin sentencia.
       {:
         //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[10] If con error en condicion. If con sentencia vacia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[10] If con error en condicion. If con sentencia vacia")); 
       :}
-      | error Then CloseTest //Possible error arising here. //If sin opentest o con error en condicion.")); 
+      | error:erp Then CloseTest //Possible error arising here. //If sin opentest o con error en condicion.")); 
       {:
         //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[11] No hay openmain, sentencia vacia" ));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[11] No hay openmain, sentencia vacia" ));
       :}
-      | error Then SENTENCIA CloseTest //If sin opentest o con error en condicion. y CON sentencia.")); 
+      | error:erp Then SENTENCIA CloseTest //If sin opentest o con error en condicion. y CON sentencia.")); 
       {:
         //System.out.println("Error en la condicion del If"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[12] No open-main")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[12] No open-main")); 
       :}
       
       
@@ -1206,30 +1239,30 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
         :} 
         ////////////////////ERROR HANDLING SECTION.
         
-        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error SENTENCIA Or SENTENCIA CloseTest ////If else con error en then
+        | OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error:erp SENTENCIA Or SENTENCIA CloseTest ////If else con error en then
         {:
         //System.out.println("open-test con error de sentencia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[1] IF ELSE con error en then.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1] IF ELSE con error en then.")); 
         :}
         
        
 
-        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error:erp Or SENTENCIA CloseTest  ///////Error en sentencia-then
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[2] IF ELSE con error en sentencia-then al inicio.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] IF ELSE con error en sentencia-then al inicio.")); 
         :}
 
-        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error Or error CloseTest ///////Error en ambas sentencias del IF ELSE
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c error:erp Or error CloseTest ///////Error en ambas sentencias del IF ELSE
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[3] IF ELSE con error en sentencia-then al inicio y en sentencia-closetest")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] IF ELSE con error en sentencia-then al inicio y en sentencia-closetest")); 
         :}
 
-        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then Or error CloseTest  ////// Error en sentencia-closetest
+        |OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then Or error:erp CloseTest  ////// Error en sentencia-closetest
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[4] IF ELSE con error en sentencia-closetest")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] IF ELSE con error en sentencia-closetest")); 
         :}
         
        
@@ -1238,30 +1271,30 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
 
 
 
-        | OpenTest Parentesis_a Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest //IF ELSE con condicion vacia
+        | OpenTest Parentesis_a:erp Parentesis_c Then SENTENCIA Or SENTENCIA CloseTest //IF ELSE con condicion vacia
         {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[5] IF ELSE sin condicion")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[5] IF ELSE sin condicion")); 
         :}
 
-        | OpenTest Parentesis_a  Parentesis_c error SENTENCIA Or SENTENCIA CloseTest ////If else con error en then y condicion vacia
+        | OpenTest Parentesis_a  Parentesis_c error:erp SENTENCIA Or SENTENCIA CloseTest ////If else con error en then y condicion vacia
         {:
         //System.out.println("open-test con error de sentencia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[6] IF ELSE con error en [then], y condicion vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[6] IF ELSE con error en [then], y condicion vacia.")); 
         :}
-        |OpenTest Parentesis_a  Parentesis_c error Or SENTENCIA CloseTest  ///////Error en sentencia-then
+        |OpenTest Parentesis_a  Parentesis_c error:erp Or SENTENCIA CloseTest  ///////Error en sentencia-then
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[7] IF ELSE con error en sentencia-then al inicio, condicion vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[7] IF ELSE con error en sentencia-then al inicio, condicion vacia.")); 
         :}
-        |OpenTest Parentesis_a  Parentesis_c error Or error CloseTest ///////Error en ambas sentencias del IF ELSE
+        |OpenTest Parentesis_a  Parentesis_c error:erp Or error CloseTest ///////Error en ambas sentencias del IF ELSE
         {:
         //System.out.println("[8] open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[8] IF ELSE con error en sentencia-then al inicio y en sentencia-closetest. condicion vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] IF ELSE con error en sentencia-then al inicio y en sentencia-closetest. condicion vacia.")); 
         :}
-        |OpenTest Parentesis_a  Parentesis_c Then Or error CloseTest  ////// Error en sentencia-closetest
+        |OpenTest Parentesis_a  Parentesis_c Then Or error:erp CloseTest  ////// Error en sentencia-closetest
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[9] IF ELSE con error en sentencia-closetest , condicion vacia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[9] IF ELSE con error en sentencia-closetest , condicion vacia")); 
         :}
         
 
@@ -1302,80 +1335,80 @@ IF_ELSE ::= OpenTest Parentesis_a LISTABOOL:h1 Parentesis_c Then SENTENCIA:h2  O
 
 
 
-        | OpenTest Then SENTENCIA Or SENTENCIA CloseTest   // if sin parentesis
+        | OpenTest:erp Then SENTENCIA Or SENTENCIA CloseTest   // if sin parentesis
         {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[10] IF ELSE sin condicion ni parentesis")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[10] IF ELSE sin condicion ni parentesis")); 
         :}
 
 
-         |OpenTest error Or error CloseTest /////// Error en sentencia then y sentencia-closetest
-        {:
-        //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[11] IF ELSE con error en sentencia-then y sentencia-closetest")); 
-        :}
-
-        |OpenTest error SENTENCIA Or SENTENCIA CloseTest /////// Error en sentencia then.
+         |OpenTest error:erp Or error CloseTest /////// Error en sentencia then y sentencia-closetest
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[12] IF ELSE con error en sentencia-then y sentencia-closetest")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[11] IF ELSE con error en sentencia-then y sentencia-closetest")); 
         :}
 
-         |OpenTest error Or SENTENCIA CloseTest /////// Error en sentencia then y sentencia-closetest
+        |OpenTest error:erp SENTENCIA Or SENTENCIA CloseTest /////// Error en sentencia then.
+        {:
+        //System.out.println("open-test con error de sentencia-then"); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[12] IF ELSE con error en sentencia-then y sentencia-closetest")); 
+        :}
+
+         |OpenTest error:erp Or SENTENCIA CloseTest /////// Error en sentencia then y sentencia-closetest
         {:
         
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[13] IF ELSE con error en sentencia-then y sentencia-closetest")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[13] IF ELSE con error en sentencia-then y sentencia-closetest")); 
         :}
 
         
 
-        |OpenTest error Then SENTENCIA Or SENTENCIA CloseTest /////// Error en sentencia then 
+        |OpenTest error:erp Then SENTENCIA Or SENTENCIA CloseTest /////// Error en sentencia then 
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[14] IF ELSE con error irreconosible en la condicion.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[14] IF ELSE con error irreconosible en la condicion.")); 
         :}
 
-        |OpenTest error Then error Or SENTENCIA CloseTest /////// Error en sentencia then 
+        |OpenTest error:erp Then error Or SENTENCIA CloseTest /////// Error en sentencia then 
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[15] IF ELSE con error irreconosible en la condicion sentencia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[15] IF ELSE con error irreconosible en la condicion sentencia.")); 
         :}
 
-        |OpenTest error Or  CloseTest /////// Error en sentencia then 
+        |OpenTest error:erp Or  CloseTest /////// Error en sentencia then 
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[16] IF ELSE con error irreconosible en la condicion sentencia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[16] IF ELSE con error irreconosible en la condicion sentencia.")); 
         :}
 
-        |OpenTest error Then SENTENCIA Or error CloseTest /////// Error en sentencia then 
+        |OpenTest error:erp Then SENTENCIA Or error CloseTest /////// Error en sentencia then 
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[17] IF ELSE con error irreconosible en la condicion sentencia-then y en Sentencia-closetest.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[17] IF ELSE con error irreconosible en la condicion sentencia-then y en Sentencia-closetest.")); 
         :}
         
         
-        |OpenTest Then Or error CloseTest /////// Error en sentencia-closetest.
+        |OpenTest Then Or error:erp CloseTest /////// Error en sentencia-closetest.
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[18] IF ELSE con error en sentencia-then")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[18] IF ELSE con error en sentencia-then")); 
         :}
 
-        |OpenTest error SENTENCIA Or error CloseTest /////// Error en sentencia then 
+        |OpenTest error:erp SENTENCIA Or error CloseTest /////// Error en sentencia then 
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[19] IF ELSE con error irreconosible en la condicion sentencia-then y en Sentencia-closetest.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[19] IF ELSE con error irreconosible en la condicion sentencia-then y en Sentencia-closetest.")); 
         :}
 
-        |OpenTest error SENTENCIA Or CloseTest /////// Error en sentencia then 
+        |OpenTest error:erp SENTENCIA Or CloseTest /////// Error en sentencia then 
         {:
         //System.out.println("open-test con error de sentencia-then"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[20] IF ELSE con error irreconosible en la condicion sentencia-then. .")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[20] IF ELSE con error irreconosible en la condicion sentencia-then. .")); 
         :}
 
-        | error Then SENTENCIA Or CloseTest //Possible error arising here. //If sin opentest o con error en condicion.")); 
+        | error:erp Then SENTENCIA Or CloseTest //Possible error arising here. //If sin opentest o con error en condicion.")); 
       {:
         //System.out.println("Error en la condicion del If. if con sentencia vacia"); 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[21] ERROR THEN CLOSETEST. No hay openmain sentencia vacia" ));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[21] ERROR THEN CLOSETEST. No hay openmain sentencia vacia" ));
       :}
       
 
@@ -1430,72 +1463,72 @@ UNTIL ::= OpenUntil Parentesis_a SENTENCIA_BOOLEANA:h1 Parentesis_c Do SENTENCIA
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
          //Error Handling block OpenUntil error CloseUntil
 
-        |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error SENTENCIA CloseUntil //OpenUntil sin Do
+        |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error:erp SENTENCIA CloseUntil //OpenUntil sin Do
         {:
-         parser.syntax_error(new Symbol(sym.error,0,0,"[1]Open Until sin DO correcto.")); 
+         parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1]Open Until sin DO correcto.")); 
         :}
 
-      |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error CloseUntil //OpenUnitl sin do y sentencia
+      |OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c error:erp CloseUntil //OpenUnitl sin do y sentencia
         {:
         
-        parser.syntax_error(new Symbol(sym.error,0,0,"[2]OpenUntil con sentencia-do incorrecta. No hay nada que hacer en el do.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2]OpenUntil con sentencia-do incorrecta. No hay nada que hacer en el do.")); 
       :}
 
-      | OpenUntil Parentesis_a Parentesis_c Do SENTENCIA CloseUntil  // parametros Until vacios
+      | OpenUntil Parentesis_a:erp Parentesis_c Do SENTENCIA CloseUntil  // parametros Until vacios
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[3] OpenUntil con condicion vacia. .")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] OpenUntil con condicion vacia. .")); 
       :}
-      | OpenUntil Parentesis_a Parentesis_c Do  CloseUntil  //Parametro vacio sin sentencia.
+      | OpenUntil Parentesis_a:erp Parentesis_c Do  CloseUntil  //Parametro vacio sin sentencia.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[4] Until sin condicion y sentencia vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] Until sin condicion y sentencia vacia.")); 
       :}
       
-      | OpenUntil Parentesis_a Parentesis_c error  CloseUntil //Parametro vacio con error en Do, SENTENCIA vacia
+      | OpenUntil Parentesis_a Parentesis_c error:erp  CloseUntil //Parametro vacio con error en Do, SENTENCIA vacia
       {: 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[5] Until sin condicion y Do no localizado. SENTENCIA VACIA.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[5] Until sin condicion y Do no localizado. SENTENCIA VACIA.")); 
       :}
 
-      | OpenUntil Parentesis_a Parentesis_c error  SENTENCIA CloseUntil //Parametro vacio y con error en Do pero con sentencia despues.
+      | OpenUntil Parentesis_a Parentesis_c error:erp  SENTENCIA CloseUntil //Parametro vacio y con error en Do pero con sentencia despues.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[6]Until sin condicion y Do no localizado")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[6]Until sin condicion y Do no localizado")); 
       :}
 
-      | OpenUntil Do CloseUntil //Until sin condicion ni sentencia ni parentesis
+      | OpenUntil:erp Do CloseUntil //Until sin condicion ni sentencia ni parentesis
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[7]Until sin condicion ni sentencia ni parentesis")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[7]Until sin condicion ni sentencia ni parentesis")); 
       :}
 
-      | OpenUntil error Do SENTENCIA CloseUntil //Until con error en condicion.
+      | OpenUntil error:erp Do SENTENCIA CloseUntil //Until con error en condicion.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[8] Until con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] Until con error en condicion")); 
       :}
 
-      | OpenUntil error Do error CloseUntil //Until con error en parametros de condicion y sentencia. 
+      | OpenUntil error:erp Do error CloseUntil //Until con error en parametros de condicion y sentencia. 
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[9]  error en condicion y sentencia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[9]  error en condicion y sentencia")); 
       :}
 
-      | OpenUntil error Do CloseUntil //Until con error en condicion sin sentencia.
+      | OpenUntil error:erp Do CloseUntil //Until con error en condicion sin sentencia.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[10] Until con error en condicion. Until con sentencia vacia"));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[10] Until con error en condicion. Until con sentencia vacia"));
       :}
 
-      | error Do CloseUntil //Possible error arising here. //Until sin openUntil o con error en condicion.")); 
+      | error:erp Do CloseUntil //Possible error arising here. //Until sin openUntil o con error en condicion.")); 
       {: 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[11] No hay openuntil sentencia vacia" ));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[11] No hay openuntil sentencia vacia" ));
       :}
 
-      | error Do SENTENCIA CloseUntil//Do sin openuntil o con error en condicion. y CON sentencia.")); 
+      | error:erp Do SENTENCIA CloseUntil//Do sin openuntil o con error en condicion. y CON sentencia.")); 
       {:        
-        parser.syntax_error(new Symbol(sym.error,0,0,"[12]  No open-until")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[12]  No open-until")); 
       :}
-      | OpenUntil Parentesis_a Parentesis_c Do error CloseUntil  // parametros Until vacios
+      | OpenUntil Parentesis_a Parentesis_c Do error:erp CloseUntil  // parametros Until vacios
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[13] OpenUntil con un error en su cuerpo de declaracion. .")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[13] OpenUntil con un error en su cuerpo de declaracion. .")); 
       :}
-      | OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do error CloseUntil  // parametros Until vacios
+      | OpenUntil Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do error:erp CloseUntil  // parametros Until vacios
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[14] OpenUntil con un error en su cuerpo de declaracion. .")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[14] OpenUntil con un error en su cuerpo de declaracion. .")); 
       :}
 
 
@@ -1529,64 +1562,64 @@ FOR ::= OpenFor Parentesis_a SENTENCIA_FOR:h1 Parentesis_c Do SENTENCIA:h2 Close
 ////////////////////////////////////////////////////////////////////////////////////////
             // Error Handling Block | OpenFor error CloseFor
 
-       |OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c error SENTENCIA CloseFor //OpenFor sin Do
+       |OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c error:erp SENTENCIA CloseFor //OpenFor sin Do
         {:
-         parser.syntax_error(new Symbol(sym.error,0,0,"[1] OpenFor sin DO correcto.")); 
+         parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1] OpenFor sin DO correcto.")); 
         :}
 
-      |OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c error CloseFor //OpenFor sin do y sentencia
+      |OpenFor Parentesis_a SENTENCIA_FOR Parentesis_c error:erp CloseFor //OpenFor sin do y sentencia
         {:
         
-        parser.syntax_error(new Symbol(sym.error,0,0,"[2] OpenFor con sentencia-do incorrecta. No hay nada que hacer en el do.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] OpenFor con sentencia-do incorrecta. No hay nada que hacer en el do.")); 
       :}
 
-      | OpenFor Parentesis_a Parentesis_c Do SENTENCIA CloseFor  // parametros For vacios
+      | OpenFor Parentesis_a:erp Parentesis_c Do SENTENCIA CloseFor  // parametros For vacios
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[3] OpenFor con condicion vacia. .")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] OpenFor con condicion vacia. .")); 
       :}
-      | OpenFor Parentesis_a Parentesis_c Do  CloseFor  //Parametro vacio sin sentencia.
+      | OpenFor Parentesis_a:erp Parentesis_c Do  CloseFor  //Parametro vacio sin sentencia.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[4] OpenFor sin condicion y sentencia vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] OpenFor sin condicion y sentencia vacia.")); 
       :}
       
-      | OpenFor Parentesis_a Parentesis_c error  CloseFor //Parametro vacio con error en Do, SENTENCIA vacia
+      | OpenFor Parentesis_a Parentesis_c error:erp  CloseFor //Parametro vacio con error en Do, SENTENCIA vacia
       {: 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[5] OpenFor sin condicion y Do no localizado. SENTENCIA VACIA.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[5] OpenFor sin condicion y Do no localizado. SENTENCIA VACIA.")); 
       :}
 
-      | OpenFor Parentesis_a Parentesis_c error  SENTENCIA CloseFor //Parametro vacio y con error en Do pero con sentencia despues.
+      | OpenFor Parentesis_a:erp Parentesis_c error  SENTENCIA CloseFor //Parametro vacio y con error en Do pero con sentencia despues.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[6] OpenFor sin condicion y Do no localizado")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[6] OpenFor sin condicion y Do no localizado")); 
       :}
 
-      | OpenFor Do CloseFor //Openfor sin condicion ni sentencia ni parentesis
+      | OpenFor:erp Do CloseFor //Openfor sin condicion ni sentencia ni parentesis
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[7] Openfor sin condicion ni sentencia ni parentesis")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[7] Openfor sin condicion ni sentencia ni parentesis")); 
       :}
 
-      | OpenFor error Do SENTENCIA CloseFor //OpenFor con error en condicion.
+      | OpenFor error:erp Do SENTENCIA CloseFor //OpenFor con error en condicion.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[8] OPENFOR ERROR DO SENTENCIA CLOSEFOR. OpenFor con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] OPENFOR ERROR DO SENTENCIA CLOSEFOR. OpenFor con error en condicion")); 
       :}
 
-      | OpenFor error Do error CloseFor //OpenFor con error en parametros de condicion y sentencia. 
+      | OpenFor error:erp Do error CloseFor //OpenFor con error en parametros de condicion y sentencia. 
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[9] OPENFOR ERROR DO ERROR CLOSEFOR con error en condicion y sentencia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[9] OPENFOR ERROR DO ERROR CLOSEFOR con error en condicion y sentencia")); 
       :}
 
-      | OpenFor error Do CloseFor //OpenFor con error en condicion sin sentencia.
+      | OpenFor error:erp Do CloseFor //OpenFor con error en condicion sin sentencia.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[10] OPENFOR ERROR DO CLOSEFOR. OPENFOR con error en condicion. OPENFOR con sentencia vacia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[10] OPENFOR ERROR DO CLOSEFOR. OPENFOR con error en condicion. OPENFOR con sentencia vacia")); 
       :}
 
-      | error Do CloseFor //Possible error arising here. //Until sin openUntil o con error en condicion.")); 
+      | error:erp Do CloseFor //Possible error arising here. //Until sin openUntil o con error en condicion.")); 
       {: 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[11] ERROR DO CLOSEFOR. No hay OpenFor sentencia vacia" ));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[11] ERROR DO CLOSEFOR. No hay OpenFor sentencia vacia" ));
       :}
 
-      | error Do SENTENCIA CloseFor//Do sin OpenFor o con error en condicion. y CON sentencia.")); 
+      | error:erp Do SENTENCIA CloseFor//Do sin OpenFor o con error en condicion. y CON sentencia.")); 
       {:        
-        parser.syntax_error(new Symbol(sym.error,0,0,"[12]ERROR Do SENTENCIA CLOSEFOR OPENFOR. Do sin OpenFor o con error en condicion.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[12]ERROR Do SENTENCIA CLOSEFOR OPENFOR. Do sin OpenFor o con error en condicion.")); 
       :}
 
 
@@ -1634,28 +1667,28 @@ LECTURA ::= Eat Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
             //Error handling block Eat error
-             |Eat Parentesis_a Parentesis_c P_coma
+             |Eat Parentesis_a:erp Parentesis_c P_coma
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[1] Eat sin Identificar o letra.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1] Eat sin Identificar o letra.")); 
              :}
-             | Eat Parentesis_a Parentesis_c
+             | Eat Parentesis_a Parentesis_c:erp
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[2] Eat sin Identificar o letra. y no tiene P_coma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] Eat sin Identificar o letra. y no tiene P_coma.")); 
              :}
-             | Eat Parentesis_a Identificadoroletra:h1 Parentesis_c
+             | Eat Parentesis_a Identificadoroletra:h1 Parentesis_c:erp
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[2] Eat sin Pcoma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] Eat sin Pcoma.")); 
              :}
              
 
-             | Eat error P_coma
+             | Eat error:erp P_coma
              {: 
-                 parser.syntax_error(new Symbol(sym.error,0,0,"[3] Parametros del Eat no son reconocidos."));
+                 parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] Parametros del Eat no son reconocidos."));
              :}
       
-             | Eat P_coma
+             | Eat:erp P_coma
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[4] Eat sin parametro y Pcoma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] Eat sin parametro")); 
              :}
               
 
@@ -1703,41 +1736,41 @@ ESCRITURA ::= THrow Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
               //Error handling block THrow error | Throwln error
               //Posible validacion de throw strings strings.
 
-              | THrow Parentesis_a Parentesis_c P_coma
+              | THrow Parentesis_a:erp Parentesis_c P_coma
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[1] Throw sin Identificador o letra.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1] Throw sin Identificador o letra.")); 
              :}
-              | THrow Parentesis_a Parentesis_c
+              | THrow Parentesis_a:erp Parentesis_c
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[2] Throw sin Identificador o letra. y no tiene P_coma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] Throw sin Identificador o letra. y no tiene P_coma.")); 
              :}
-              | THrow Parentesis_a Identificadoroletra:h1 Parentesis_c
+              | THrow Parentesis_a Identificadoroletra:h1 Parentesis_c:erp
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[3] Throw sin Pcoma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] Throw sin Pcoma.")); 
              :}
-              | THrow error P_coma
+              | THrow error:erp P_coma
              {: 
-                 parser.syntax_error(new Symbol(sym.error,0,0,"[4] Parametros del Throw no son reconocidos."));
+                 parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] Parametros del Throw no son reconocidos."));
              :}
 
 
 
 
-             | Throwln Parentesis_a Parentesis_c P_coma
+             | Throwln Parentesis_a:erp Parentesis_c P_coma
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[5] Throwln sin Identificar o letra.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[5] Throwln sin Identificar o letra.")); 
              :}
-              | Throwln Parentesis_a Parentesis_c
+              | Throwln Parentesis_a:erp Parentesis_c
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[6] Throwln sin Identificador o letra. y no tiene P_coma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[6] Throwln sin Identificador o letra. y no tiene P_coma.")); 
              :}
-              | Throwln Parentesis_a Identificadoroletra:h1 Parentesis_c
+              | Throwln Parentesis_a Identificadoroletra:h1 Parentesis_c:erp
              {: 
-                parser.syntax_error(new Symbol(sym.error,0,0,"[7] Throwln sin Pcoma.")); 
+                parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[7] Throwln sin Pcoma.")); 
              :}
-              | Throwln error P_coma
+              | Throwln error:erp P_coma
              {: 
-                 parser.syntax_error(new Symbol(sym.error,0,0,"[8] Parametros del Throwln no son reconocidos."));
+                 parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] Parametros del Throwln no son reconocidos."));
              :}
              
 ;
@@ -1799,64 +1832,64 @@ MATCH ::=
     :}
     //Error Handling Block|OpenMatch Parentesis_a Identificador Parentesis_c error CloseMatch
     
-      |OpenMatch Parentesis_a Identificadoroletra Parentesis_c error CASE CloseMatch //OpenFor sin Do
+      |OpenMatch Parentesis_a Identificadoroletra Parentesis_c error:erp CASE CloseMatch //OpenFor sin Do
         {:
-         parser.syntax_error(new Symbol(sym.error,0,0,"[1] OpenMatch sin DO correcto.")); 
+         parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[1] OpenMatch sin DO correcto.")); 
         :}
 
-      |OpenMatch Parentesis_a Identificadoroletra Parentesis_c error CloseMatch //OpenMatch sin do y sentencia
+      |OpenMatch Parentesis_a Identificadoroletra Parentesis_c error:erp CloseMatch //OpenMatch sin do y sentencia
         {:
         
-        parser.syntax_error(new Symbol(sym.error,0,0,"[2] OpenMatch con case-do incorrecta. No hay nada que hacer en el do.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[2] OpenMatch con case-do incorrecta. No hay nada que hacer en el do.")); 
         :}
 
-      | OpenMatch Parentesis_a Parentesis_c Do CASE CloseMatch  // parametros MATCH vacios
+      | OpenMatch Parentesis_a:erp Parentesis_c Do CASE CloseMatch  // parametros MATCH vacios
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[3] OpenMatch con condicion vacia. .")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[3] OpenMatch con condicion vacia. .")); 
       :}
-      | OpenMatch Parentesis_a Parentesis_c Do CloseMatch  //Parametro vacio sin case.
+      | OpenMatch Parentesis_a:erp Parentesis_c Do CloseMatch  //Parametro vacio sin case.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[4] OpenMatch sin condicion y case vacia.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[4] OpenMatch sin condicion y case vacia.")); 
       :}
       
-      | OpenMatch Parentesis_a Parentesis_c error  CloseMatch //Parametro vacio con error en Do, Case vacia
+      | OpenMatch Parentesis_a Parentesis_c error:erp  CloseMatch //Parametro vacio con error en Do, Case vacia
       {: 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[5] OpenMatch sin condicion y Do no localizado. CASE VACIA.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[5] OpenMatch sin condicion y Do no localizado. CASE VACIA.")); 
       :}
 
-      | OpenMatch Parentesis_a Parentesis_c error CASE CloseMatch //Parametro vacio y con error en Do pero con case despues.
+      | OpenMatch Parentesis_a Parentesis_c error:erp CASE CloseMatch //Parametro vacio y con error en Do pero con case despues.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[6] OpenMatch sin condicion y Do no localizado")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[6] OpenMatch sin condicion y Do no localizado")); 
       :}
 
-      | OpenMatch Do CloseMatch //OpenMatch sin condicion ni case ni parentesis
+      | OpenMatch:erp Do CloseMatch //OpenMatch sin condicion ni case ni parentesis
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[7] OpenMatch sin condicion ni case ni parentesis")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[7] OpenMatch sin condicion ni case ni parentesis")); 
       :}
 
-      | OpenMatch error Do CASE CloseMatch //OpenMatch con error en condicion.
+      | OpenMatch error:erp Do CASE CloseMatch //OpenMatch con error en condicion.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[8] OpenMatch con error en condicion")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[8] OpenMatch con error en condicion")); 
       :}
 
-      | OpenMatch error Do error CloseMatch //OpenMatch con error en parametros de condicion y case. 
+      | OpenMatch error:erp Do error CloseMatch //OpenMatch con error en parametros de condicion y case. 
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[9] OPENMATCH ERROR DO ERROR CLOSEMATCH con error en condicion y CASE.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[9] OPENMATCH ERROR DO ERROR CLOSEMATCH con error en condicion y CASE.")); 
       :}
 
-      | OpenMatch error Do CloseMatch //OpenMatch con error en condicion sin case.
+      | OpenMatch error:erp Do CloseMatch //OpenMatch con error en condicion sin case.
       {:
-        parser.syntax_error(new Symbol(sym.error,0,0,"[10] OPENMatch ERROR DO CLOSEMATCH. OPENMATCH con error en condicion. OPENMATCH con CASE vacia")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[10] OPENMatch ERROR DO CLOSEMATCH. OPENMATCH con error en condicion. OPENMATCH con CASE vacia")); 
       :}
 
-      | error Do CloseMatch //Possible error arising here. //Until sin OpenMatch o con error en condicion.")); 
+      | error:erp Do CloseMatch //Possible error arising here. //Until sin OpenMatch o con error en condicion.")); 
       {: 
-        parser.syntax_error(new Symbol(sym.error,0,0,"[11] No hay OpenMatch, case vacia" ));
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[11] No hay OpenMatch, case vacia" ));
       :}
 
-      | error Do CASE CloseMatch//Do sin OpenMatch o con error en condicion. y CON CASE.")); 
+      | error:erp Do CASE CloseMatch//Do sin OpenMatch o con error en condicion. y CON CASE.")); 
       {:        
-        parser.syntax_error(new Symbol(sym.error,0,0,"[12]ERROR Do CASE CLOSEMATCH OPENMATCH. Do sin OpenMATCH o con error en condicion.")); 
+        parser.syntax_error(new Symbol(sym.error,erpleft,erpright,"[12]ERROR Do CASE CLOSEMATCH OPENMATCH. Do sin OpenMATCH o con error en condicion.")); 
       :}
 
 ;
@@ -1940,4 +1973,5 @@ CASE ::=
                 raiz.addHijo(x);
                 RESULT = raiz;
     :}
+    
 ;

@@ -1,3 +1,2 @@
-Error Sintactico en la linea 1 Columna 39. No se esperaba esto: "Do"
-Error Sintactico en la linea 0 Columna 1. No se esperaba esto: "[7] Throwln sin Pcoma."
-Error Sintactico en la linea 0 Columna 1. No se esperaba esto: "[1] IF ELSE con error en then."
+Error Sintactico en la linea 19 Columna 1. No se esperaba esto: "close-method"
+Error Sintactico en la linea 25 Columna 1. No se esperaba esto: "close-method"
