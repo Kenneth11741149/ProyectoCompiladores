@@ -359,6 +359,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         try {
             s.parse();
+            System.out.println(s.getS());
             txtAnalizarSin.setText("Analisis realizado correctamente");
             txtAnalizarSin.setForeground(new Color(25, 111, 61));
             txtarbol.setText("");
@@ -378,6 +379,34 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
+            
+            try {
+                File myObj = new File("errors.txt");
+                Scanner myReader = new Scanner(myObj);
+                String data = "";
+                boolean verificar = true;
+                if(myReader.hasNextLine()){
+                    verificar = false;
+                    txtAnalizarSin.setText("");
+                    txtAnalizarSin.setForeground(Color.red);
+            
+                }
+                while (myReader.hasNextLine()) {
+                    
+                     data = myReader.nextLine();
+                     
+                     txtAnalizarSin.append("\n");
+                     txtAnalizarSin.append(data);
+                    
+                }
+                
+                myReader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+            
+          
 
         } catch (Exception ex) {
             Symbol sym = s.getS();

@@ -22,6 +22,7 @@ parser code
             System.out.println("An error occurred.");
             e.printStackTrace();
              }
+             
            System.out.print(error);
         }
         //errores.add(error)
@@ -44,7 +45,7 @@ terminal Linea, Comillas,Caracter, T_dato, Int,Character,OpenTest,CloseTest,Or,T
     Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,Coma,
     Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop,AND,OR,NOT;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS,PARAMETROS2;
+    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS,PARAMETROS2,LEXE;
 
 /* Precedences */
 precedence left OR;
@@ -142,8 +143,23 @@ INICIO ::=
 
 ;
 
-
-
+LEXE ::= ERROR:h1 {:
+         
+         
+         try {
+                FileWriter myWriter = new FileWriter("errors.txt",true);
+                myWriter.append("ERROR LEXICO: "+h1.toString());
+            
+                myWriter.close();
+            
+            } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+             }
+           
+        
+:}
+;
 
 
 SENTENCIA ::= 

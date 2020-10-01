@@ -1,1 +1,2 @@
-Error Sintactico en la linea 1 Columna 10. No se esperaba esto: "="
+Error Sintactico en la linea 2 Columna 4. No se esperaba esto: "%"
+Error Sintactico en la linea 0 Columna 1. No se esperaba esto: "[1] Hay presencia de errores en el cuerpo de sentencia del main."
