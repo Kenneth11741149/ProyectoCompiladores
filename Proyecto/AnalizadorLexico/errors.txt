@@ -1,2 +1,0 @@
-Error Sintactico en la linea 19 Columna 1. No se esperaba esto: "close-method"
-Error Sintactico en la linea 25 Columna 1. No se esperaba esto: "close-method"

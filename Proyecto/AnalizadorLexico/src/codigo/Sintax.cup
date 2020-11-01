@@ -6,7 +6,7 @@ import java.io.IOException;
 parser code
 {:
     private Symbol s;
-    
+    //Node Tree;
     public void syntax_error(Symbol s){
         this.s = s;
         String error = "";
