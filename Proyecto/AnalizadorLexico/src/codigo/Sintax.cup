@@ -6,7 +6,7 @@ import java.io.IOException;
 parser code
 {:
     private Symbol s;
-    //Node Tree;
+    Node raiz;
     public void syntax_error(Symbol s){
         this.s = s;
         String error = "";
@@ -59,7 +59,7 @@ INICIO ::=
 
     Main Parentesis_a Parentesis_c SENTENCIA:h2 CloseMain
          {: 
-           Node raiz = new Node("ROOT",false);
+           raiz = new Node("ROOT",false);
            Node x = new Node("MAIN",false);
            for(int i = 0;i<((Node)h2).getHijos().size();i++){
                 x.addHijo(((Node)h2).getHijos().get(i));
@@ -74,7 +74,7 @@ INICIO ::=
     |
     Main Parentesis_a Parentesis_c SENTENCIA:h2 CloseMain METHOD:h3
     {: 
-           Node raiz = new Node("ROOT",false);
+           raiz = new Node("ROOT",false);
            
            Node x = new Node("MAIN",false);
            for(int i = 0;i<((Node)h2).getHijos().size();i++){
@@ -94,7 +94,7 @@ INICIO ::=
 
         |Main Parentesis_a Parentesis_c CloseMain METHOD:h3
         {:
-        Node raiz = new Node("ROOT",false);
+         raiz = new Node("ROOT",false);
            
            Node x = new Node("MAIN",false);
            raiz.addHijo(x);

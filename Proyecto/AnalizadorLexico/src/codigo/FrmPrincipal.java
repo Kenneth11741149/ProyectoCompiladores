@@ -364,7 +364,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
             txtAnalizarSin.setText("Analisis realizado correctamente");
             txtAnalizarSin.setForeground(new Color(25, 111, 61));
             txtarbol.setText("");
-            //Node arbol = s.
+            Node arbol = s.raiz;
+            recorrerArbol(arbol);
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -441,12 +442,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public void recorrerArbol(Node n){
         Node nodo = n;
         if (nodo!= null){
+            System.out.println("Entering...");
+            System.out.println(nodo.GetValue());
             if(nodo.GetValue().equals("DECLARATION")){
-                System.out.println("Encontro declaracion");
+                //System.out.println("Encontro declaracion");
+                String tipo = "";
+                String id = "";
                 for (Node nodoHijo: nodo.getHijos()) {
-                    System.out.println(nodoHijo.getValue());
+                    
+                    if(nodoHijo.GetValue().equals("integer")){
+                        tipo = nodoHijo.getHijos().get(0).getValue();
+                    }
+                    //System.out.println(nodoHijo.getValue());
+                    
+                }
+            }else if(nodo.GetValue().equals("TEST")){
+                System.out.println("Encontro Test");
+            }else{
+                for(Node nodoHijo: nodo.getHijos()){
+                    recorrerArbol(nodoHijo);
                 }
             }
+        }else{
+            System.out.println("Nodo vacio");
         }
     }
     
