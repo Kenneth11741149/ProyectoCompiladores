@@ -60,5 +60,11 @@ public class Variable {
         this.offset = offset;
     }
     
+    public String printData(){
+        String retVal;
+        retVal = "ID: " + this.id + "  Type: " +this.type + " Scope: " + this.ambito + " byte offset: "+ this.offset; 
+        return retVal;
+    }
+    
     
 }

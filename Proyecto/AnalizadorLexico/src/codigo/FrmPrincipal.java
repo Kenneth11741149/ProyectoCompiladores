@@ -11,8 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java_cup.runtime.Symbol;
@@ -239,7 +241,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         txtResultado.setColumns(20);
         txtResultado.setRows(5);
-        txtResultado.setText("open-main()\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1;integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
+        txtResultado.setText("open-main()\n    define varchar as integer;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1;integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
         jScrollPane1.setViewportView(txtResultado);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -337,6 +339,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         String ST = txtResultado.getText();
         Sintax s = new Sintax(new codigo.LexerCup(new StringReader(ST)));
         txtAnalizarSin.setText("");
+        
+        
         try {
             FileWriter myWriter = new FileWriter("errors.txt");
             myWriter.write("");
@@ -365,7 +369,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             txtAnalizarSin.setForeground(new Color(25, 111, 61));
             txtarbol.setText("");
             Node arbol = s.raiz;
+            variables.clear();
+            funciones.clear();
             recorrerArbol(arbol);
+            for (int i = 0; i < this.variables.size(); i++) {
+                System.out.println(variables.get(i).printData());
+            }
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -432,6 +441,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
             txtAnalizarSin.setForeground(Color.red);
         }
+        //Graficar(recorrido(s.raiz));
     }//GEN-LAST:event_btnAnalizarSinActionPerformed
 
     
@@ -441,6 +451,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     public void recorrerArbol(Node n){
         Node nodo = n;
+        //System.out.println(nodo.GetValue());
         if (nodo!= null){
             System.out.println("Entering...");
             System.out.println(nodo.GetValue());
@@ -448,14 +459,46 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 //System.out.println("Encontro declaracion");
                 String tipo = "";
                 String id = "";
+                
                 for (Node nodoHijo: nodo.getHijos()) {
-                    
-                    if(nodoHijo.GetValue().equals("integer")){
-                        tipo = nodoHijo.getHijos().get(0).getValue();
-                    }
+                    //System.out.println("Entro");
                     //System.out.println(nodoHijo.getValue());
+                    if(nodoHijo.GetValue().equals("integer")){
+                      //  System.out.println("true");
+                        tipo = nodoHijo.getValue();
+                        //System.out.println(tipo);
+                    }else if( nodoHijo.GetValue().equals("character")){
+                        tipo = nodoHijo.getValue();
+                        //System.out.println(tipo);
+                    }else if( nodoHijo.GetValue().equals("boolean")){
+                        tipo = nodoHijo.getValue();
+                        //System.out.println(tipo);
+                    }else{
+                        //System.out.println(nodoHijo.GetValue());
+                        id = nodoHijo.getValue();
+                        if(verificar_variable_existente(nodoHijo.GetValue())){
+                            this.erroresSemanticos.add("Error Semantico: variable: " + nodoHijo.getValue() + " ya existe en el ambito");
+                        }else{
+                            if(tipo.equals("character")){
+                                this.bOffSet += 1;
+                            }else{
+                                int modul = 4 -( this.bOffSet % 4);
+                                if( modul == 4){
+                                    this.bOffSet += 4;
+                                }else{
+                                    this.bOffSet += 4 +modul;
+                                }
+                                
+                                this.variables.add(new Variable(tipo, id, this.ambito_actual, this.bOffSet));
+                            }
+                        }
+                        
+                        
+                    } 
                     
                 }
+                
+                
             }else if(nodo.GetValue().equals("TEST")){
                 System.out.println("Encontro Test");
             }else{
@@ -503,6 +546,46 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
     }
 
+    public boolean verificar_variable_existente(String n){
+        boolean retVal = false;
+        for (int i = 0; i < this.variables.size(); i++) {
+            if(n.equals(this.variables.get(i).getId()) && this.ambito_actual.equals(this.variables.get(i).getAmbito())){
+                retVal = true;
+            }//La variable ya existe en el ambito actual
+        }
+        return retVal;
+    }
+    
+    private void Graficar(String cadena) {
+        FileWriter fw = null;
+        PrintWriter pw = null;
+        String archivo = "AbstractSyntaxTree.dot";
+        try {
+            fw = new FileWriter(archivo);
+            pw = new PrintWriter(fw);
+            pw.println("digraph G {");
+            pw.println(cadena);
+            pw.println("\n}");
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private String recorrido(Node raiz) {
+        String cuerpo = "";
+        for (Node child : raiz.getHijos()) {
+            System.out.println(child.toString());
+            if (!(child.getValue().equals("vacio"))) {
+                cuerpo += "\"" + raiz.getValue() + ". " + raiz.getValue() + " = " + raiz.GetValue()
+                        + "\"->\"" + child.getValue() + ". "  + " = " + child.getValue() + "\"" + "\n";
+                cuerpo += recorrido(child);
+            }
+        }
+        return cuerpo;
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizarSin;
     private javax.swing.JButton btnArchivo;
@@ -517,4 +600,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextArea txtResultado;
     private javax.swing.JTextArea txtarbol;
     // End of variables declaration//GEN-END:variables
+    ArrayList<Variable> variables = new ArrayList();//Tabla de variables
+    ArrayList<Function> funciones = new ArrayList();//Tabla de funciones
+    int bOffSet = 0;
+    ArrayList<String> erroresSemanticos = new ArrayList();
+    String ambito_actual = "";
+
 }

@@ -1,6 +1,9 @@
 MAIN
        DECLARATION
               integer
+              varchar
+       DECLARATION
+              integer
               x
               +
                      5
