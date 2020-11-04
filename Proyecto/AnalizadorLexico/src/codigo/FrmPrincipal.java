@@ -375,6 +375,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
             for (int i = 0; i < this.variables.size(); i++) {
                 System.out.println(variables.get(i).printData());
             }
+            for (int i = 0; i < this.funciones.size(); i++) {
+                System.out.print("Func: ");
+                System.out.print(this.funciones.get(i).getId());
+                System.out.print(" Tipo: ");
+                System.out.print(this.funciones.get(i).getType());
+                //System.out.println("Some number sh: " +this.funciones.get(i).getParams().size());
+                System.out.println(" ");
+                for (int j = 0; j < this.funciones.get(i).getParams().size(); j++) {
+                    System.out.print("      -->: ");
+                    System.out.println(this.funciones.get(i).getParams().get(j).printData());
+                }
+            }
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -453,8 +465,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Node nodo = n;
         //System.out.println(nodo.GetValue());
         if (nodo!= null){
-            System.out.println("Entering...");
-            System.out.println(nodo.GetValue());
+            //System.out.println("Entering...");
+            //System.out.println(nodo.GetValue());
             if(nodo.GetValue().equals("DECLARATION")){
                 //System.out.println("Encontro declaracion");
                 String tipo = "";
@@ -475,6 +487,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         //System.out.println(tipo);
                     }else{
                         //System.out.println(nodoHijo.GetValue());
+                        if(nodoHijo.getValue().equals("+") || nodoHijo.getValue().equals("-") ){
+                            break;
+                        }
                         id = nodoHijo.getValue();
                         if(verificar_variable_existente(nodoHijo.GetValue())){
                             this.erroresSemanticos.add("Error Semantico: variable: " + nodoHijo.getValue() + " ya existe en el ambito");
@@ -488,19 +503,82 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 }else{
                                     this.bOffSet += 4 +modul;
                                 }
-                                
-                                this.variables.add(new Variable(tipo, id, this.ambito_actual, this.bOffSet));
                             }
-                        }
-                        
-                        
+                            this.variables.add(new Variable(tipo, id, this.ambito_actual, this.bOffSet));
+                        }     
                     } 
+                }  
+            }else if(nodo.getValue().equals("MAIN")){
+                this.ambito_actual = "MAIN";
+                for(Node nodoHijo: nodo.getHijos()){
+                    recorrerArbol(nodoHijo);
+                }
+            }else if(nodo.GetValue().equals("INTEGER METHOD")){
+                String t_func = "integer";
+                String n_func ="";
+                n_func = nodo.getHijos().get(0).GetValue();
+                //System.out.println("Entro a la funcion: ");
+                //System.out.println(n_func);
+                int count = 0;
+                ArrayList<Variable> vParams = new ArrayList();
+                Function func = (new Function(n_func, t_func));
+                this.ambito_actual = n_func;
+                String id_v ="";
+                String t_v ="";
+                boolean flag1 = false;
+                boolean flag2 = false;
+                for(Node nodoHijos: nodo.getHijos()){//Inicio busqueda params
+                    if (count > 0 && nodoHijos.GetValue() != "BLOQUE") {
+                        //System.out.println("Printer");
+                        //System.out.println(nodoHijos.getValue());
+                        if(nodoHijos.GetValue().equals("boolean") || nodoHijos.GetValue().equals("INTEGER") || nodoHijos.getValue().equals("character")){
+                            //System.out.println("Entro al primer if");
+                            t_v= nodoHijos.getValue();
+                            flag1 = true;
+                        }//Extraer tipo del parametro
+                        else if (flag1== true){
+                            //System.out.println("Entro flag 1");
+                            id_v = nodoHijos.getValue();
+                            flag2= true;
+                        }//Extraer el tipo del 
+                        
+                        if(flag1==true && flag2 == true){
+                            //System.out.println("Entro flag 1 y 2");
+                            flag1 = false;
+                            flag2 = false;
+                            if(t_v=="character"){
+                                this.bOffSet+= 1;
+                            }else{
+                                int modul = 4 -( this.bOffSet % 4);
+                                if( modul == 4){
+                                    this.bOffSet += 4;
+                                }else{
+                                    this.bOffSet += 4 +modul;
+                                }
+                            }
+                            vParams.add(new Variable(t_v, id_v, this.ambito_actual, this.bOffSet));
+                        }//Agregar variable a la lista de parametros
+                        
+                    }
+                    if(nodoHijos.GetValue().equals("BLOQUE")){
+                        break;
+                    }
                     
+                    count++;
+                }//Fin busqueda de params
+                
+                //Verificar que la funcion no existe dentro de la tabla de funciones
+                if(verificar_funcion_existente(n_func)){
+                    System.out.println("ERROR FUNC");
+                    this.erroresSemanticos.add("Error Semantico: Funcion:" + n_func +" ya existe en el programa");
+                }else{
+                    func.addParams(vParams);
+                    //System.out.println(vParams);
+                    this.funciones.add(func);
                 }
                 
-                
             }else if(nodo.GetValue().equals("TEST")){
-                System.out.println("Encontro Test");
+                //System.out.println("Encontro Test");
             }else{
                 for(Node nodoHijo: nodo.getHijos()){
                     recorrerArbol(nodoHijo);
@@ -552,6 +630,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
             if(n.equals(this.variables.get(i).getId()) && this.ambito_actual.equals(this.variables.get(i).getAmbito())){
                 retVal = true;
             }//La variable ya existe en el ambito actual
+        }
+        return retVal;
+    }
+    
+    public boolean verificar_funcion_existente(String n){
+        boolean retVal = false;
+        for (int i = 0; i < this.funciones.size(); i++) {
+            if(this.funciones.get(i).getId().equals(n)){
+                retVal = true;
+            }
         }
         return retVal;
     }
