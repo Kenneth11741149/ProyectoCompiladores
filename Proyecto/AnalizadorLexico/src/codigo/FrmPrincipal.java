@@ -21,7 +21,6 @@ import java_cup.runtime.Symbol;
 import javax.swing.JFileChooser;
 import java.util.Scanner;
 
-
 /**
  *
  * @author Charly Ponce
@@ -334,30 +333,32 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtAnalizarSin.setText(null);
     }//GEN-LAST:event_btnLimpiarSinActionPerformed
 
+
     private void btnAnalizarSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarSinActionPerformed
         // TODO add your handling code here:
         String ST = txtResultado.getText();
         Sintax s = new Sintax(new codigo.LexerCup(new StringReader(ST)));
         txtAnalizarSin.setText("");
-        
-        
+
         try {
+
             FileWriter myWriter = new FileWriter("errors.txt");
             myWriter.write("");
-            
+
             myWriter.close();
-            
+
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
         txtarbol.setText("");
         try {
             FileWriter myWriter = new FileWriter("filename.txt");
             myWriter.write("");
-            
+
             myWriter.close();
-            
+
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -371,7 +372,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Node arbol = s.raiz;
             variables.clear();
             funciones.clear();
-            recorrerArbol(arbol);
+            recorrerArbol(arbol, "NULL", 0);
             for (int i = 0; i < this.variables.size(); i++) {
                 System.out.println(variables.get(i).printData());
             }
@@ -392,45 +393,43 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 Scanner myReader = new Scanner(myObj);
                 String data = "";
                 while (myReader.hasNextLine()) {
-                     data = myReader.nextLine();
-                     txtarbol.append("\n");
-                     txtarbol.append(data);
-                    
+                    data = myReader.nextLine();
+                    txtarbol.append("\n");
+                    txtarbol.append(data);
+
                 }
-                
+
                 myReader.close();
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
-            
+
             try {
                 File myObj = new File("errors.txt");
                 Scanner myReader = new Scanner(myObj);
                 String data = "";
                 boolean verificar = true;
-                if(myReader.hasNextLine()){
+                if (myReader.hasNextLine()) {
                     verificar = false;
                     txtAnalizarSin.setText("");
                     txtAnalizarSin.setForeground(Color.red);
-            
+
                 }
                 while (myReader.hasNextLine()) {
-                    
-                     data = myReader.nextLine();
-                     
-                     txtAnalizarSin.append("\n");
-                     txtAnalizarSin.append(data);
-                    
+
+                    data = myReader.nextLine();
+
+                    txtAnalizarSin.append("\n");
+                    txtAnalizarSin.append(data);
+
                 }
-                
+
                 myReader.close();
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
-            
-          
 
         } catch (Exception ex) {
             Symbol sym = s.getS();
@@ -440,12 +439,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 Scanner myReader = new Scanner(myObj);
                 String data = "";
                 while (myReader.hasNextLine()) {
-                     data = myReader.nextLine();
-                     txtAnalizarSin.append("\n");
-                     txtAnalizarSin.append(data);
-                    
+                    data = myReader.nextLine();
+                    txtAnalizarSin.append("\n");
+                    txtAnalizarSin.append(data);
+
                 }
-                
+
                 myReader.close();
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
@@ -456,66 +455,63 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //Graficar(recorrido(s.raiz));
     }//GEN-LAST:event_btnAnalizarSinActionPerformed
 
-    
     //METODOS ANALISIS SEMANTICO
-    
     //METODO PARA RECORRER EL ARBOL
-    
-    public void recorrerArbol(Node n){
+    public void recorrerArbol(Node n) {
         Node nodo = n;
         //System.out.println(nodo.GetValue());
-        if (nodo!= null){
+        if (nodo != null) {
             //System.out.println("Entering...");
             //System.out.println(nodo.GetValue());
-            if(nodo.GetValue().equals("DECLARATION")){
+            if (nodo.GetValue().equals("DECLARATION")) {
                 //System.out.println("Encontro declaracion");
                 String tipo = "";
                 String id = "";
-                
-                for (Node nodoHijo: nodo.getHijos()) {
+
+                for (Node nodoHijo : nodo.getHijos()) {
                     //System.out.println("Entro");
                     //System.out.println(nodoHijo.getValue());
-                    if(nodoHijo.GetValue().equals("integer")){
-                      //  System.out.println("true");
+                    if (nodoHijo.GetValue().equals("integer")) {
+                        //  System.out.println("true");
                         tipo = nodoHijo.getValue();
                         //System.out.println(tipo);
-                    }else if( nodoHijo.GetValue().equals("character")){
+                    } else if (nodoHijo.GetValue().equals("character")) {
                         tipo = nodoHijo.getValue();
                         //System.out.println(tipo);
-                    }else if( nodoHijo.GetValue().equals("boolean")){
+                    } else if (nodoHijo.GetValue().equals("boolean")) {
                         tipo = nodoHijo.getValue();
                         //System.out.println(tipo);
-                    }else{
+                    } else {
                         //System.out.println(nodoHijo.GetValue());
-                        if(nodoHijo.getValue().equals("+") || nodoHijo.getValue().equals("-") ){
+                        if (nodoHijo.getValue().equals("+") || nodoHijo.getValue().equals("-")) {
                             break;
                         }
                         id = nodoHijo.getValue();
-                        if(verificar_variable_existente(nodoHijo.GetValue())){
+                        if (verificar_variable_existente(nodoHijo.GetValue())) {
                             this.erroresSemanticos.add("Error Semantico: variable: " + nodoHijo.getValue() + " ya existe en el ambito");
-                        }else{
-                            if(tipo.equals("character")){
+                        } else {
+                            if (tipo.equals("character")) {
                                 this.bOffSet += 1;
-                            }else{
-                                int modul = 4 -( this.bOffSet % 4);
-                                if( modul == 4){
+                            } else {
+                                int modul = 4 - (this.bOffSet % 4);
+                                if (modul == 4) {
                                     this.bOffSet += 4;
-                                }else{
-                                    this.bOffSet += 4 +modul;
+                                } else {
+                                    this.bOffSet += 4 + modul;
                                 }
                             }
                             this.variables.add(new Variable(tipo, id, this.ambito_actual, this.bOffSet));
-                        }     
-                    } 
-                }  
-            }else if(nodo.getValue().equals("MAIN")){
+                        }
+                    }
+                }
+            } else if (nodo.getValue().equals("MAIN")) {
                 this.ambito_actual = "MAIN";
-                for(Node nodoHijo: nodo.getHijos()){
+                for (Node nodoHijo : nodo.getHijos()) {
                     recorrerArbol(nodoHijo);
                 }
-            }else if(nodo.GetValue().equals("INTEGER METHOD")){
+            } else if (nodo.GetValue().equals("INTEGER METHOD")) {
                 String t_func = "integer";
-                String n_func ="";
+                String n_func = "";
                 n_func = nodo.getHijos().get(0).GetValue();
                 //System.out.println("Entro a la funcion: ");
                 //System.out.println(n_func);
@@ -523,72 +519,170 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 ArrayList<Variable> vParams = new ArrayList();
                 Function func = (new Function(n_func, t_func));
                 this.ambito_actual = n_func;
-                String id_v ="";
-                String t_v ="";
+                String id_v = "";
+                String t_v = "";
                 boolean flag1 = false;
                 boolean flag2 = false;
-                for(Node nodoHijos: nodo.getHijos()){//Inicio busqueda params
+                for (Node nodoHijos : nodo.getHijos()) {//Inicio busqueda params
                     if (count > 0 && nodoHijos.GetValue() != "BLOQUE") {
                         //System.out.println("Printer");
                         //System.out.println(nodoHijos.getValue());
-                        if(nodoHijos.GetValue().equals("boolean") || nodoHijos.GetValue().equals("INTEGER") || nodoHijos.getValue().equals("character")){
+                        if (nodoHijos.GetValue().equals("boolean") || nodoHijos.GetValue().equals("INTEGER") || nodoHijos.getValue().equals("character")) {
                             //System.out.println("Entro al primer if");
-                            t_v= nodoHijos.getValue();
+                            t_v = nodoHijos.getValue();
                             flag1 = true;
                         }//Extraer tipo del parametro
-                        else if (flag1== true){
+                        else if (flag1 == true) {
                             //System.out.println("Entro flag 1");
                             id_v = nodoHijos.getValue();
-                            flag2= true;
+                            flag2 = true;
                         }//Extraer el tipo del 
-                        
-                        if(flag1==true && flag2 == true){
+
+                        if (flag1 == true && flag2 == true) {
                             //System.out.println("Entro flag 1 y 2");
                             flag1 = false;
                             flag2 = false;
-                            if(t_v=="character"){
-                                this.bOffSet+= 1;
-                            }else{
-                                int modul = 4 -( this.bOffSet % 4);
-                                if( modul == 4){
+                            if (t_v == "character") {
+                                this.bOffSet += 1;
+                            } else {
+                                int modul = 4 - (this.bOffSet % 4);
+                                if (modul == 4) {
                                     this.bOffSet += 4;
-                                }else{
-                                    this.bOffSet += 4 +modul;
+                                } else {
+                                    this.bOffSet += 4 + modul;
                                 }
                             }
                             vParams.add(new Variable(t_v, id_v, this.ambito_actual, this.bOffSet));
                         }//Agregar variable a la lista de parametros
-                        
+
                     }
-                    if(nodoHijos.GetValue().equals("BLOQUE")){
+                    if (nodoHijos.GetValue().equals("BLOQUE")) {
+
                         break;
                     }
-                    
+
                     count++;
                 }//Fin busqueda de params
-                
+
                 //Verificar que la funcion no existe dentro de la tabla de funciones
-                if(verificar_funcion_existente(n_func)){
+                if (verificar_funcion_existente(n_func)) {
                     System.out.println("ERROR FUNC");
-                    this.erroresSemanticos.add("Error Semantico: Funcion:" + n_func +" ya existe en el programa");
-                }else{
+                    this.erroresSemanticos.add("Error Semantico: Funcion:" + n_func + " ya existe en el programa");
+                } else {
                     func.addParams(vParams);
                     //System.out.println(vParams);
                     this.funciones.add(func);
                 }
-                
-            }else if(nodo.GetValue().equals("TEST")){
+
+            } else if (nodo.GetValue().equals("TEST")) {
                 //System.out.println("Encontro Test");
-            }else{
-                for(Node nodoHijo: nodo.getHijos()){
+            } else {
+                for (Node nodoHijo : nodo.getHijos()) {
                     recorrerArbol(nodoHijo);
                 }
             }
-        }else{
+        } else {
             System.out.println("Nodo vacio");
         }
     }
-    
+
+    public void recorrerArbol(Node n, String ambito, int pos) {
+        System.out.println("");
+        System.out.println("HIJOS " + ambito);
+        /* Node hijo = n.getHijos().get(0);
+        for (Node hijos : hijo.getHijos()) {
+            System.out.println(hijos.GetValue());
+        }*/
+        while (pos < n.getHijos().size()) {
+            Node hijo = n.getHijos().get(pos);
+
+            System.out.println(hijo.GetValue());
+            pos++;
+            switch (hijo.getValue()) {
+                case "MAIN": {
+
+                    recorrerArbol(hijo, "MAIN", 0);
+                    break;
+                }
+
+                case "INTEGER METHOD": {
+
+                    recorrerArbol(hijo, "INTEGER METHOD", 0);
+                    break;
+                }
+
+                case "TEST": {
+                    recorrerArbol(hijo.getHijos().get(1), ambito + "-TEST-THEN-" + pos, 0);
+                    recorrerArbol(hijo.getHijos().get(2), ambito + "-TEST-OR-" + pos, 0);
+                    break;
+
+                }
+
+                case "DECLARATION": {
+                    if (verificar_variable_existente(hijo.getHijos().get(1).getValue(), ambito) || verificar_variable_existente(hijo.getHijos().get(1).getValue(), "MAIN")) {
+                        System.out.println("ERROR");
+                        this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(0).getValue() + " ya existe en el ambito");
+                        try {
+                            FileWriter myWriter = new FileWriter("errors.txt", true);
+                            myWriter.append("Error Semantico: variable: " + hijo.getHijos().get(0).getValue() + " ya existe en el ambito");
+
+                            myWriter.close();
+
+                        } catch (IOException e) {
+                            System.out.println("An error occurred.");
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        boolean añadir = true;
+                        if (hijo.getHijos().get(0).getValue().equals("character")) {
+
+                            this.bOffSet += 1;
+                        } else {
+                            if (hijo.getHijos().get(0).getValue().equals("integer") && hijo.getHijos().size() == 3) {
+                                if (hijo.getHijos().get(2).getValue().equals("+") || hijo.getHijos().get(2).GetValue().equals("-") || hijo.getHijos().get(2).getValue().equals("*") || hijo.getHijos().get(2).getValue().equals("/")) {
+
+                                } else {
+                                    boolean verificar = isInteger(hijo.getHijos().get(2).getValue());
+                                    if (!verificar) {
+                                        String s = verificarasignaciond("integer", hijo.getHijos().get(2).getValue(), ambito, "MAIN");
+                                        if (!"true".equals(s)) {
+                                            añadir = false;
+                                            try {
+                                                FileWriter myWriter = new FileWriter("errors.txt", true);
+                                                myWriter.append(s);
+
+                                                myWriter.close();
+
+                                            } catch (IOException e) {
+                                                System.out.println("An error occurred.");
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (añadir) {
+                                int modul = 4 - (this.bOffSet % 4);
+                                if (modul == 4) {
+                                    this.bOffSet += 4;
+                                } else {
+                                    this.bOffSet += 4 + modul;
+                                }
+                            }
+                        }
+                        if (añadir) {
+                            this.variables.add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito, this.bOffSet));
+                        }
+                    }
+                    break;
+                }
+
+            }
+        }
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -624,26 +718,71 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
     }
 
-    public boolean verificar_variable_existente(String n){
+    public String verificarasignaciond(String tipo, String var2, String ambitointerno, String ambitoglobal) {
+        String result = "true";
+        
+        Variable v2 = new Variable("xd", "xd", "xd");
+
+        for (int i = 0; i < this.variables.size(); i++) {
+            
+
+            if (var2.equals(this.variables.get(i).getId()) && (ambitointerno.equals(this.variables.get(i).getAmbito()) || ambitoglobal.equals(this.variables.get(i).getAmbito()))) {
+                v2 = this.variables.get(i);
+               
+            }
+
+        }
+        if (v2.getType().equals("xd")) {
+            result = "Variable " + var2 + " no existe";
+
+        } else if (!tipo.equals(v2.getType())) {
+            result = "Asignacion de "+ var2 + "incompatible";
+        }
+        return result;
+    }
+
+    public boolean verificar_variable_existente(String n) {
         boolean retVal = false;
         for (int i = 0; i < this.variables.size(); i++) {
-            if(n.equals(this.variables.get(i).getId()) && this.ambito_actual.equals(this.variables.get(i).getAmbito())){
+            if (n.equals(this.variables.get(i).getId()) && this.ambito_actual.equals(this.variables.get(i).getAmbito())) {
                 retVal = true;
             }//La variable ya existe en el ambito actual
         }
         return retVal;
     }
-    
-    public boolean verificar_funcion_existente(String n){
+
+    public boolean verificar_variable_existente(String n, String ambito) {
+        boolean retVal = false;
+        for (int i = 0; i < this.variables.size(); i++) {
+            if (n.equals(this.variables.get(i).getId()) && ambito.equals(this.variables.get(i).getAmbito())) {
+                retVal = true;
+            }//La variable ya existe en el ambito actual
+        }
+        return retVal;
+    }
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        } catch (NullPointerException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean verificar_funcion_existente(String n) {
         boolean retVal = false;
         for (int i = 0; i < this.funciones.size(); i++) {
-            if(this.funciones.get(i).getId().equals(n)){
+            if (this.funciones.get(i).getId().equals(n)) {
                 retVal = true;
             }
         }
         return retVal;
     }
-    
+
     private void Graficar(String cadena) {
         FileWriter fw = null;
         PrintWriter pw = null;
@@ -659,21 +798,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private String recorrido(Node raiz) {
         String cuerpo = "";
         for (Node child : raiz.getHijos()) {
             System.out.println(child.toString());
             if (!(child.getValue().equals("vacio"))) {
                 cuerpo += "\"" + raiz.getValue() + ". " + raiz.getValue() + " = " + raiz.GetValue()
-                        + "\"->\"" + child.getValue() + ". "  + " = " + child.getValue() + "\"" + "\n";
+                        + "\"->\"" + child.getValue() + ". " + " = " + child.getValue() + "\"" + "\n";
                 cuerpo += recorrido(child);
             }
         }
         return cuerpo;
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizarSin;
     private javax.swing.JButton btnArchivo;
