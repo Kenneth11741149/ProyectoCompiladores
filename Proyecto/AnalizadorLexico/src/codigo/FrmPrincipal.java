@@ -372,10 +372,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Node arbol = s.raiz;
             variables.clear();
             funciones.clear();
-            recorrerArbol(arbol, "NULL", 0);
-            for (int i = 0; i < this.variables.size(); i++) {
+            Ambito nuevo = new Ambito("MAIN",null);
+            recorrerArbolA(arbol, nuevo, 0);
+            PrintGlobalVariablesData();
+            /*for (int i = 0; i < this.variables.size(); i++) {
                 System.out.println(variables.get(i).printData());
-            }
+            }*/
             for (int i = 0; i < this.funciones.size(); i++) {
                 System.out.print("Func: ");
                 System.out.print(this.funciones.get(i).getId());
@@ -596,22 +598,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
         while (pos < n.getHijos().size()) {
             Node hijo = n.getHijos().get(pos);
 
-            System.out.println(hijo.GetValue());
+            System.out.println("HijosPrint"+hijo.GetValue());
             pos++;
             switch (hijo.getValue()) {
                 case "MAIN": {
-
+                    
                     recorrerArbol(hijo, "MAIN", 0);
                     break;
                 }
 
                 case "INTEGER METHOD": {
-
+                    
                     recorrerArbol(hijo, "INTEGER METHOD", 0);
                     break;
                 }
 
-                case "TEST": {
+                case "TEST": {                   
                     recorrerArbol(hijo.getHijos().get(1), ambito + "-TEST-THEN-" + pos, 0);
                     recorrerArbol(hijo.getHijos().get(2), ambito + "-TEST-OR-" + pos, 0);
                     break;
@@ -683,6 +685,196 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     }
 
+    
+    
+    
+    
+    
+    /* Experimental Code for the Ambito object*/
+    
+    public void recorrerArbolA(Node n, Ambito ambito, int pos) {
+        System.out.println("SUPERLMAO");
+        System.out.println("HIJOS " + ambito.getName());
+        /* Node hijo = n.getHijos().get(0);
+        for (Node hijos : hijo.getHijos()) {
+            System.out.println(hijos.GetValue());
+        }*/
+        while (pos < n.getHijos().size()) {
+            Node hijo = n.getHijos().get(pos);
+
+            System.out.println("HijosPrint"+hijo.GetValue());
+            pos++;
+            switch (hijo.getValue()) {
+                case "MAIN": {
+                    Ambito Main = new Ambito("MAIN",null);
+                    GlobalAmbitos.add(Main);
+                    recorrerArbolA(hijo, ambito, 0);
+                    break;
+                }
+
+                case "INTEGER METHOD": {
+                    Ambito IntegerMethod = new Ambito("INTEGER METHOD",null);
+                    GlobalAmbitos.add(IntegerMethod);
+                    recorrerArbolA(hijo, IntegerMethod, 0);
+                    break;
+                }
+
+                case "TEST": {
+                    String nameAmbito1 = ambito.getName()+"-TEST-THEN-" + pos;
+                    String nameAmbito2 = ambito.getName()+"-TEST-OR-" + pos;
+                    Ambito TestThen = new Ambito(nameAmbito1,ambito);
+                    Ambito TestOr = new Ambito(nameAmbito2,ambito);
+                    ambito.getSubAmbitos().add(TestThen);
+                    ambito.getSubAmbitos().add(TestOr);
+                    recorrerArbolA(hijo.getHijos().get(1),TestThen, 0);
+                    recorrerArbolA(hijo.getHijos().get(2),TestOr , 0);
+                    break;
+
+                }
+
+                case "DECLARATION": {
+                    if (verificar_variable_existenteA(hijo.getHijos().get(1).getValue(), ambito)) {
+                        System.out.println("ERROR");
+                        this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(0).getValue() + " ya existe en el ambito actual o en ambitos exteriores.");
+                        try {
+                            FileWriter myWriter = new FileWriter("errors.txt", true);
+                            myWriter.append("Error Semantico: variable: " + hijo.getHijos().get(0).getValue() + " ya existe en el ambito");
+
+                            myWriter.close();
+
+                        } catch (IOException e) {
+                            System.out.println("An error occurred.");
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        boolean añadir = true;
+                        if (hijo.getHijos().get(0).getValue().equals("character")) {
+
+                            this.bOffSet += 1;
+                        } else {
+                            if (hijo.getHijos().get(0).getValue().equals("integer") && hijo.getHijos().size() == 3) {
+                                if (hijo.getHijos().get(2).getValue().equals("+") || hijo.getHijos().get(2).GetValue().equals("-") || hijo.getHijos().get(2).getValue().equals("*") || hijo.getHijos().get(2).getValue().equals("/")) {
+
+                                } else {
+                                    boolean verificar = isInteger(hijo.getHijos().get(2).getValue());
+                                    if (!verificar) {
+                                        String s = verificarasignaciondA("integer", hijo.getHijos().get(2).getValue(), ambito);
+                                        if (!"true".equals(s)) {
+                                            añadir = false;
+                                            try {
+                                                FileWriter myWriter = new FileWriter("errors.txt", true);
+                                                myWriter.append(s);
+
+                                                myWriter.close();
+
+                                            } catch (IOException e) {
+                                                System.out.println("An error occurred.");
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (añadir) {
+                                int modul = 4 - (this.bOffSet % 4);
+                                if (modul == 4) {
+                                    this.bOffSet += 4;
+                                } else {
+                                    this.bOffSet += 4 + modul;
+                                }
+                            }
+                        }
+                        if (añadir) {
+                            ambito.getVariables().add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(),ambito.getName(), this.bOffSet));
+                        }
+                    }
+                    break;
+                }
+
+            }
+        }
+
+    }
+    
+    public boolean verificar_variable_existenteA(String n, Ambito ambito) {
+        boolean retVal = false;
+         for (int i = 0; i < ambito.getVariables().size(); i++) { 
+             if (n.equals(ambito.getVariables().get(i).getId())) { 
+                retVal = true;
+                break;
+            }//La variable ya existe en el ambito actual
+         } // Se chequea que la variable exista en el ambito actual.
+         
+         if(retVal == false){ // Si la variable no existe en el ambito actual
+             if(ambito.getPadre() == null){ //Se procede a revisar en el ambito del padre.
+                 return retVal;
+             } else { //Si no tiene padre es que se salio lo mas que podia del ambito. Ahi encuentro lo que encontro.
+                 return verificar_variable_existenteA(n, ambito.getPadre());
+             }
+         } else { //Si encontro algo pues lo anuncia.
+             return retVal; //Should be true.
+         }
+        
+    }
+    
+    public String verificarasignaciondA(String tipo, String var2, Ambito ambito){
+        String result = "true";
+        Boolean keepsearching = true;
+        Variable v2 = new Variable("xd", "xd", "xd");
+
+        for (int i = 0; i < ambito.getVariables().size(); i++) {
+            if(var2.equals(ambito.getVariables().get(i).getId())){
+                keepsearching = false;
+                v2 = ambito.getVariables().get(i);
+                if(!v2.getType().equals(tipo)){
+                    result = "Variable "+var2+" Incompatible.";
+                }
+            }
+        }
+        
+        if(keepsearching){
+            if(ambito.getPadre() == null){
+                return "Variable "+ var2 + " no existe.";
+            } else {
+                return verificarasignaciondA(tipo, var2, ambito.getPadre());
+            }
+        } else {
+            return result;
+        }
+    }
+    
+    public void PrintGlobalVariablesData(){
+        for (int i = 0; i < GlobalAmbitos.size(); i++) {
+            PrintVariableData(GlobalAmbitos.get(i));
+        }
+    }
+    
+    public void PrintVariableData(Ambito ambito){
+        for (int i = 0; i < ambito.getVariables().size(); i++) {
+                System.out.println(ambito.getVariables().get(i).printData());
+        }
+        for (int i = 0; i < ambito.getSubAmbitos().size(); i++) {
+            PrintVariableData(ambito.getSubAmbitos().get(i));
+        }
+    }
+    
+    /* End Experimental Code for the Ambito Object*/
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -740,6 +932,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         return result;
     }
+    
 
     public boolean verificar_variable_existente(String n) {
         boolean retVal = false;
@@ -761,6 +954,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return retVal;
     }
 
+    
+     
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -833,4 +1028,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     ArrayList<String> erroresSemanticos = new ArrayList();
     String ambito_actual = "";
 
+    
+    /* Experimental */
+    ArrayList<Ambito> GlobalAmbitos = new ArrayList();
 }

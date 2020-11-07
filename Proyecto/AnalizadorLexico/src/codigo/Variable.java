@@ -5,10 +5,7 @@
  */
 package codigo;
 
-/**
- *
- * @author Erick C
- */
+
 public class Variable {
     public String type;
     public String id;
