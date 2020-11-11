@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
+        <file>
+            <url>src/codigo/Sintax.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>5334</line>
+                <key/>
+            </bookmark>
+        </file>
         <file>
             <url>src/codigo/LexerCup.flex</url>
             <bookmark id="1">
@@ -12,9 +20,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Sintax.cup</file>
-            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/FrmPrincipal.java</file>
-            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Principal.java</file>
+            <file>file:/C:/Users/Burni/Desktop/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Ambito.java</file>
+            <file>file:/C:/Users/Burni/Desktop/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Variable.java</file>
+            <file>file:/C:/Users/Burni/Desktop/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Sintax.cup</file>
+            <file>file:/C:/Users/Burni/Desktop/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/FrmPrincipal.java</file>
+            <file>file:/C:/Users/Burni/Desktop/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Sintax.java</file>
+            <file>file:/C:/Users/Burni/Desktop/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Node.java</file>
         </group>
     </open-files>
 </project-private>
