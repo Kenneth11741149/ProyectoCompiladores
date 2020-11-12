@@ -15,7 +15,8 @@ public class Function {
 
     public String id;
     public String type;
-    public ArrayList<Variable> params;
+    public ArrayList<String> params;
+    //public Ambito ambito;
     
     public Function(String id, String type){
         this.id = id;
@@ -30,13 +31,11 @@ public class Function {
     public String getType(){
         return this.type;
     }
-    
-    public ArrayList<Variable> getParams(){
-        return this.params;
+
+    public ArrayList<String> getParams() {
+        return params;
     }
     
-    public void addParams(ArrayList<Variable> v){
-        this.params = v;
-    }
+    
 
 }
