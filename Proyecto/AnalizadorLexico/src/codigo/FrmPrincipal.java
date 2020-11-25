@@ -705,52 +705,57 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 }
 
-                case "INTEGER METHOD": {
-                    Ambito IntegerMethod = new Ambito("INTEGER METHOD-" + pos, null);
+                case "INT METHOD": {
+                    Ambito IntegerMethod = new Ambito("INT METHOD-" + pos, null);
                     String FunctionName = hijo.getHijos().get(0).getValue();
-                    System.out.println("Function Name lamasijdniausbndfguawndf + " + FunctionName);
+                    //DebugFunctionName System.out.println("Function Name [" + FunctionName+"]");
                     Function newFunction = new Function(FunctionName, "integer");
                     Boolean error = false;
                     for (int i = 1; i < hijo.getHijos().size(); i++) {
                         Node SubHijoActual = hijo.getHijos().get(i);
-                        if (SubHijoActual.GetValue().equals("PARAMETER")) {
-                            String ParamsType = SubHijoActual.getHijos().get(0).getValue();
-                            String ParamsName = SubHijoActual.getHijos().get(0).getValue();
-                            if (verificar_variable_existenteA(ParamsName, IntegerMethod)) {
-                                try {
-                                    error = true;
-                                    FileWriter myWriter = new FileWriter("errors.txt", true);
-                                    myWriter.append("Error Semantico: Variable [" + ParamsName + "] ya existe.");
+                        if (SubHijoActual.GetValue().equals("PARAMETROS")) {
+                            int SubHijoActualChildren = SubHijoActual.getHijos().size();
+                            for (int j = 0; j < SubHijoActualChildren; j = j + 2) {
+                                String ParamsType = SubHijoActual.getHijos().get(j).getValue();
+                                String ParamsName = SubHijoActual.getHijos().get(j + 1).getValue();
+                                if (verificar_variable_existenteA(ParamsName, IntegerMethod)) {
+                                    try {
+                                        error = true;
+                                        FileWriter myWriter = new FileWriter("errors.txt", true);
+                                        myWriter.append("Error Semantico: Variable [" + ParamsName + "] ya existe.");
 
-                                    myWriter.close();
-                                    break;
+                                        myWriter.close();
+                                        break;
 
-                                } catch (IOException e) {
-                                    System.out.println("An error occurred.");
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                //ByteOffset Assignation
-                                if (ParamsType.equals("INTEGER") || ParamsType.equals("BOOLEAN")) {
-                                    int modul = 4 - (this.bOffSet % 4);
-                                    if (modul == 4) {
-                                        this.bOffSet += 4;
-                                    } else {
-                                        this.bOffSet += 4 + modul;
+                                    } catch (IOException e) {
+                                        System.out.println("An error occurred.");
+                                        e.printStackTrace();
                                     }
-                                } else if(ParamsType.equals("CHARACTER")){
-                                    this.bOffSet += 1;
+                                } else {
+                                    //ByteOffset Assignation
+                                    if (ParamsType.equals("INT") || ParamsType.equals("BOOLEAN")) {
+                                        int modul = 4 - (this.bOffSet % 4);
+                                        if (modul == 4) {
+                                            this.bOffSet += 4;
+                                        } else {
+                                            this.bOffSet += 4 + modul;
+                                        }
+                                    } else if (ParamsType.equals("CHARACTER")) {
+                                        this.bOffSet += 1;
+                                    }
+                                    IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
+                                    System.out.println("New INT method variable aggregation complete");
                                 }
-                                
 
-                                IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
                             }
-
                         } else if (SubHijoActual.GetValue().equals("BLOQUE")) {
                             recorrerArbolA(hijo.getHijos().get(i), IntegerMethod, 0);
                         }
+
+                        
                     }
                     if (!error) {
+                        System.out.println("Ambito y funcion agregado exitosamente!");
                         GlobalAmbitos.add(IntegerMethod);
                         funciones.add(newFunction);
                     }
@@ -1077,6 +1082,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void MethodDeclarationProcedure(String methodType){
+        
+    }
+    
+    
+    
+    
+    
+    
+    
 
     public String verificarasignaciond(String tipo, String var2, String ambitointerno, String ambitoglobal) {
         String result = "true";
@@ -1210,7 +1226,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     /* Experimental */
     ArrayList<Ambito> GlobalAmbitos = new ArrayList();
-    
+
     //Codigo Intermedio 
     ArrayList<Cuadruplos> cuadruplos = new ArrayList();
     int cont_temp = 0;
