@@ -458,235 +458,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //Graficar(recorrido(s.raiz));
     }//GEN-LAST:event_btnAnalizarSinActionPerformed
 
-    //METODOS ANALISIS SEMANTICO
-    //METODO PARA RECORRER EL ARBOL
-    /*public void recorrerArbol(Node n) {
-        Node nodo = n;
-        //System.out.println(nodo.GetValue());
-        if (nodo != null) {
-            //System.out.println("Entering...");
-            //System.out.println(nodo.GetValue());
-            if (nodo.GetValue().equals("DECLARATION")) {
-                //System.out.println("Encontro declaracion");
-                String tipo = "";
-                String id = "";
-
-                for (Node nodoHijo : nodo.getHijos()) {
-                    //System.out.println("Entro");
-                    //System.out.println(nodoHijo.getValue());
-                    if (nodoHijo.GetValue().equals("integer")) {
-                        //  System.out.println("true");
-                        tipo = nodoHijo.getValue();
-                        //System.out.println(tipo);
-                    } else if (nodoHijo.GetValue().equals("character")) {
-                        tipo = nodoHijo.getValue();
-                        //System.out.println(tipo);
-                    } else if (nodoHijo.GetValue().equals("boolean")) {
-                        tipo = nodoHijo.getValue();
-                        //System.out.println(tipo);
-                    } else {
-                        //System.out.println(nodoHijo.GetValue());
-                        if (nodoHijo.getValue().equals("+") || nodoHijo.getValue().equals("-")) {
-                            break;
-                        }
-                        id = nodoHijo.getValue();
-                        if (verificar_variable_existente(nodoHijo.GetValue())) {
-                            this.erroresSemanticos.add("Error Semantico: variable: " + nodoHijo.getValue() + " ya existe en el ambito");
-                        } else {
-                            if (tipo.equals("character")) {
-                                this.bOffSet += 1;
-                            } else {
-                                int modul = 4 - (this.bOffSet % 4);
-                                if (modul == 4) {
-                                    this.bOffSet += 4;
-                                } else {
-                                    this.bOffSet += 4 + modul;
-                                }
-                            }
-                            this.variables.add(new Variable(tipo, id, this.ambito_actual, this.bOffSet));
-                        }
-                    }
-                }
-            } else if (nodo.getValue().equals("MAIN")) {
-                this.ambito_actual = "MAIN";
-                for (Node nodoHijo : nodo.getHijos()) {
-                    recorrerArbol(nodoHijo);
-                }
-            } else if (nodo.GetValue().equals("INTEGER METHOD")) {
-                String t_func = "integer";
-                String n_func = "";
-                n_func = nodo.getHijos().get(0).GetValue();
-                //System.out.println("Entro a la funcion: ");
-                //System.out.println(n_func);
-                int count = 0;
-                ArrayList<Variable> vParams = new ArrayList();
-                Function func = (new Function(n_func, t_func));
-                this.ambito_actual = n_func;
-                String id_v = "";
-                String t_v = "";
-                boolean flag1 = false;
-                boolean flag2 = false;
-                for (Node nodoHijos : nodo.getHijos()) {//Inicio busqueda params
-                    if (count > 0 && nodoHijos.GetValue() != "BLOQUE") {
-                        //System.out.println("Printer");
-                        //System.out.println(nodoHijos.getValue());
-                        if (nodoHijos.GetValue().equals("boolean") || nodoHijos.GetValue().equals("INTEGER") || nodoHijos.getValue().equals("character")) {
-                            //System.out.println("Entro al primer if");
-                            t_v = nodoHijos.getValue();
-                            flag1 = true;
-                        }//Extraer tipo del parametro
-                        else if (flag1 == true) {
-                            //System.out.println("Entro flag 1");
-                            id_v = nodoHijos.getValue();
-                            flag2 = true;
-                        }//Extraer el tipo del 
-
-                        if (flag1 == true && flag2 == true) {
-                            //System.out.println("Entro flag 1 y 2");
-                            flag1 = false;
-                            flag2 = false;
-                            if (t_v == "character") {
-                                this.bOffSet += 1;
-                            } else {
-                                int modul = 4 - (this.bOffSet % 4);
-                                if (modul == 4) {
-                                    this.bOffSet += 4;
-                                } else {
-                                    this.bOffSet += 4 + modul;
-                                }
-                            }
-                            vParams.add(new Variable(t_v, id_v, this.ambito_actual, this.bOffSet));
-                        }//Agregar variable a la lista de parametros
-
-                    }
-                    if (nodoHijos.GetValue().equals("BLOQUE")) {
-
-                        break;
-                    }
-
-                    count++;
-                }//Fin busqueda de params
-
-                //Verificar que la funcion no existe dentro de la tabla de funciones
-                if (verificar_funcion_existente(n_func)) {
-                    System.out.println("ERROR FUNC");
-                    this.erroresSemanticos.add("Error Semantico: Funcion:" + n_func + " ya existe en el programa");
-                } else {
-                    func.addParams(vParams);
-                    //System.out.println(vParams);
-                    this.funciones.add(func);
-                }
-
-            } else if (nodo.GetValue().equals("TEST")) {
-                //System.out.println("Encontro Test");
-            } else {
-                for (Node nodoHijo : nodo.getHijos()) {
-                    recorrerArbol(nodoHijo);
-                }
-            }
-        } else {
-            System.out.println("Nodo vacio");
-        }
-    }*/
-
- /*public void recorrerArbol(Node n, String ambito, int pos) {
-        System.out.println("");
-        System.out.println("HIJOS " + ambito);
-         Node hijo = n.getHijos().get(0);
-        for (Node hijos : hijo.getHijos()) {
-            System.out.println(hijos.GetValue());
-        }
-        while (pos < n.getHijos().size()) {
-            Node hijo = n.getHijos().get(pos);
-
-            System.out.println("HijosPrint" + hijo.GetValue());
-            pos++;
-            switch (hijo.getValue()) {
-                case "MAIN": {
-
-                    recorrerArbol(hijo, "MAIN", 0);
-                    break;
-                }
-
-                case "INTEGER METHOD": {
-
-                    recorrerArbol(hijo, "INTEGER METHOD", 0);
-                    break;
-                }
-
-                case "TEST": {
-                    recorrerArbol(hijo.getHijos().get(1), ambito + "-TEST-THEN-" + pos, 0);
-                    recorrerArbol(hijo.getHijos().get(2), ambito + "-TEST-OR-" + pos, 0);
-                    break;
-
-                }
-
-                case "DECLARATION": {
-                    if (verificar_variable_existente(hijo.getHijos().get(1).getValue(), ambito) || verificar_variable_existente(hijo.getHijos().get(1).getValue(), "MAIN")) {
-                        System.out.println("ERROR");
-                        this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito");
-                        try {
-                            FileWriter myWriter = new FileWriter("errors.txt", true);
-                            myWriter.append("Error Semantico: variable: " + hijo.getHijos().get(0).getValue() + " ya existe en el ambito");
-
-                            myWriter.close();
-
-                        } catch (IOException e) {
-                            System.out.println("An error occurred.");
-                            e.printStackTrace();
-                        }
-
-                    } else {
-                        boolean añadir = true;
-                        if (hijo.getHijos().get(0).getValue().equals("character")) {
-
-                            this.bOffSet += 1;
-                        } else {
-                            if (hijo.getHijos().get(0).getValue().equals("integer") && hijo.getHijos().size() == 3) {
-                                if (hijo.getHijos().get(2).getValue().equals("+") || hijo.getHijos().get(2).GetValue().equals("-") || hijo.getHijos().get(2).getValue().equals("*") || hijo.getHijos().get(2).getValue().equals("/")) {
-
-                                } else {
-                                    boolean verificar = isInteger(hijo.getHijos().get(2).getValue());
-                                    if (!verificar) {
-                                        String s = verificarasignaciond("integer", hijo.getHijos().get(2).getValue(), ambito, "MAIN");
-                                        if (!"true".equals(s)) {
-                                            añadir = false;
-                                            try {
-                                                FileWriter myWriter = new FileWriter("errors.txt", true);
-                                                myWriter.append(s);
-
-                                                myWriter.close();
-
-                                            } catch (IOException e) {
-                                                System.out.println("An error occurred.");
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (añadir) {
-                                int modul = 4 - (this.bOffSet % 4);
-                                if (modul == 4) {
-                                    this.bOffSet += 4;
-                                } else {
-                                    this.bOffSet += 4 + modul;
-                                }
-                            }
-                        }
-                        if (añadir) {
-                            this.variables.add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito, this.bOffSet));
-                        }
-                    }
-                    break;
-                }
-
-            }
-        }
-
-    }*/
     public void recorrerArbolA(Node n, Ambito ambito, int pos) {
-        System.out.println("SUPERLMAO");
         System.out.println("HIJOS " + ambito.getName());
         /* Node hijo = n.getHijos().get(0);
         for (Node hijos : hijo.getHijos()) {
@@ -706,61 +478,58 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 case "INT METHOD": {
-                    Ambito IntegerMethod = new Ambito("INT METHOD-" + pos, null);
-                    String FunctionName = hijo.getHijos().get(0).getValue();
-                    //DebugFunctionName System.out.println("Function Name [" + FunctionName+"]");
-                    Function newFunction = new Function(FunctionName, "integer");
-                    Boolean error = false;
-                    for (int i = 1; i < hijo.getHijos().size(); i++) {
-                        Node SubHijoActual = hijo.getHijos().get(i);
-                        if (SubHijoActual.GetValue().equals("PARAMETROS")) {
-                            int SubHijoActualChildren = SubHijoActual.getHijos().size();
-                            for (int j = 0; j < SubHijoActualChildren; j = j + 2) {
-                                String ParamsType = SubHijoActual.getHijos().get(j).getValue();
-                                String ParamsName = SubHijoActual.getHijos().get(j + 1).getValue();
-                                if (verificar_variable_existenteA(ParamsName, IntegerMethod)) {
-                                    try {
-                                        error = true;
-                                        FileWriter myWriter = new FileWriter("errors.txt", true);
-                                        myWriter.append("Error Semantico: Variable [" + ParamsName + "] ya existe.");
+                    PROCEDUREMethodDeclaration("INT", hijo, pos);
+                    break;
+                }
 
-                                        myWriter.close();
-                                        break;
+                case "CHARACTER METHOD": {
+                    PROCEDUREMethodDeclaration("CHARACTER", hijo, pos);
+                    break;
+                }
 
-                                    } catch (IOException e) {
-                                        System.out.println("An error occurred.");
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    //ByteOffset Assignation
-                                    if (ParamsType.equals("INT") || ParamsType.equals("BOOLEAN")) {
-                                        int modul = 4 - (this.bOffSet % 4);
-                                        if (modul == 4) {
-                                            this.bOffSet += 4;
-                                        } else {
-                                            this.bOffSet += 4 + modul;
-                                        }
-                                    } else if (ParamsType.equals("CHARACTER")) {
-                                        this.bOffSet += 1;
-                                    }
-                                    IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
-                                    System.out.println("New INT method variable aggregation complete");
-                                }
+                case "BOOLEAN METHOD": {
+                    PROCEDUREMethodDeclaration("BOOLEAN", hijo, pos);
+                    break;
+                }
 
+                case "METHOD-CALL": {
+                    String MethodId = hijo.getHijos().get(0).getValue();
+                    Node PARAMETROS = hijo.getHijos().get(1);
+                    System.out.println("Reacher");
+                    System.out.println(PARAMETROS.getHijos().size());
+                    if (PARAMETROS.getHijos().size() == 0) {
+                        //Something should probably occur
+                        System.out.println("No parameters on the method call to [" + MethodId + "]");
+                    } else {
+                        Function temporal;
+                        ArrayList<String> ParametersOfTemporalFunction = new ArrayList();
+                        for (int i = 0; i < PARAMETROS.getHijos().size(); i++) {
+                            System.out.println("TEAUSDAS");
+                            Node ParameterNode = PARAMETROS.getHijos().get(i);
+                            if (ParameterNode.getType().equals("VARIABLE")) {
+                                //Locate that variable on the present scope. If it exists then confirm its type. If it doesnt then throw error.
+                                System.out.println("variable entry");
+                            } else if (ParameterNode.getType().equals("INT")) {
+                                System.out.println("p");
+                                ParametersOfTemporalFunction.add("INT");
+                            } else if (ParameterNode.getType().equals("Boolean")) {
+                                System.out.println("e");
+                                ParametersOfTemporalFunction.add("BOOLEAN");
+                            } else if (ParameterNode.getType().equals("Character")) {
+                                System.out.println("n");
+                                ParametersOfTemporalFunction.add("CHARACTER");
                             }
-                        } else if (SubHijoActual.GetValue().equals("BLOQUE")) {
-                            recorrerArbolA(hijo.getHijos().get(i), IntegerMethod, 0);
                         }
-
+                        System.out.println("dsfsdffs");
+                        temporal = new Function(MethodId, ParametersOfTemporalFunction);
+                        System.out.println("Reached Here.");
                         
+                        if (FunctionExists(temporal)) {
+                            System.out.println("Function already exists.");
+                        } else {
+                            System.out.println("Function does not exist.");
+                        }
                     }
-                    if (!error) {
-                        System.out.println("Ambito y funcion agregado exitosamente!");
-                        GlobalAmbitos.add(IntegerMethod);
-                        funciones.add(newFunction);
-                    }
-
-                    //recorrerArbolA(hijo, IntegerMethod, 0);
                     break;
                 }
 
@@ -782,100 +551,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 case "DECLARATION": {
-
-                    if (verificar_variable_existenteA(hijo.getHijos().get(1).getValue(), ambito)) {
-                        System.out.println("ERROR");
-                        this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito actual o en ambitos exteriores.");
-                        try {
-                            FileWriter myWriter = new FileWriter("errors.txt", true);
-                            myWriter.append("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito");
-
-                            myWriter.close();
-
-                        } catch (IOException e) {
-                            System.out.println("An error occurred.");
-                            e.printStackTrace();
-                        }
-
-                    } else {
-                        boolean añadir = true;
-                        String type = hijo.getHijos().get(0).getValue();
-                        //System.out.println("LMAAAAAAOOO Type" + type);
-                        switch (type) {
-                            case "character": {
-                                this.bOffSet += 1;
-                                break;
-                            }
-                            case "integer": {
-                                if (hijo.getHijos().size() == 3) {
-                                    if (hijo.getHijos().get(2).getValue().equals("+") || hijo.getHijos().get(2).GetValue().equals("-") || hijo.getHijos().get(2).getValue().equals("*") || hijo.getHijos().get(2).getValue().equals("/")) {
-
-                                    } else {
-                                        boolean verificar = isInteger(hijo.getHijos().get(2).getValue());
-                                        if (!verificar) {
-                                            String s = verificarasignaciondA("integer", hijo.getHijos().get(2).getValue(), ambito);
-                                            if (!"true".equals(s)) {
-                                                añadir = false;
-                                                try {
-                                                    FileWriter myWriter = new FileWriter("errors.txt", true);
-                                                    myWriter.append(s);
-
-                                                    myWriter.close();
-
-                                                } catch (IOException e) {
-                                                    System.out.println("An error occurred.");
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                }
-                                if (añadir) {
-                                    int modul = 4 - (this.bOffSet % 4);
-                                    if (modul == 4) {
-                                        this.bOffSet += 4;
-                                    } else {
-                                        this.bOffSet += 4 + modul;
-                                    }
-                                }
-                                break;
-                            }
-                            case "boolean": {
-
-                                if (hijo.getHijos().size() == 3) { //Significa que hay una asignacion    [boolean var true]
-                                    boolean isBoolean = isBoolean(hijo.getHijos().get(2).getValue());
-                                    if (!isBoolean) {
-                                        añadir = false;
-                                        try {
-                                            FileWriter myWriter = new FileWriter("errors.txt", true);
-                                            myWriter.append("Boolean type Expected, not found.");
-
-                                            myWriter.close();
-
-                                        } catch (IOException e) {
-                                            System.out.println("An error occurred.");
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                                if (añadir) {
-                                    int modul = 4 - (this.bOffSet % 4);
-                                    if (modul == 4) {
-                                        this.bOffSet += 4;
-                                    } else {
-                                        this.bOffSet += 4 + modul;
-                                    }
-                                }
-
-                                break;
-                            }
-                        }
-
-                        if (añadir) {
-                            ambito.getVariables().add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet));
-                        }
-                    }
+                    PROCEDUREDeclaration(hijo, ambito, pos);
                     break;
                 }
                 case "FOR": {
@@ -894,65 +570,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 }
                 case "ASSIGNMENT": {
-                    String NombreVariable = hijo.getHijos().get(0).GetValue();
-                    System.out.println("MAJOOOOOOOOOOO" + NombreVariable);
-                    VariableVerificada = null; //Por seguridad se limpia algun acceso sucio que puede existir.
-                    if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable no existe. Tira error
-                        try {
-                            FileWriter myWriter = new FileWriter("errors.txt", true);
-                            myWriter.append("Variable no existe.");
-                            myWriter.close();
-
-                        } catch (IOException e) {
-                            System.out.println("An error occurred.");
-                            e.printStackTrace();
-                        }
-                    } else { //Si la variable existe, confirma el tipo.
-                        String tipo = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
-
-                        Boolean HayError = false;
-                        String ElError = "";
-                        //Falta validar las variables y los methods.
-                        if (tipo.equals("integer")) {
-                            if (isInteger(hijo.getHijos().get(1).GetValue())) {
-                                System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
-                            } else {
-                                HayError = true;
-                                ElError = "Integer type expected";
-                            }
-                        } else if (tipo.equals("boolean")) {
-                            if (isBoolean(hijo.getHijos().get(1).GetValue())) {
-                                System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
-                            } else {
-                                HayError = true;
-                                ElError = "Boolean type expected";
-                            }
-                        } else if (tipo.equals("character")) {
-                            int VarLength = hijo.getHijos().get(1).GetValue().length();
-
-                            if (VarLength == 1) {
-                                String firstChar = Character.toString(hijo.getHijos().get(1).GetValue().charAt(0));
-                                String secondChar = Character.toString(hijo.getHijos().get(1).GetValue().charAt(2));
-                                if (firstChar.equals("'") && secondChar.equals("'")) {
-                                    System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
-                                }
-                            } else {
-                                HayError = true;
-                                ElError = "Character type expected";
-                            }
-                        }
-                        if (HayError) {
-                            try {
-                                FileWriter myWriter = new FileWriter("errors.txt", true);
-                                myWriter.append(ElError);
-                                myWriter.close();
-
-                            } catch (IOException e) {
-                                System.out.println("An error occurred.");
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    PROCEDUREAssignment(hijo, ambito, pos);
+                    break;
                 }
             }
         }
@@ -1030,11 +649,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public Boolean FunctionExists(Function function) {
         Boolean retVal = false;
         for (int i = 0; i < funciones.size(); i++) {
-            if (function.getId().equals(funciones.get(i).getId())) {
-                if (function.getParams().size() == funciones.get(i).getParams().size()) {
+            if (function.getId().equals(funciones.get(i).getId())) { //Check if function id exists
+                if (function.getParams().size() == funciones.get(i).getParams().size()) { //Check if parameters are of the same size.
                     retVal = true;
                     for (int j = 0; j < function.getParams().size(); j++) {
-                        if (!function.getParams().get(j).equals(funciones.get(i).getParams().get(j))) {
+                        if (!function.getParams().get(j).equals(funciones.get(i).getParams().get(j))) { //Check if they are the same parameter types.
                             retVal = false;
                             break;
                         }
@@ -1082,17 +701,220 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void MethodDeclarationProcedure(String methodType){
-        
+
+    public void PROCEDUREMethodDeclaration(String methodType, Node hijo, int pos) {
+        Ambito IntegerMethod = new Ambito(methodType + " METHOD-" + pos, null);
+        String FunctionName = hijo.getHijos().get(0).getValue();
+        //DebugFunctionName System.out.println("Function Name [" + FunctionName+"]");
+        Function newFunction = new Function(FunctionName, methodType);
+        Boolean error = false;
+        for (int i = 1; i < hijo.getHijos().size(); i++) {
+            Node SubHijoActual = hijo.getHijos().get(i);
+            if (SubHijoActual.GetValue().equals("PARAMETROS")) {
+                int SubHijoActualChildren = SubHijoActual.getHijos().size();
+                for (int j = 0; j < SubHijoActualChildren; j = j + 2) {
+                    String ParamsType = SubHijoActual.getHijos().get(j).getValue();
+                    String ParamsName = SubHijoActual.getHijos().get(j + 1).getValue();
+                    if (verificar_variable_existenteA(ParamsName, IntegerMethod)) {
+                        try {
+                            error = true;
+                            FileWriter myWriter = new FileWriter("errors.txt", true);
+                            myWriter.append("Error Semantico: Variable [" + ParamsName + "] ya existe.");
+
+                            myWriter.close();
+                            break;
+
+                        } catch (IOException e) {
+                            System.out.println("An error occurred.");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        //ByteOffset Assignation
+                        if (ParamsType.equals("INT") || ParamsType.equals("BOOLEAN")) {
+                            int modul = 4 - (this.bOffSet % 4);
+                            if (modul == 4) {
+                                this.bOffSet += 4;
+                            } else {
+                                this.bOffSet += 4 + modul;
+                            }
+                        } else if (ParamsType.equals("CHARACTER")) {
+                            this.bOffSet += 1;
+                        }
+                        IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
+                        System.out.println("New " + methodType + " method variable aggregation complete");
+                    }
+
+                }
+            } else if (SubHijoActual.GetValue().equals("BLOQUE")) {
+                if (!error) {
+                    System.out.println("Ambito y funcion agregado exitosamente!");
+                    GlobalAmbitos.add(IntegerMethod);
+                    funciones.add(newFunction);
+                }
+                recorrerArbolA(hijo.getHijos().get(i), IntegerMethod, 0);
+            }
+
+        }
+
     }
-    
-    
-    
-    
-    
-    
-    
+
+    public void PROCEDUREDeclaration(Node hijo, Ambito ambito, int pos) {
+        if (verificar_variable_existenteA(hijo.getHijos().get(1).getValue(), ambito)) {
+            System.out.println("ERROR");
+            this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito actual o en ambitos exteriores.");
+            try {
+                FileWriter myWriter = new FileWriter("errors.txt", true);
+                myWriter.append("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito");
+
+                myWriter.close();
+
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+
+        } else {
+            boolean añadir = true;
+            String type = hijo.getHijos().get(0).getValue();
+            //System.out.println("LMAAAAAAOOO Type" + type);
+            switch (type) {
+                case "character": {
+                    this.bOffSet += 1;
+                    break;
+                }
+                case "integer": {
+                    if (hijo.getHijos().size() == 3) {
+                        if (hijo.getHijos().get(2).getValue().equals("+") || hijo.getHijos().get(2).GetValue().equals("-") || hijo.getHijos().get(2).getValue().equals("*") || hijo.getHijos().get(2).getValue().equals("/")) {
+
+                        } else {
+                            boolean verificar = isInteger(hijo.getHijos().get(2).getValue());
+                            if (!verificar) {
+                                String s = verificarasignaciondA("integer", hijo.getHijos().get(2).getValue(), ambito);
+                                if (!"true".equals(s)) {
+                                    añadir = false;
+                                    try {
+                                        FileWriter myWriter = new FileWriter("errors.txt", true);
+                                        myWriter.append(s);
+
+                                        myWriter.close();
+
+                                    } catch (IOException e) {
+                                        System.out.println("An error occurred.");
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                    if (añadir) {
+                        int modul = 4 - (this.bOffSet % 4);
+                        if (modul == 4) {
+                            this.bOffSet += 4;
+                        } else {
+                            this.bOffSet += 4 + modul;
+                        }
+                    }
+                    break;
+                }
+                case "boolean": {
+
+                    if (hijo.getHijos().size() == 3) { //Significa que hay una asignacion    [boolean var true]
+                        boolean isBoolean = isBoolean(hijo.getHijos().get(2).getValue());
+                        if (!isBoolean) {
+                            añadir = false;
+                            try {
+                                FileWriter myWriter = new FileWriter("errors.txt", true);
+                                myWriter.append("Boolean type Expected, not found.");
+
+                                myWriter.close();
+
+                            } catch (IOException e) {
+                                System.out.println("An error occurred.");
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    if (añadir) {
+                        int modul = 4 - (this.bOffSet % 4);
+                        if (modul == 4) {
+                            this.bOffSet += 4;
+                        } else {
+                            this.bOffSet += 4 + modul;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            if (añadir) {
+                ambito.getVariables().add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet));
+            }
+        }
+    }
+
+    public void PROCEDUREAssignment(Node hijo, Ambito ambito, int pos) {
+        String NombreVariable = hijo.getHijos().get(0).GetValue();
+        System.out.println("MAJOOOOOOOOOOO" + NombreVariable);
+        VariableVerificada = null; //Por seguridad se limpia algun acceso sucio que puede existir.
+        if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable no existe. Tira error
+            try {
+                FileWriter myWriter = new FileWriter("errors.txt", true);
+                myWriter.append("Variable no existe.");
+                myWriter.close();
+
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        } else { //Si la variable existe, confirma el tipo.
+            String tipo = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
+
+            Boolean HayError = false;
+            String ElError = "";
+            //Falta validar las variables y los methods.
+            if (tipo.equals("integer")) {
+                if (isInteger(hijo.getHijos().get(1).GetValue())) {
+                    System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
+                } else {
+                    HayError = true;
+                    ElError = "Integer type expected";
+                }
+            } else if (tipo.equals("boolean")) {
+                if (isBoolean(hijo.getHijos().get(1).GetValue())) {
+                    System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
+                } else {
+                    HayError = true;
+                    ElError = "Boolean type expected";
+                }
+            } else if (tipo.equals("character")) {
+                int VarLength = hijo.getHijos().get(1).GetValue().length();
+
+                if (VarLength == 1) {
+                    String firstChar = Character.toString(hijo.getHijos().get(1).GetValue().charAt(0));
+                    String secondChar = Character.toString(hijo.getHijos().get(1).GetValue().charAt(2));
+                    if (firstChar.equals("'") && secondChar.equals("'")) {
+                        System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
+                    }
+                } else {
+                    HayError = true;
+                    ElError = "Character type expected";
+                }
+            }
+            if (HayError) {
+                try {
+                    FileWriter myWriter = new FileWriter("errors.txt", true);
+                    myWriter.append(ElError);
+                    myWriter.close();
+
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public String verificarasignaciond(String tipo, String var2, String ambitointerno, String ambitoglobal) {
         String result = "true";

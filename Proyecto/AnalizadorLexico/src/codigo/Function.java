@@ -23,6 +23,11 @@ public class Function {
         this.type = type;
         this.params = new ArrayList();
     }
+
+    public Function(String id, ArrayList<String> params) {
+        this.id = id;
+        this.params = params;
+    }
     
     public String getId(){
         return this.id;

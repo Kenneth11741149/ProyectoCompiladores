@@ -2044,6 +2044,7 @@ class CUP$Sintax$actions {
 		
            Node raiz = new Node("PARAMETROS",false);
            Node x = new Node(h1.toString(),false);
+           x.setType("INT");
            raiz.addHijo(x);
            RESULT = raiz;
            
@@ -2092,6 +2093,7 @@ class CUP$Sintax$actions {
                 raiz.addHijo(((Node)h1).getHijos().get(i));
                 }
            Node x = new Node(h2.toString(),false);
+           x.setType("INT");
            raiz.addHijo(x);
            RESULT = raiz;
 

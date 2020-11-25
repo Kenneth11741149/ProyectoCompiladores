@@ -64,5 +64,7 @@ INT METHOD
               METHOD-CALL
                      f2
                      PARAMETROS
+                            9
+                            9
        RETURN
               x

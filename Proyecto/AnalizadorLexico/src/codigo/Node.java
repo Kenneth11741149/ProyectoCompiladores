@@ -32,6 +32,14 @@ public class Node {
         hijos = new ArrayList<>();
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public void SetValue(String value) {
         this.value = value;
     }
