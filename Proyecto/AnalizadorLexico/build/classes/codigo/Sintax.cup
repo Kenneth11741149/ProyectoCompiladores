@@ -45,7 +45,8 @@ terminal Linea, Comillas,Caracter, T_dato, Int,Character,OpenTest,CloseTest,Or,T
     Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,Coma,
     Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop,AND,OR,NOT;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS,PARAMETROS2,LEXE;
+    UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS,PARAMETROS2,LEXE,
+    TYPM, TYPV;
 
 /* Precedences */
 precedence left OR;
@@ -384,21 +385,22 @@ PARAMETROS2::= Identificadoroletra:h1{:
 :}
 ;
 
-PARAMETROS::=  Int Identificadoroletra:h1{:
-           Node raiz = new Node("RAIZ",false);
-           raiz.addHijo(new Node("INTEGER",false));
+//NEED TO EDIT THIS ONE TOO
+PARAMETROS::=  TYPV:t Identificadoroletra:h1{:
+           Node raiz = new Node("PARAMETRO",false);
+           raiz.addHijo(new Node(t.toString(),false));
            raiz.addHijo((Node)h1);
            RESULT = raiz;
            :}
         |
-        PARAMETROS:h1 P_coma Int Identificadoroletra:h2
+        PARAMETROS:h1 P_coma TYPV:t Identificadoroletra:h2
         {:
-        Node raiz = new Node("RAIZ",false);
+        Node raiz = new Node("PARAMETROS",false);
         
         for(int i = 0;i<((Node)h1).getHijos().size();i++){
                 raiz.addHijo(((Node)h1).getHijos().get(i));
                 }
-        raiz.addHijo(new Node("INTEGER",false));
+        raiz.addHijo(new Node(t.toString(),false));
            raiz.addHijo((Node)h2);
            RESULT = raiz;
 :}
@@ -461,9 +463,11 @@ F ::=   Numero:h1{:
 
 
 METHOD ::=
-    OpenMethod Int Identificadoroletra:h1 Parentesis_a Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+    OpenMethod TYPM:t Identificadoroletra:h1 Parentesis_a Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
         Node raiz = new Node("Raiz",false);
-        Node x = new Node("INTEGER METHOD",false);
+        String xt = t.toString();
+        Node x = new Node(xt,false);
+        //Node x = Node(t);
         x.addHijo((Node)h1);
         Node BLOCK = new Node("BLOQUE",false);
         for(int i = 0;i<((Node)h2).getHijos().size();i++){
@@ -478,13 +482,26 @@ METHOD ::=
     :}
 
     |
-    OpenMethod Int Identificadoroletra:h1 Parentesis_a PARAMETROS:params Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+    OpenMethod TYPM:t Identificadoroletra:h1 Parentesis_a PARAMETROS:params Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
         Node raiz = new Node("Raiz",false);
-        Node x = new Node("INTEGER METHOD",false);
+       String xt = t.toString();
+        Node x = new Node(xt,false);
+        
         x.addHijo((Node)h1);
+        /*
+        Node parms = new Node("PARAMS" , false);
         for(int i = 0;i<((Node)params).getHijos().size();i++){
-                x.addHijo(((Node)params).getHijos().get(i));
+                parms.addHijo(((Node)params).getHijos().get(i));
             }
+        x.addHijo(parms);
+        
+        for(int i = 0;i<((Node)params).getHijos().size();i++){
+            Node parx = new Node("PARAMETRO", false);
+            parx.addHijo(((Node)params).getHijos());
+            x.addHijo(parx);
+          }
+        */
+        x.addHijo(((Node)params));
         Node BLOCK = new Node("BLOQUE",false);
         for(int i = 0;i<((Node)h2).getHijos().size();i++){
                 BLOCK.addHijo(((Node)h2).getHijos().get(i));
@@ -498,12 +515,13 @@ METHOD ::=
     :}
     
     |
-     METHOD:m1 OpenMethod Int Identificadoroletra:h1 Parentesis_a  Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+     METHOD:m1 OpenMethod TYPM:t Identificadoroletra:h1 Parentesis_a  Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
         Node raiz = new Node("Raiz",false);
         for(int i = 0;i<((Node)m1).getHijos().size();i++){
                 raiz.addHijo(((Node)m1).getHijos().get(i));
             }
-        Node x = new Node("INTEGER METHOD",false);
+        String xt = t.toString();
+        Node x = new Node(xt,false);
         x.addHijo((Node)h1);
         
         Node BLOCK = new Node("BLOQUE",false);
@@ -518,16 +536,28 @@ METHOD ::=
         RESULT = raiz; 
     :}
     |
-    METHOD:m1 OpenMethod Int Identificadoroletra:h1 Parentesis_a PARAMETROS:params Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
+    METHOD:m1 OpenMethod TYPM:t Identificadoroletra:h1 Parentesis_a PARAMETROS:params Parentesis_c SENTENCIA:h2 Return Igual Identificadoroletra:h3 P_coma CloseMethod{:
         Node raiz = new Node("Raiz",false);
         for(int i = 0;i<((Node)m1).getHijos().size();i++){
                 raiz.addHijo(((Node)m1).getHijos().get(i));
             }
-        Node x = new Node("INTEGER METHOD",false);
+        String xt = t.toString();
+        Node x = new Node(xt,false);
         x.addHijo((Node)h1);
+        
+        /*
+        Node parms = new Node("PARAMS" , false);
         for(int i = 0;i<((Node)params).getHijos().size();i++){
-                x.addHijo(((Node)params).getHijos().get(i));
+                parms.addHijo(((Node)params).getHijos().get(i));
             }
+            
+          for(int i = 0;i<((Node)params).getHijos().size();i++){
+            Node parx = new Node("PARAMETRO", false);
+            parx.addHijo(((Node)params).getHijos());
+            x.addHijo(parx);
+          }
+          */
+        x.addHijo((Node)params);
         Node BLOCK = new Node("BLOQUE",false);
         for(int i = 0;i<((Node)h2).getHijos().size();i++){
                 BLOCK.addHijo(((Node)h2).getHijos().get(i));
@@ -550,7 +580,35 @@ METHOD ::=
 
 ;
 
+TYPM ::= Boolean {:
+      String RetVal = "BOOLEAN METHOD";
+      RESULT = RetVal;
+    :}
+    | 
+    Character {:
+      String RetVal = "CHARACTER METHOD";
+      RESULT = RetVal;
+    :}|
+    Int {:
+      String RetVal = "INT METHOD";
+      RESULT = RetVal;
+    :}
+;
 
+TYPV ::= Boolean {:
+      String RetVal = "BOOLEAN";
+      RESULT = RetVal;
+    :}
+    | 
+    Character {:
+      String RetVal = "CHARACTER";
+      RESULT = RetVal;
+    :}|
+    Int {:
+      String RetVal = "INT";
+      RESULT = RetVal;
+    :}
+;
 
 
 Identificadoroletra ::= 

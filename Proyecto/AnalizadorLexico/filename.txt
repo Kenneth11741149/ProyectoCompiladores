@@ -50,12 +50,13 @@ MAIN
               DO
                      THROW
                             x
-INTEGER METHOD
+INT METHOD
        f2
-       INTEGER
-       x1
-       INTEGER
-       x2
+       PARAMETROS
+              INT
+              x1
+              INT
+              x2
        BLOQUE
               DECLARATION
                      integer

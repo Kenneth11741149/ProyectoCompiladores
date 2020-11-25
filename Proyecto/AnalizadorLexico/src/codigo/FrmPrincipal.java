@@ -240,7 +240,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         txtResultado.setColumns(20);
         txtResultado.setRows(5);
-        txtResultado.setText("open-main()\n    define varchar as integer;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1;integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
+        txtResultado.setText("open-main()\n    define varchar as integer;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1; integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
         jScrollPane1.setViewportView(txtResultado);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -1210,4 +1210,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     /* Experimental */
     ArrayList<Ambito> GlobalAmbitos = new ArrayList();
+    
+    //Codigo Intermedio 
+    ArrayList<Cuadruplos> cuadruplos = new ArrayList();
+    int cont_temp = 0;
+    int cont_etiq = 0;
 }
