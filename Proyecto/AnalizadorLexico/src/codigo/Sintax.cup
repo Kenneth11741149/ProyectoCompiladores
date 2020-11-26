@@ -343,7 +343,10 @@ SENTENCIA ::=
 
 PARAMETROS2::= Identificadoroletra:h1{:
            Node raiz = new Node("PARAMETROS",false);
-           raiz.addHijo((Node)h1);
+           Node idoletra = (Node)h1;
+           idoletra.setType("VARIABLE");
+           //raiz.addHijo((Node)h1);
+           raiz.addHijo(idoletra);
            RESULT = raiz;
            :}
 
@@ -363,8 +366,10 @@ PARAMETROS2::= Identificadoroletra:h1{:
         for(int i = 0;i<((Node)h1).getHijos().size();i++){
                 raiz.addHijo(((Node)h1).getHijos().get(i));
                 }
-        
-           raiz.addHijo((Node)h2);
+           Node idoletra = (Node)h2;
+           idoletra.setType("VARIABLE");
+           //raiz.addHijo((Node)h2);
+           raiz.addHijo(idoletra);
            RESULT = raiz;
 :}
     |

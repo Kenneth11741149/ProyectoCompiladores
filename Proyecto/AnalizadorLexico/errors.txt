@@ -1,0 +1,2 @@
+Error semantico: Variable [x4] no existe en [f2]. 
+Error semantico: llamado a funcion [f2] refiere a una funcion que no existe. 

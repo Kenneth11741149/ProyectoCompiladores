@@ -493,43 +493,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 case "METHOD-CALL": {
-                    String MethodId = hijo.getHijos().get(0).getValue();
-                    Node PARAMETROS = hijo.getHijos().get(1);
-                    System.out.println("Reacher");
-                    System.out.println(PARAMETROS.getHijos().size());
-                    if (PARAMETROS.getHijos().size() == 0) {
-                        //Something should probably occur
-                        System.out.println("No parameters on the method call to [" + MethodId + "]");
-                    } else {
-                        Function temporal;
-                        ArrayList<String> ParametersOfTemporalFunction = new ArrayList();
-                        for (int i = 0; i < PARAMETROS.getHijos().size(); i++) {
-                            System.out.println("TEAUSDAS");
-                            Node ParameterNode = PARAMETROS.getHijos().get(i);
-                            if (ParameterNode.getType().equals("VARIABLE")) {
-                                //Locate that variable on the present scope. If it exists then confirm its type. If it doesnt then throw error.
-                                System.out.println("variable entry");
-                            } else if (ParameterNode.getType().equals("INT")) {
-                                System.out.println("p");
-                                ParametersOfTemporalFunction.add("INT");
-                            } else if (ParameterNode.getType().equals("Boolean")) {
-                                System.out.println("e");
-                                ParametersOfTemporalFunction.add("BOOLEAN");
-                            } else if (ParameterNode.getType().equals("Character")) {
-                                System.out.println("n");
-                                ParametersOfTemporalFunction.add("CHARACTER");
-                            }
-                        }
-                        System.out.println("dsfsdffs");
-                        temporal = new Function(MethodId, ParametersOfTemporalFunction);
-                        System.out.println("Reached Here.");
-                        
-                        if (FunctionExists(temporal)) {
-                            System.out.println("Function already exists.");
-                        } else {
-                            System.out.println("Function does not exist.");
-                        }
-                    }
+                    PROCEDUREMethodCall(hijo, ambito);
                     break;
                 }
 
@@ -598,7 +562,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             return retVal; //Should be true.
         }
 
-    }
+    } //No borrar
 
     public String verificarasignaciondA(String tipo, String var2, Ambito ambito) {
         String result = "true";
@@ -624,14 +588,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } else {
             return result;
         }
-    }
+    } //No borrar
 
     public void PrintGlobalVariablesData() {
         for (int i = 0; i < GlobalAmbitos.size(); i++) {
             PrintVariableData(GlobalAmbitos.get(i));
             //DebugSystem.out.println("P1");
         }
-    }
+    } //No borrar
 
     public void PrintVariableData(Ambito ambito) {
         System.out.println(ambito.getName() + ambito.getVariables().size());
@@ -644,27 +608,35 @@ public class FrmPrincipal extends javax.swing.JFrame {
             PrintVariableData(ambito.getSubAmbitos().get(i));
 
         }
-    }
+    } //No borrar
 
     public Boolean FunctionExists(Function function) {
-        Boolean retVal = false;
         for (int i = 0; i < funciones.size(); i++) {
-            if (function.getId().equals(funciones.get(i).getId())) { //Check if function id exists
-                if (function.getParams().size() == funciones.get(i).getParams().size()) { //Check if parameters are of the same size.
-                    retVal = true;
-                    for (int j = 0; j < function.getParams().size(); j++) {
-                        if (!function.getParams().get(j).equals(funciones.get(i).getParams().get(j))) { //Check if they are the same parameter types.
-                            retVal = false;
-                            break;
-                        }
+            int ParameterSize = function.getParams().size();
+            int ParameterSize2 = funciones.get(i).getParams().size();
+            Boolean answ1 = function.getId().equals(funciones.get(i).getId());
+            Boolean answ2 = function.getParams().size() == funciones.get(i).getParams().size();
+            System.out.println(ParameterSize + " and " + ParameterSize2);
+            if (function.getId().equals(funciones.get(i).getId()) && function.getParams().size() == funciones.get(i).getParams().size()) {
+
+                System.out.println("Parameter name and size has been compared.");
+                int sameTypeParameters = 0;
+                for (int j = 0; j < function.getParams().size(); j++) {
+                    if (function.getParams().get(j).equals(funciones.get(i).getParams().get(j))) {
+                        sameTypeParameters++;
+                        System.out.println("Parameter comparison was successfull.");
+                    } else {
+                        System.out.println(function.getParams().get(j) + " Does not equal " + funciones.get(i).getParams().get(j));
+                        System.out.println("Parameter not compatible.");
                     }
-                } else {
-                    break;
+                }
+                if (ParameterSize == sameTypeParameters) {
+                    return true;
                 }
             }
         }
-        return retVal;
-    }
+        return false;
+    }//No borrar
 
     /* End Experimental Code for the Ambito Object*/
     /**
@@ -716,18 +688,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     String ParamsType = SubHijoActual.getHijos().get(j).getValue();
                     String ParamsName = SubHijoActual.getHijos().get(j + 1).getValue();
                     if (verificar_variable_existenteA(ParamsName, IntegerMethod)) {
-                        try {
-                            error = true;
-                            FileWriter myWriter = new FileWriter("errors.txt", true);
-                            myWriter.append("Error Semantico: Variable [" + ParamsName + "] ya existe.");
-
-                            myWriter.close();
-                            break;
-
-                        } catch (IOException e) {
-                            System.out.println("An error occurred.");
-                            e.printStackTrace();
-                        }
+                        String ElError = "Error Semantico: Variable [" + ParamsName + "] ya existe.";
+                        ReportError(ElError);
                     } else {
                         //ByteOffset Assignation
                         if (ParamsType.equals("INT") || ParamsType.equals("BOOLEAN")) {
@@ -740,6 +702,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         } else if (ParamsType.equals("CHARACTER")) {
                             this.bOffSet += 1;
                         }
+                        newFunction.getParams().add(ParamsType);
                         IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
                         System.out.println("New " + methodType + " method variable aggregation complete");
                     }
@@ -756,23 +719,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         }
 
-    }
+    } //DEFINITIVAMENTE no borrar
 
     public void PROCEDUREDeclaration(Node hijo, Ambito ambito, int pos) {
         if (verificar_variable_existenteA(hijo.getHijos().get(1).getValue(), ambito)) {
             System.out.println("ERROR");
             this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito actual o en ambitos exteriores.");
-            try {
-                FileWriter myWriter = new FileWriter("errors.txt", true);
-                myWriter.append("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito");
-
-                myWriter.close();
-
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
-
+            String error = "Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito.";
+            ReportError(error);
         } else {
             boolean añadir = true;
             String type = hijo.getHijos().get(0).getValue();
@@ -792,16 +746,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 String s = verificarasignaciondA("integer", hijo.getHijos().get(2).getValue(), ambito);
                                 if (!"true".equals(s)) {
                                     añadir = false;
-                                    try {
-                                        FileWriter myWriter = new FileWriter("errors.txt", true);
-                                        myWriter.append(s);
-
-                                        myWriter.close();
-
-                                    } catch (IOException e) {
-                                        System.out.println("An error occurred.");
-                                        e.printStackTrace();
-                                    }
+                                    ReportError(s);
                                 }
                             }
                         }
@@ -823,16 +768,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         boolean isBoolean = isBoolean(hijo.getHijos().get(2).getValue());
                         if (!isBoolean) {
                             añadir = false;
-                            try {
-                                FileWriter myWriter = new FileWriter("errors.txt", true);
-                                myWriter.append("Boolean type Expected, not found.");
-
-                                myWriter.close();
-
-                            } catch (IOException e) {
-                                System.out.println("An error occurred.");
-                                e.printStackTrace();
-                            }
+                            String error = "Boolean type Expected, not found.";
+                            ReportError(error);
                         }
                     }
                     if (añadir) {
@@ -852,22 +789,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 ambito.getVariables().add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet));
             }
         }
-    }
+    } //DEFINITIVAMENTE no borrar
 
     public void PROCEDUREAssignment(Node hijo, Ambito ambito, int pos) {
         String NombreVariable = hijo.getHijos().get(0).GetValue();
         System.out.println("MAJOOOOOOOOOOO" + NombreVariable);
         VariableVerificada = null; //Por seguridad se limpia algun acceso sucio que puede existir.
         if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable no existe. Tira error
-            try {
-                FileWriter myWriter = new FileWriter("errors.txt", true);
-                myWriter.append("Variable no existe.");
-                myWriter.close();
-
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
+            String error = "Variable ["+NombreVariable+"] no existe.";
+            ReportError(error);   
         } else { //Si la variable existe, confirma el tipo.
             String tipo = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
 
@@ -903,16 +833,48 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
             }
             if (HayError) {
-                try {
-                    FileWriter myWriter = new FileWriter("errors.txt", true);
-                    myWriter.append(ElError);
-                    myWriter.close();
-
-                } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
-                }
+                ReportError(ElError);
             }
+        }
+    } //DEFINITIVAMENTE no borrar
+
+    public void PROCEDUREMethodCall(Node hijo, Ambito ambito) {
+        String MethodId = hijo.getHijos().get(0).getValue();
+        Node PARAMETROS = hijo.getHijos().get(1);
+        System.out.println("MethodCall");
+        System.out.println(PARAMETROS.getHijos().size());
+        Function temporal;
+        ArrayList<String> ParametersOfTemporalFunction = new ArrayList();
+        for (int i = 0; i < PARAMETROS.getHijos().size(); i++) {
+            Node ParameterNode = PARAMETROS.getHijos().get(i);
+            if (ParameterNode.getType().equals("VARIABLE")) {
+                System.out.println("variable entry");
+                Boolean VariableExiste = verificar_variable_existenteA(ParameterNode.getValue(), ambito);
+                VariableVerificada = null;
+                if (VariableExiste) {
+                    ParametersOfTemporalFunction.add(VariableVerificada.getType());
+                } else {
+                    String error = "Error semantico: Variable [" + ParameterNode.getValue() + "] no existe en el llamado a [" + MethodId + "].";
+                    ReportError(error);
+                }
+            } else if (ParameterNode.getType().equals("INT")) {
+                System.out.println("Int MethodCall Parameter");
+                ParametersOfTemporalFunction.add("INT");
+            } else if (ParameterNode.getType().equals("Boolean")) {
+                System.out.println("Boolean MethodCall Parameter");
+                ParametersOfTemporalFunction.add("BOOLEAN");
+            } else if (ParameterNode.getType().equals("Character")) {
+                System.out.println("Character MethodCall Parameter");
+                ParametersOfTemporalFunction.add("CHARACTER");
+            }
+        }
+        temporal = new Function(MethodId, ParametersOfTemporalFunction);
+        if (FunctionExists(temporal)) {
+            // Successfull MethodCall
+        } else {
+            System.out.println("Function does not exist.");
+            String error = "Error semantico: llamado a funcion [" + MethodId + "] refiere a una funcion que no existe.";
+            ReportError(error);
         }
     }
 
@@ -968,7 +930,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
 
         return true;
-    }
+    } //No borrar
 
     public boolean isBoolean(String s) {
         Boolean retVal = true;
@@ -983,7 +945,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         return retVal;
 
-    }
+    } //No borrar
 
     public boolean verificar_funcion_existente(String n) {
         boolean retVal = false;
@@ -1024,6 +986,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return cuerpo;
     }
 
+    public void ReportError(String error) {
+        try {
+            FileWriter myWriter = new FileWriter("errors.txt", true);
+            myWriter.append(error + "\n");
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizarSin;
@@ -1039,14 +1012,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextArea txtResultado;
     private javax.swing.JTextArea txtarbol;
     // End of variables declaration//GEN-END:variables
+
     ArrayList<Variable> variables = new ArrayList();//Tabla de variables
     ArrayList<Function> funciones = new ArrayList();//Tabla de funciones
-    Variable VariableVerificada = null; //Si la variable existe con el metodo verificar_variable_existenteA();
+
+    Variable VariableVerificada = null; //Si la variable existe con el metodo verificar_variable_existenteA(), se deposita en este temporal.
     int bOffSet = 0;
     ArrayList<String> erroresSemanticos = new ArrayList();
     String ambito_actual = "";
 
-    /* Experimental */
+    //Experimental
     ArrayList<Ambito> GlobalAmbitos = new ArrayList();
 
     //Codigo Intermedio 

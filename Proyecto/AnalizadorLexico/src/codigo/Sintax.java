@@ -2027,7 +2027,10 @@ class CUP$Sintax$actions {
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
            Node raiz = new Node("PARAMETROS",false);
-           raiz.addHijo((Node)h1);
+           Node idoletra = (Node)h1;
+           idoletra.setType("VARIABLE");
+           //raiz.addHijo((Node)h1);
+           raiz.addHijo(idoletra);
            RESULT = raiz;
            
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("PARAMETROS2",23, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2068,8 +2071,10 @@ class CUP$Sintax$actions {
         for(int i = 0;i<((Node)h1).getHijos().size();i++){
                 raiz.addHijo(((Node)h1).getHijos().get(i));
                 }
-        
-           raiz.addHijo((Node)h2);
+           Node idoletra = (Node)h2;
+           idoletra.setType("VARIABLE");
+           //raiz.addHijo((Node)h2);
+           raiz.addHijo(idoletra);
            RESULT = raiz;
 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("PARAMETROS2",23, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
