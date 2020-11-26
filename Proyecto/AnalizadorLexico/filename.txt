@@ -1,15 +1,30 @@
 MAIN
        DECLARATION
               integer
-              varchar2
-       DECLARATION
-              integer
-              lmao
+              x
        METHOD-CALL
               f2
               PARAMETROS
-                     varchar2
-                     lmao
+                     x
+                     x
+INT METHOD
+       f3
+       PARAMETROS
+              integer
+              x1
+              integer
+              x2
+       BLOQUE
+              DECLARATION
+                     integer
+                     x
+              METHOD-CALL
+                     f2
+                     PARAMETROS
+                            x1
+                            x2
+       RETURN
+              x
 INT METHOD
        f2
        PARAMETROS
@@ -21,5 +36,10 @@ INT METHOD
               DECLARATION
                      integer
                      x
+              METHOD-CALL
+                     f3
+                     PARAMETROS
+                            x1
+                            x2
        RETURN
               x

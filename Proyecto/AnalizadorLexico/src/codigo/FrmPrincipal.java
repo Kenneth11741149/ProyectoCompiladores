@@ -372,13 +372,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Node arbol = s.raiz;
             variables.clear();
             funciones.clear();
-            Ambito nuevo = new Ambito("MAIN", null);
+            currentPrototype = 0;
+            GlobalAmbitos.clear();
+            VariableVerificada = null;
+            ambito_actual = "";
+            bOffSet = 0;
+
+            /* NO BORRAR
+            
             recorrerArbolA(arbol, nuevo, 0);
+            
+             */
+            Ambito nuevo = new Ambito("MAIN", null);
+            PROCEDURE_SemanticAnalisis(arbol, nuevo, 0);
             System.out.println("TestingPrint");
             PrintGlobalVariablesData();
             /*for (int i = 0; i < this.variables.size(); i++) {
                 System.out.println(variables.get(i).printData());
             }*/
+
+            System.out.println("NADUFNADFNADFN");
             for (int i = 0; i < this.funciones.size(); i++) {
                 System.out.print("Func: ");
                 System.out.print(this.funciones.get(i).getId());
@@ -464,6 +477,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         for (Node hijos : hijo.getHijos()) {
             System.out.println(hijos.GetValue());
         }*/
+
+ /*  Body of the function:prototype-identifier  
+            - Identifies function prototypes.
+        
+            - RecorrerArbol functions normally.
+                   = We eliminate the parameter extraction portion of the function declaration.
+                   
+         */
         while (pos < n.getHijos().size()) {
             Node hijo = n.getHijos().get(pos);
 
@@ -478,22 +499,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 case "INT METHOD": {
-                    PROCEDUREMethodDeclaration("INT", hijo, pos);
+                    //PROCEDURE_FunctionDeclaration("INT", hijo, pos);
+                    PROCEDURE_FunctionDefinition("integer", hijo, 0);
                     break;
                 }
 
                 case "CHARACTER METHOD": {
-                    PROCEDUREMethodDeclaration("CHARACTER", hijo, pos);
+                    //PROCEDURE_FunctionDeclaration("CHARACTER", hijo, pos);
+                    PROCEDURE_FunctionDefinition("character", hijo, 0);
                     break;
                 }
 
                 case "BOOLEAN METHOD": {
-                    PROCEDUREMethodDeclaration("BOOLEAN", hijo, pos);
+                    PROCEDURE_FunctionDefinition("boolean", hijo, 0);
                     break;
                 }
 
                 case "METHOD-CALL": {
-                    PROCEDUREMethodCall(hijo, ambito);
+                    PROCEDURE_MethodCall(hijo, ambito);
                     break;
                 }
 
@@ -515,7 +538,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 case "DECLARATION": {
-                    PROCEDUREDeclaration(hijo, ambito, pos);
+                    PROCEDURE_Declaration(hijo, ambito, pos);
                     break;
                 }
                 case "FOR": {
@@ -534,7 +557,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 }
                 case "ASSIGNMENT": {
-                    PROCEDUREAssignment(hijo, ambito, pos);
+                    PROCEDURE_Assignment(hijo, ambito, pos);
                     break;
                 }
             }
@@ -675,12 +698,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
     }
 
-    public void PROCEDUREMethodDeclaration(String methodType, Node hijo, int pos) {
+    public void PROCEDURE_FunctionPrototypeExtractor(String functionType, Node hijo, int pos) {
         //Declaration with 3 nodes is not coded.
-        Ambito IntegerMethod = new Ambito(methodType + " METHOD-" + pos, null);
+        Ambito IntegerMethod = new Ambito(functionType + " METHOD-" + pos, null);
         String FunctionName = hijo.getHijos().get(0).getValue();
         //DebugFunctionName System.out.println("Function Name [" + FunctionName+"]");
-        Function newFunction = new Function(FunctionName, methodType);
+        Function newFunction = new Function(FunctionName, functionType);
         Boolean error = false;
         for (int i = 1; i < hijo.getHijos().size(); i++) {
             Node SubHijoActual = hijo.getHijos().get(i);
@@ -706,24 +729,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
                         newFunction.getParams().add(ParamsType);
                         IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
-                        System.out.println("New " + methodType + " method variable aggregation complete");
+                        System.out.println("New " + functionType + " method variable aggregation complete");
                     }
 
                 }
-            } else if (SubHijoActual.GetValue().equals("BLOQUE")) {
-                if (!error) {
-                    System.out.println("Ambito y funcion agregado exitosamente!");
-                    GlobalAmbitos.add(IntegerMethod);
-                    funciones.add(newFunction);
-                }
-                recorrerArbolA(hijo.getHijos().get(i), IntegerMethod, 0);
             }
+            /*else if (SubHijoActual.GetValue().equals("BLOQUE")) {
+                recorrerArbolA(hijo.getHijos().get(i), IntegerMethod, 0);
+            }*/
 
+        }
+        if (!error) {
+            System.out.println("Ambito y prototipo de funcion agregado exitosamente!");
+            GlobalAmbitos.add(IntegerMethod);
+            newFunction.setAmbito(IntegerMethod);
+            funciones.add(newFunction);
         }
 
     } //DEFINITIVAMENTE no borrar
 
-    public void PROCEDUREDeclaration(Node hijo, Ambito ambito, int pos) {
+    public void PROCEDURE_Declaration(Node hijo, Ambito ambito, int pos) {
         if (verificar_variable_existenteA(hijo.getHijos().get(1).getValue(), ambito)) {
             System.out.println("ERROR");
             this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito actual o en ambitos exteriores.");
@@ -793,13 +818,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     } //DEFINITIVAMENTE no borrar
 
-    public void PROCEDUREAssignment(Node hijo, Ambito ambito, int pos) {
+    public void PROCEDURE_Assignment(Node hijo, Ambito ambito, int pos) {
         String NombreVariable = hijo.getHijos().get(0).GetValue();
         System.out.println("MAJOOOOOOOOOOO" + NombreVariable);
         VariableVerificada = null; //Por seguridad se limpia algun acceso sucio que puede existir.
         if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable no existe. Tira error
-            String error = "Variable ["+NombreVariable+"] no existe.";
-            ReportError(error);   
+            String error = "Variable [" + NombreVariable + "] no existe.";
+            ReportError(error);
         } else { //Si la variable existe, confirma el tipo.
             String tipo = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
 
@@ -840,7 +865,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     } //DEFINITIVAMENTE no borrar
 
-    public void PROCEDUREMethodCall(Node hijo, Ambito ambito) {
+    public void PROCEDURE_MethodCall(Node hijo, Ambito ambito) {
         String MethodId = hijo.getHijos().get(0).getValue();
         Node PARAMETROS = hijo.getHijos().get(1);
         System.out.println("MethodCall");
@@ -848,7 +873,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ArrayList<String> ParametersOfTemporalFunction = new ArrayList();
         for (int i = 0; i < PARAMETROS.getHijos().size(); i++) {
             Node ParameterNode = PARAMETROS.getHijos().get(i);
-            if (ParameterNode.getType().equals("VARIABLE")) {          
+            if (ParameterNode.getType().equals("VARIABLE")) {
                 VariableVerificada = null;
                 Boolean VariableExiste = verificar_variable_existenteA(ParameterNode.getValue(), ambito);
                 if (VariableExiste) {
@@ -878,6 +903,48 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String error = "Error semantico: llamado a funcion [" + MethodId + "] refiere a una funcion que no existe.";
             ReportError(error);
         }
+    }
+
+    public void PROCEDURE_FunctionsRecorrerArbolPrototypes(Node Padre, int pos) {
+        //Saca los prototipos de las funciones. Se debe ejecutar como primera pasada del compilador antes de recorrerArbolA.
+        while (pos < Padre.getHijos().size()) {
+            Node hijo = Padre.getHijos().get(pos);
+            System.out.println("Prototype Identifier:" + hijo.GetValue());
+            pos++;
+            switch (hijo.getValue()) {
+                case "INT METHOD": {
+                    PROCEDURE_FunctionPrototypeExtractor("integer", hijo, 0);
+                    break;
+                }
+
+                case "CHARACTER METHOD": {
+                    PROCEDURE_FunctionPrototypeExtractor("character", hijo, 0);
+                    break;
+                }
+
+                case "BOOLEAN METHOD": {
+                    PROCEDURE_FunctionPrototypeExtractor("boolean", hijo, 0);
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public void PROCEDURE_FunctionDefinition(String functionType, Node hijo, int pos) {
+        Function actual = funciones.get(currentPrototype);
+        for (int i = 1; i < hijo.getHijos().size(); i++) {
+            Node SubHijoActual = hijo.getHijos().get(i);
+            if (SubHijoActual.GetValue().equals("BLOQUE")) {
+                recorrerArbolA(hijo.getHijos().get(i), actual.getAmbito(), 0);
+            }
+        }
+        currentPrototype++;
+    }
+
+    public void PROCEDURE_SemanticAnalisis(Node arbol, Ambito ambito, int pos) {
+        PROCEDURE_FunctionsRecorrerArbolPrototypes(arbol, pos);
+        recorrerArbolA(arbol, ambito, pos);
     }
 
     public String verificarasignaciond(String tipo, String var2, String ambitointerno, String ambitoglobal) {
@@ -1023,8 +1090,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     ArrayList<String> erroresSemanticos = new ArrayList();
     String ambito_actual = "";
 
-    //Experimental
+    //Official
     ArrayList<Ambito> GlobalAmbitos = new ArrayList();
+
+    //Experimental
+    int currentPrototype = 0;
 
     //Codigo Intermedio 
     ArrayList<Cuadruplos> cuadruplos = new ArrayList();

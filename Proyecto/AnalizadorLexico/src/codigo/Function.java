@@ -16,6 +16,7 @@ public class Function {
     public String id;
     public String type;
     public ArrayList<String> params;
+    public Ambito ambito;
     //public Ambito ambito;
     
     public Function(String id, String type){
@@ -41,6 +42,13 @@ public class Function {
         return params;
     }
     
+    public Ambito getAmbito() {
+        return ambito;
+    }
+
+    public void setAmbito(Ambito ambito) {
+        this.ambito = ambito;
+    }
     
 
 }
