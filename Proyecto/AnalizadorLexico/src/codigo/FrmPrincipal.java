@@ -612,14 +612,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public Boolean FunctionExists(Function function) {
         for (int i = 0; i < funciones.size(); i++) {
+            //Debug Purposes
+            //System.out.println("SDNADFNA SEXOO");
             int ParameterSize = function.getParams().size();
-            int ParameterSize2 = funciones.get(i).getParams().size();
-            Boolean answ1 = function.getId().equals(funciones.get(i).getId());
-            Boolean answ2 = function.getParams().size() == funciones.get(i).getParams().size();
-            System.out.println(ParameterSize + " and " + ParameterSize2);
+            //int ParameterSize2 = funciones.get(i).getParams().size();
+            //Boolean answ1 = function.getId().equals(funciones.get(i).getId());
+            //Boolean answ2 = function.getParams().size() == funciones.get(i).getParams().size();
+            //System.out.println(ParameterSize + " and " + ParameterSize2);
             if (function.getId().equals(funciones.get(i).getId()) && function.getParams().size() == funciones.get(i).getParams().size()) {
-
-                System.out.println("Parameter name and size has been compared.");
+                System.out.println("Function name and size has been compared and matched");
                 int sameTypeParameters = 0;
                 for (int j = 0; j < function.getParams().size(); j++) {
                     if (function.getParams().get(j).equals(funciones.get(i).getParams().get(j))) {
@@ -675,6 +676,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     public void PROCEDUREMethodDeclaration(String methodType, Node hijo, int pos) {
+        //Declaration with 3 nodes is not coded.
         Ambito IntegerMethod = new Ambito(methodType + " METHOD-" + pos, null);
         String FunctionName = hijo.getHijos().get(0).getValue();
         //DebugFunctionName System.out.println("Function Name [" + FunctionName+"]");
@@ -692,14 +694,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         ReportError(ElError);
                     } else {
                         //ByteOffset Assignation
-                        if (ParamsType.equals("INT") || ParamsType.equals("BOOLEAN")) {
+                        if (ParamsType.equals("integer") || ParamsType.equals("boolean")) {
                             int modul = 4 - (this.bOffSet % 4);
                             if (modul == 4) {
                                 this.bOffSet += 4;
                             } else {
                                 this.bOffSet += 4 + modul;
                             }
-                        } else if (ParamsType.equals("CHARACTER")) {
+                        } else if (ParamsType.equals("character")) {
                             this.bOffSet += 1;
                         }
                         newFunction.getParams().add(ParamsType);
@@ -842,33 +844,33 @@ public class FrmPrincipal extends javax.swing.JFrame {
         String MethodId = hijo.getHijos().get(0).getValue();
         Node PARAMETROS = hijo.getHijos().get(1);
         System.out.println("MethodCall");
-        System.out.println(PARAMETROS.getHijos().size());
         Function temporal;
         ArrayList<String> ParametersOfTemporalFunction = new ArrayList();
         for (int i = 0; i < PARAMETROS.getHijos().size(); i++) {
             Node ParameterNode = PARAMETROS.getHijos().get(i);
-            if (ParameterNode.getType().equals("VARIABLE")) {
-                System.out.println("variable entry");
-                Boolean VariableExiste = verificar_variable_existenteA(ParameterNode.getValue(), ambito);
+            if (ParameterNode.getType().equals("VARIABLE")) {          
                 VariableVerificada = null;
+                Boolean VariableExiste = verificar_variable_existenteA(ParameterNode.getValue(), ambito);
                 if (VariableExiste) {
+                    System.out.println(VariableVerificada.getType());
                     ParametersOfTemporalFunction.add(VariableVerificada.getType());
                 } else {
                     String error = "Error semantico: Variable [" + ParameterNode.getValue() + "] no existe en el llamado a [" + MethodId + "].";
                     ReportError(error);
                 }
-            } else if (ParameterNode.getType().equals("INT")) {
+            } else if (ParameterNode.getType().equals("integer")) {
                 System.out.println("Int MethodCall Parameter");
-                ParametersOfTemporalFunction.add("INT");
-            } else if (ParameterNode.getType().equals("Boolean")) {
+                ParametersOfTemporalFunction.add("integer");
+            } else if (ParameterNode.getType().equals("boolean")) {
                 System.out.println("Boolean MethodCall Parameter");
-                ParametersOfTemporalFunction.add("BOOLEAN");
-            } else if (ParameterNode.getType().equals("Character")) {
+                ParametersOfTemporalFunction.add("boolean");
+            } else if (ParameterNode.getType().equals("character")) {
                 System.out.println("Character MethodCall Parameter");
-                ParametersOfTemporalFunction.add("CHARACTER");
+                ParametersOfTemporalFunction.add("character");
             }
         }
         temporal = new Function(MethodId, ParametersOfTemporalFunction);
+        System.out.println("ASUIANDFNADFNADF");
         if (FunctionExists(temporal)) {
             // Successfull MethodCall
         } else {

@@ -1,69 +1,25 @@
 MAIN
        DECLARATION
               integer
-              varchar
+              varchar2
        DECLARATION
               integer
-              x
-              +
-                     5
-                     /
-                            3
-                            -
-                                   5
-                                   2
-       FOR
-              FOR STATEMENT
-                     i
-                     0
-              BOOLEAN STATEMENT
-                     i
-                     <
-                     6
-              FOR DECLARATION
-                     i
-                     ++
-              THEN
-                     TEST
-                            BOOLEAN SATEMENT
-                                   |
-                                          x
-                                          <
-                                          3
-                                          &
-                                                 !
-                                                        x
-                                                        >
-                                                        15
-                                                 x
-                                                 >
-                                                 10
-                            THEN
-                                   THROWLN
-                                          x
-                            OR
-                                   THROW
-                                          i
-       UNTIL
-              BOOLEAN SATEMENT
-                     true
-              DO
-                     THROW
-                            x
+              lmao
+       METHOD-CALL
+              f2
+              PARAMETROS
+                     varchar2
+                     lmao
 INT METHOD
        f2
        PARAMETROS
-              INT
+              integer
               x1
-              INT
+              integer
               x2
        BLOQUE
               DECLARATION
                      integer
                      x
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-                            x4
        RETURN
               x

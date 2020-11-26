@@ -2047,7 +2047,7 @@ class CUP$Sintax$actions {
 		
            Node raiz = new Node("PARAMETROS",false);
            Node x = new Node(h1.toString(),false);
-           x.setType("INT");
+           x.setType("integer");
            raiz.addHijo(x);
            RESULT = raiz;
            
@@ -2098,7 +2098,7 @@ class CUP$Sintax$actions {
                 raiz.addHijo(((Node)h1).getHijos().get(i));
                 }
            Node x = new Node(h2.toString(),false);
-           x.setType("INT");
+           x.setType("integer");
            raiz.addHijo(x);
            RESULT = raiz;
 
@@ -2585,7 +2585,7 @@ class CUP$Sintax$actions {
             {
               Object RESULT =null;
 		
-      String RetVal = "BOOLEAN";
+      String RetVal = "boolean";
       RESULT = RetVal;
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("TYPV",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2597,7 +2597,7 @@ class CUP$Sintax$actions {
             {
               Object RESULT =null;
 		
-      String RetVal = "CHARACTER";
+      String RetVal = "character";
       RESULT = RetVal;
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("TYPV",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2609,7 +2609,7 @@ class CUP$Sintax$actions {
             {
               Object RESULT =null;
 		
-      String RetVal = "INT";
+      String RetVal = "integer";
       RESULT = RetVal;
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("TYPV",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
