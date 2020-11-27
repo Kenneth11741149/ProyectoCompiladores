@@ -1,1 +1,2 @@
+Integer type expected
 Error semantico: llamado a funcion [f2] refiere a una funcion que no existe.
