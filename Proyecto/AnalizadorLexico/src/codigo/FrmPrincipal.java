@@ -1065,7 +1065,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-
+    
+    //Codigo Intermedio
+    public void codigo_intermedio(Node Arbol){
+        Node n = Arbol;
+        if(n!= null){
+            switch(n.GetValue()){
+                case "FOR":{
+                    
+                }
+            }
+        }
+    }
+    
+    //Para generar etiqueta
+    public String nuevaEtiqueta() {
+        this.cont_etiq++;
+        return "etiq" + this.cont_etiq;
+    }
+    
+    //Generar Temps
+    public String generarTemp() {
+        this.cont_temp++;
+        return "#t" + this.cont_temp;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalizarSin;

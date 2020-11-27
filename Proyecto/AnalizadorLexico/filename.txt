@@ -1,30 +1,55 @@
 MAIN
        DECLARATION
               integer
-              x
-       METHOD-CALL
-              f2
-              PARAMETROS
-                     x
-                     x
-INT METHOD
-       f3
-       PARAMETROS
+              varchar
+       DECLARATION
               integer
-              x1
-              integer
-              x2
-       BLOQUE
-              DECLARATION
-                     integer
-                     x
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-                            x1
-                            x2
-       RETURN
               x
+              +
+                     5
+                     /
+                            3
+                            -
+                                   5
+                                   2
+       FOR
+              FOR STATEMENT
+                     i
+                     0
+              BOOLEAN STATEMENT
+                     i
+                     <
+                     6
+              FOR DECLARATION
+                     i
+                     ++
+              THEN
+                     TEST
+                            BOOLEAN SATEMENT
+                                   |
+                                          x
+                                          <
+                                          3
+                                          &
+                                                 !
+                                                        x
+                                                        >
+                                                        15
+                                                 x
+                                                 >
+                                                 10
+                            THEN
+                                   THROWLN
+                                          x
+                            OR
+                                   THROW
+                                          i
+       UNTIL
+              BOOLEAN SATEMENT
+                     true
+              DO
+                     THROW
+                            x
 INT METHOD
        f2
        PARAMETROS
@@ -37,9 +62,7 @@ INT METHOD
                      integer
                      x
               METHOD-CALL
-                     f3
+                     f2
                      PARAMETROS
-                            x1
-                            x2
        RETURN
               x
