@@ -1,14 +1,55 @@
 MAIN
        DECLARATION
               integer
+              varchar
+       DECLARATION
+              integer
               x
-       ASSIGNMENT
-              x
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-                            x1
-                            x2
+              +
+                     5
+                     /
+                            3
+                            -
+                                   5
+                                   2
+       FOR
+              FOR STATEMENT
+                     i
+                     0
+              BOOLEAN STATEMENT
+                     i
+                     <
+                     6
+              FOR DECLARATION
+                     i
+                     ++
+              THEN
+                     TEST
+                            BOOLEAN SATEMENT
+                                   |
+                                          x
+                                          <
+                                          3
+                                          &
+                                                 !
+                                                        x
+                                                        >
+                                                        15
+                                                 x
+                                                 >
+                                                 10
+                            THEN
+                                   THROWLN
+                                          x
+                            OR
+                                   THROW
+                                          i
+       UNTIL
+              BOOLEAN SATEMENT
+                     true
+              DO
+                     THROW
+                            x
 INT METHOD
        f2
        PARAMETROS

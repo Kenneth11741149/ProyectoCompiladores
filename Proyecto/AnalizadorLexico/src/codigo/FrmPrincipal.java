@@ -404,6 +404,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     System.out.println(this.funciones.get(i).getParams().get(j).printData());
                  */
             }
+            
+            System.out.println("ACCESSING INTERMEDIATE");
+            codigo_intermedio(arbol);
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -1068,16 +1071,48 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     //Codigo Intermedio
     public void codigo_intermedio(Node Arbol){
+        System.out.println("INTERMEDIO");
+        System.out.println("=>   ");
+        System.out.println(Arbol.getValue());
+        System.out.println(Arbol.getType());
         Node n = Arbol;
         if(n!= null){
             switch(n.GetValue()){
-                case "FOR":{
+                case "DECLARATION":
+                    System.out.println("Breaking Data");
+                    break;
+                case "INT METHOD":
+                    String name = n.getHijos().get(1).getValue();
+                    this.cuadruplos.add(new Cuadruplos("Func", name, "", ""));
+                    n.getHijos().forEach((hijo) -> 
+                    {codigo_intermedio(hijo);});
+                    this.cuadruplos.add(new Cuadruplos("END","", "", ""));
+                    break;
+                case "BOOLEAN SATEMENT"://ESTE ESTA MAL ESCRITO PORQUE EN EL ARBOL ESTA MAL ESCRITO >:V
+                    this.exp_bool.clear();
                     
-                }
+                    
+                case "THROWLN":
+                    System.out.println("Em whatever");
+                    break;
+                case "EAT":
+                    this.cuadruplos.add(new Cuadruplos("Eat", "","",""));
+                    break;
+                 
+                    
+                default:
+                    n.getHijos().forEach((hijo) -> 
+                    {codigo_intermedio(hijo);});
             }
         }
     }
     
+    public void PROCEDURE_BOOLEAN_STATE_INTER(Node n){
+        Node temp = n;
+        if(temp != null){
+            //case ""
+        }
+    }
     //Para generar etiqueta
     public String nuevaEtiqueta() {
         this.cont_etiq++;
@@ -1123,4 +1158,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     ArrayList<Cuadruplos> cuadruplos = new ArrayList();
     int cont_temp = 0;
     int cont_etiq = 0;
+    ArrayList<String> exp_bool = new ArrayList();
+    
 }
