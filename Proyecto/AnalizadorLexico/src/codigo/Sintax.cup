@@ -456,6 +456,7 @@ T ::=  T:t Multiplicacion F:f{:
 
 F ::=   Numero:h1{:
             Node x = new Node(h1.toString(),false);
+            x.setType("integer");
             RESULT = x;
             :}
         |
@@ -621,13 +622,13 @@ TYPV ::= Boolean {:
 Identificadoroletra ::= 
     Identificador:h1
          {:  Node x = new Node(h1.toString(),false);
-            
+            x.setType("ID");
             RESULT = x;
             :}
     |
     L:h1
     {:  Node x = new Node(h1.toString(),false);
-            
+            x.setType("char");
             RESULT = x;
             :}
 ;
@@ -665,7 +666,7 @@ DECLARACION ::=
          {: 
         Node x = new Node("DECLARATION",false);
         Node x2 = new Node("integer",false);
-        
+        x2.setType("integer");
         x.addHijo(x2);
         x.addHijo((Node)h2);
         RESULT = x;

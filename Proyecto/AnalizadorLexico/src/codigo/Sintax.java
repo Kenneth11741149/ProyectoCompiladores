@@ -2292,6 +2292,7 @@ class CUP$Sintax$actions {
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
             Node x = new Node(h1.toString(),false);
+            x.setType("integer");
             RESULT = x;
             
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("F",21, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2624,7 +2625,7 @@ class CUP$Sintax$actions {
 		int h1right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		  Node x = new Node(h1.toString(),false);
-            
+            x.setType("ID");
             RESULT = x;
             
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Identificadoroletra",14, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2639,7 +2640,7 @@ class CUP$Sintax$actions {
 		int h1right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		  Node x = new Node(h1.toString(),false);
-            
+            x.setType("char");
             RESULT = x;
             
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Identificadoroletra",14, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2696,7 +2697,7 @@ class CUP$Sintax$actions {
 		 
         Node x = new Node("DECLARATION",false);
         Node x2 = new Node("integer",false);
-        
+        x2.setType("integer");
         x.addHijo(x2);
         x.addHijo((Node)h2);
         RESULT = x;
