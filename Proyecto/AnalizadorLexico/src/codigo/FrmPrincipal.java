@@ -404,9 +404,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     System.out.println(this.funciones.get(i).getParams().get(j).printData());
                  */
             }
-            
+
             System.out.println("ACCESSING INTERMEDIATE");
-            codigo_intermedio(arbol);
+            //codigo_intermedio(arbol);
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -822,49 +822,74 @@ public class FrmPrincipal extends javax.swing.JFrame {
     } //DEFINITIVAMENTE no borrar
 
     public void PROCEDURE_Assignment(Node hijo, Ambito ambito, int pos) {
-        String NombreVariable = hijo.getHijos().get(0).GetValue();
-        System.out.println("MAJOOOOOOOOOOO" + NombreVariable);
+        String NombreVariable = hijo.getHijos().get(0).GetValue(); //NombreVariable y VariableName son 2 diferentes.
         VariableVerificada = null; //Por seguridad se limpia algun acceso sucio que puede existir.
-        if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable no existe. Tira error
+        if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable del lado izquierdo no existe. Tira error
             String error = "Variable [" + NombreVariable + "] no existe.";
             ReportError(error);
-        } else { //Si la variable existe, confirma el tipo.
-            String tipo = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
-
-            Boolean HayError = false;
-            String ElError = "";
-            //Falta validar las variables y los methods.
-            if (tipo.equals("integer")) {
-                if (isInteger(hijo.getHijos().get(1).GetValue())) {
-                    System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
-                } else {
-                    HayError = true;
-                    ElError = "Integer type expected";
-                }
-            } else if (tipo.equals("boolean")) {
-                if (isBoolean(hijo.getHijos().get(1).GetValue())) {
-                    System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
-                } else {
-                    HayError = true;
-                    ElError = "Boolean type expected";
-                }
-            } else if (tipo.equals("character")) {
-                int VarLength = hijo.getHijos().get(1).GetValue().length();
-
-                if (VarLength == 1) {
-                    String firstChar = Character.toString(hijo.getHijos().get(1).GetValue().charAt(0));
-                    String secondChar = Character.toString(hijo.getHijos().get(1).GetValue().charAt(2));
-                    if (firstChar.equals("'") && secondChar.equals("'")) {
-                        System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
+        } else { //Si la variable del lado izquierdo existe, confirma el tipo.
+            Node SegundoHijoDehijo = hijo.getHijos().get(1);
+            String LeftSideAssignmentType = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
+            String RightSideAssignmentType = SegundoHijoDehijo.getType();
+            //Falta validar los methods y las asignaciones complejas.
+            
+            System.out.println("ASSIGNMENT DEBUG: Assignment Child Size [" + hijo.getHijos().size() + "]");
+            if (hijo.getHijos().size() == 2) {
+                switch (RightSideAssignmentType) { //This checks for the right side type. We must then   
+                    case "VARIABLE": {
+                        String VariableName = SegundoHijoDehijo.GetValue();
+                        VariableVerificada = null;
+                        if (verificar_variable_existenteA(VariableName, ambito)) {
+                            RightSideAssignmentType = VariableVerificada.getType();
+                            System.out.println("Table assignment Type: " + RightSideAssignmentType);
+                            if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                                System.out.println("Successfull ASSIGNMENT of " + LeftSideAssignmentType + " to " + RightSideAssignmentType + " on variable " + NombreVariable);
+                            } else {
+                                ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "]");
+                            }
+                        } else {
+                            ReportError("Variable [" + VariableName + "] no existe en el ambito de la asignacion a " + NombreVariable);
+                        }
+                        break;
                     }
-                } else {
-                    HayError = true;
-                    ElError = "Character type expected";
+                    case "METHOD-CALL": {
+                        PROCEDURE_MethodCall(SegundoHijoDehijo, ambito);
+                        break;
+                    }
+                    case "integer": {
+                        if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                            System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
+                        } else {
+                            ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                        }
+                        break;
+                    }
+                    case "character": {
+                        if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                            System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
+                        } else {
+                            ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                        }
+                        break;
+                    }
+                    case "boolean": {
+                        if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                            System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
+                        } else {
+                            ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                        }
+                        break;
+                    }
+                    default: {
+                        ReportError("Unrecognized NodeType in ASSIGNMENT to: [" + NombreVariable + "] + [" + RightSideAssignmentType + "]");
+                        break;
+                    }
                 }
+
+            } else {
+                System.out.println("ALERT: PATH NOT CODED YET.");
             }
-            if (HayError) {
-                ReportError(ElError);
-            }
+
         }
     } //DEFINITIVAMENTE no borrar
 
@@ -995,9 +1020,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
+            ReportError("Unable to convert [" + s + "] to String. ");
             return false;
         }
 
@@ -1058,7 +1082,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return cuerpo;
     }
 
-    public void ReportError(String error) {
+    public static void ReportError(String error) {
         try {
             FileWriter myWriter = new FileWriter("errors.txt", true);
             myWriter.append(error + "\n");
@@ -1068,57 +1092,60 @@ public class FrmPrincipal extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     //Codigo Intermedio
-    public void codigo_intermedio(Node Arbol){
+    public void codigo_intermedio(Node Arbol) {
         System.out.println("INTERMEDIO");
         System.out.println("=>   ");
         System.out.println(Arbol.getValue());
         System.out.println(Arbol.getType());
         Node n = Arbol;
-        if(n!= null){
-            switch(n.GetValue()){
+        if (n != null) {
+            switch (n.GetValue()) {
                 case "DECLARATION":
                     System.out.println("Breaking Data");
                     break;
                 case "INT METHOD":
                     String name = n.getHijos().get(1).getValue();
                     this.cuadruplos.add(new Cuadruplos("Func", name, "", ""));
-                    n.getHijos().forEach((hijo) -> 
-                    {codigo_intermedio(hijo);});
-                    this.cuadruplos.add(new Cuadruplos("END","", "", ""));
+                    n.getHijos().forEach((hijo)
+                            -> {
+                        codigo_intermedio(hijo);
+                    });
+                    this.cuadruplos.add(new Cuadruplos("END", "", "", ""));
                     break;
                 case "BOOLEAN SATEMENT"://ESTE ESTA MAL ESCRITO PORQUE EN EL ARBOL ESTA MAL ESCRITO >:V
                     this.exp_bool.clear();
-                    
-                    
+
                 case "THROWLN":
                     System.out.println("Em whatever");
                     break;
                 case "EAT":
-                    this.cuadruplos.add(new Cuadruplos("Eat", "","",""));
+                    this.cuadruplos.add(new Cuadruplos("Eat", "", "", ""));
                     break;
-                 
-                    
+
                 default:
-                    n.getHijos().forEach((hijo) -> 
-                    {codigo_intermedio(hijo);});
+                    n.getHijos().forEach((hijo)
+                            -> {
+                        codigo_intermedio(hijo);
+                    });
             }
         }
     }
-    
-    public void PROCEDURE_BOOLEAN_STATE_INTER(Node n){
+
+    public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
-        if(temp != null){
+        if (temp != null) {
             //case ""
         }
     }
+
     //Para generar etiqueta
     public String nuevaEtiqueta() {
         this.cont_etiq++;
         return "etiq" + this.cont_etiq;
     }
-    
+
     //Generar Temps
     public String generarTemp() {
         this.cont_temp++;
@@ -1159,5 +1186,5 @@ public class FrmPrincipal extends javax.swing.JFrame {
     int cont_temp = 0;
     int cont_etiq = 0;
     ArrayList<String> exp_bool = new ArrayList();
-    
+
 }

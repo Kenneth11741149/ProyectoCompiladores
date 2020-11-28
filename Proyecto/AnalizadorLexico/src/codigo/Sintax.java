@@ -2292,7 +2292,7 @@ class CUP$Sintax$actions {
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
             Node x = new Node(h1.toString(),false);
-            x.setType("integer");
+            x.setType("integer"); //Kenneth Approved data-type.
             RESULT = x;
             
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("F",21, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2307,7 +2307,9 @@ class CUP$Sintax$actions {
 		int h1right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-        RESULT = h1;
+        Node x = (Node)h1;
+        x.setType("VARIABLE"); //Kenneth Approved data-type.
+        RESULT = x;
         
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("F",21, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
@@ -2762,6 +2764,8 @@ class CUP$Sintax$actions {
 		
         Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
+        Node Callmethod = (Node)h2;
+        Callmethod.setType("METHOD-CALL");
         x.addHijo((Node)h2);
         RESULT = x;
         

@@ -456,12 +456,14 @@ T ::=  T:t Multiplicacion F:f{:
 
 F ::=   Numero:h1{:
             Node x = new Node(h1.toString(),false);
-            x.setType("integer");
+            x.setType("integer"); //Kenneth Approved data-type.
             RESULT = x;
             :}
         |
         Identificadoroletra:h1{:
-        RESULT = h1;
+        Node x = (Node)h1;
+        x.setType("VARIABLE"); //Kenneth Approved data-type.
+        RESULT = x;
         :}
         |Parentesis_a E:e Parentesis_c{:
             RESULT = e;
@@ -697,6 +699,8 @@ DECLARACION ::=
         {:
         Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
+        Node Callmethod = (Node)h2;
+        Callmethod.setType("METHOD-CALL");
         x.addHijo((Node)h2);
         RESULT = x;
         :}

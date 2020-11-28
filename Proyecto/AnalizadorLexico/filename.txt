@@ -3,53 +3,11 @@ MAIN
               integer
               varchar
        DECLARATION
-              integer
-              x
-              +
-                     5
-                     /
-                            3
-                            -
-                                   5
-                                   2
-       FOR
-              FOR STATEMENT
-                     i
-                     0
-              BOOLEAN STATEMENT
-                     i
-                     <
-                     6
-              FOR DECLARATION
-                     i
-                     ++
-              THEN
-                     TEST
-                            BOOLEAN SATEMENT
-                                   |
-                                          x
-                                          <
-                                          3
-                                          &
-                                                 !
-                                                        x
-                                                        >
-                                                        15
-                                                 x
-                                                 >
-                                                 10
-                            THEN
-                                   THROWLN
-                                          x
-                            OR
-                                   THROW
-                                          i
-       UNTIL
-              BOOLEAN SATEMENT
-                     true
-              DO
-                     THROW
-                            x
+              character
+              varchar2
+       ASSIGNMENT
+              varchar
+              varchar2
 INT METHOD
        f2
        PARAMETROS

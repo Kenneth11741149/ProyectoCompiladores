@@ -22,6 +22,7 @@ public class Node {
 
     public Node() {
         value = "";
+        type = "";
         visited = false;
         hijos = new ArrayList<>();
     }
@@ -29,6 +30,7 @@ public class Node {
     public Node(String value,Boolean visited) {
         this.value = value;
         this.visited = visited;
+        type = "";
         hijos = new ArrayList<>();
     }
 
