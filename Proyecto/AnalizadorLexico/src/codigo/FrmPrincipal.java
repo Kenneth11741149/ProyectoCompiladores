@@ -406,7 +406,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
 
             System.out.println("ACCESSING INTERMEDIATE");
-            //codigo_intermedio(arbol);
+            codigo_intermedio(arbol);
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -1097,7 +1097,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public void codigo_intermedio(Node Arbol) {
         System.out.println("INTERMEDIO");
         System.out.println("=>   ");
+        System.out.print("Value: ");
         System.out.println(Arbol.getValue());
+        System.out.print("Type: ");
         System.out.println(Arbol.getType());
         Node n = Arbol;
         if (n != null) {
@@ -1116,6 +1118,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case "BOOLEAN SATEMENT"://ESTE ESTA MAL ESCRITO PORQUE EN EL ARBOL ESTA MAL ESCRITO >:V
                     this.exp_bool.clear();
+                    
 
                 case "THROWLN":
                     System.out.println("Em whatever");
@@ -1133,10 +1136,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }
 
+    //EXP BOOLEAN ARRAY
     public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
         if (temp != null) {
-            //case ""
+            switch(temp.getType()){
+                case "ID":
+                    this.exp_bool.add(temp.getValue());
+                    break;
+                case "Char":
+                    this.exp_bool.add(temp.getValue());
+                    break;
+                case "integer":
+                    this.exp_bool.add(temp.getValue());
+                    break;
+                case "BOOL STATEMENT":
+                    this.exp_bool.add("(");
+                    for (Node hijo: temp.getHijos()){
+                        PROCEDURE_BOOLEAN_STATE_INTER(hijo);
+                    }
+                    this.exp_bool.add(")");
+                    break;
+                default:
+                    this.exp_bool.add(temp.GetValue());
+            }
         }
     }
 
