@@ -2,6 +2,9 @@ MAIN
        DECLARATION
               integer
               varchar
+       ASSIGNMENT
+              varchar
+              10
        DECLARATION
               integer
               x

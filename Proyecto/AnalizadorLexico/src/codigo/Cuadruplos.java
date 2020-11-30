@@ -59,4 +59,8 @@ public class Cuadruplos {
         return "Cuadruplo-> " + "Op: " + operador + " | arg1: " + arg1 + " | arg2: " + arg2 + " | res: "+res; 
     }
     
+    public String[] valTable(){
+        String[] row = {operador, arg1, arg2, res};
+        return row;
+    }
 }

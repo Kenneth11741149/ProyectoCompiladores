@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 import java_cup.runtime.Symbol;
 import javax.swing.JFileChooser;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -186,6 +188,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        frame_int_final = new javax.swing.JFrame();
+        jPanel1 = new javax.swing.JPanel();
+        MIPS = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtable_cuadruplos = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtarbol = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -198,6 +209,124 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtResultado = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jb_int_final = new javax.swing.JButton();
+
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Cuadruplos: ");
+
+        jtable_cuadruplos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Op", "Arg1", "Arg2", "Res/Guardado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jtable_cuadruplos);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        MIPS.addTab("Cuadruplo", jPanel2);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 657, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 703, Short.MAX_VALUE)
+        );
+
+        MIPS.addTab("tab2", jPanel4);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MIPS)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MIPS)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout frame_int_finalLayout = new javax.swing.GroupLayout(frame_int_final.getContentPane());
+        frame_int_final.getContentPane().setLayout(frame_int_finalLayout);
+        frame_int_finalLayout.setHorizontalGroup(
+            frame_int_finalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 682, Short.MAX_VALUE)
+            .addGroup(frame_int_finalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(frame_int_finalLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        frame_int_finalLayout.setVerticalGroup(
+            frame_int_finalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 753, Short.MAX_VALUE)
+            .addGroup(frame_int_finalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(frame_int_finalLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,7 +369,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         txtResultado.setColumns(20);
         txtResultado.setRows(5);
-        txtResultado.setText("open-main()\n    define varchar as integer;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1; integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
+        txtResultado.setText("open-main()\n    define varchar as integer;\n    varchar := 10;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1; integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
         jScrollPane1.setViewportView(txtResultado);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -249,18 +378,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel3.setText("ANALISIS");
 
+        jb_int_final.setText("A Intermedio/FINAL");
+        jb_int_final.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_int_finalMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(232, 232, 232)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(296, 296, 296))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -282,6 +410,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(btnAnalizarSin)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(105, 105, 105)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(232, 232, 232)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(296, 296, 296))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jb_int_final)
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,7 +446,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(78, 78, 78)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jb_int_final)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -407,6 +549,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
             System.out.println("ACCESSING INTERMEDIATE");
             codigo_intermedio(arbol);
+            
+            
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
@@ -473,6 +617,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         //Graficar(recorrido(s.raiz));
     }//GEN-LAST:event_btnAnalizarSinActionPerformed
+
+    private void jb_int_finalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_int_finalMouseClicked
+        // TODO add your handling code here:
+        //TOMANDO LA DATA PRINCIPAL
+        if(this.cuadruplos.isEmpty()){
+            JOptionPane.showMessageDialog(this, "No hay data analizada");
+        }else{
+            DefaultTableModel model = (DefaultTableModel) jtable_cuadruplos.getModel();
+            model.setRowCount(0);
+            for (int i = 0; i < this.cuadruplos.size(); i++) {
+                model.addRow(this.cuadruplos.get(i).valTable());
+                
+            }
+            frame_int_final.pack();
+            frame_int_final.setLocationRelativeTo(this);
+            frame_int_final.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_jb_int_finalMouseClicked
 
     public void recorrerArbolA(Node n, Ambito ambito, int pos) {
         System.out.println("HIJOS " + ambito.getName());
@@ -1116,15 +1279,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     });
                     this.cuadruplos.add(new Cuadruplos("END", "", "", ""));
                     break;
-                case "BOOLEAN SATEMENT"://ESTE ESTA MAL ESCRITO PORQUE EN EL ARBOL ESTA MAL ESCRITO >:V
+                case "BOOLEAN STATEMENT":
                     this.exp_bool.clear();
+                    break;
                     
-
                 case "THROWLN":
                     System.out.println("Em whatever");
                     break;
                 case "EAT":
                     this.cuadruplos.add(new Cuadruplos("Eat", "", "", ""));
+                    break;
+                case "ASSIGNMENT":
+                    PROCEDURE_ASSIGNMENT_INTER(n);
                     break;
 
                 default:
@@ -1136,6 +1302,67 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }
 
+    public void PROCEDURE_ASSIGNMENT_INTER(Node n){
+        //Analizar el nodo
+        String varAsign = n.getHijos().get(0).GetValue();
+        String val = "";
+        Node temp = n.getHijos().get(1);
+        switch(temp.GetValue()){
+            case "+":
+            case "-":
+            case "/":
+            case "*":
+                int varA = Arithmetics_Inter(n, n.GetValue());
+                val = Integer.toString(varA);
+                break;
+            default:
+                val = temp.GetValue();
+        }
+        
+        String temp2 = generarTemp();
+        this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
+        this.cuadruplos.add(new Cuadruplos("=", temp2, "", varAsign));
+        
+        
+        
+    }
+    
+    public int Arithmetics_Inter(Node n, String signo){
+        int data1=Integer.parseInt(n.getHijos().get(0).GetValue());
+        int data2 = 0;
+        int retVal = 0;
+        if(n.getHijos().get(1).GetValue()=="/" || n.getHijos().get(1).GetValue()=="*" || n.getHijos().get(1).GetValue()=="+"
+                || n.getHijos().get(1).GetValue()=="-"){
+                    data2 = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
+        }else{
+            data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
+        }
+        switch(signo){
+            case "+":
+                retVal = data1 + data2;
+                break;
+            case "-":
+                retVal = data1 - data2;
+                break;
+            case "*":
+                retVal = data1*data2;
+                break;
+            case "/":
+                retVal = data1/data2;
+                break;
+        }
+        String temp = generarTemp();
+        //Agrega el cuadruplo a Cuadruplos
+        this.cuadruplos.add(new Cuadruplos(signo, Integer.toString(data1), Integer.toString(data2), temp));
+        return retVal;
+    }
+    
+    
+    public void PROCEDURE_DECLARATION_INTER(Node n){
+        
+        
+    }
+    
     //EXP BOOLEAN ARRAY
     public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
@@ -1172,19 +1399,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
     //Generar Temps
     public String generarTemp() {
         this.cont_temp++;
-        return "#t" + this.cont_temp;
+        return "t" + this.cont_temp;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane MIPS;
     private javax.swing.JButton btnAnalizarSin;
     private javax.swing.JButton btnArchivo;
     private javax.swing.JButton btnLimpiarSin;
+    private javax.swing.JFrame frame_int_final;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton jb_int_final;
+    private javax.swing.JTable jtable_cuadruplos;
     private javax.swing.JTextArea txtAnalizarSin;
     private javax.swing.JTextArea txtResultado;
     private javax.swing.JTextArea txtarbol;
