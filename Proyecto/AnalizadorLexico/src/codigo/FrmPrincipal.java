@@ -1321,33 +1321,69 @@ public class FrmPrincipal extends javax.swing.JFrame {
             case "-":
             case "/":
             case "*":
-                int varA = Arithmetics_Inter(n, n.GetValue());
-                val = Integer.toString(varA);
+                String varA = Arithmetics_Inter(n, n.GetValue());
+                val = varA;
                 break;
             default:
-                val = temp.GetValue();
+                if(isNumeric(temp.GetValue())){
+                    val = temp.GetValue();
+                }else{
+                    val = temp.GetValue();
+                }
+                
         }
         
         String temp2 = generarTemp();
+        this.exp_intermedio.add(temp2);
+        this.exp_intermedio.add(returnData(val));
         this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
+        this.exp_intermedio.add(varAsign);
+        this.exp_intermedio.add(returnData(temp2));
         this.cuadruplos.add(new Cuadruplos("=", temp2, "", varAsign));
-        
-        
-        
+             
     }
     
-    public int Arithmetics_Inter(Node n, String signo){
-        System.out.println("ARITHMS");
-        //System.out.println(n.getHijos().get(1).GetValue());
-        int data1=Integer.parseInt(n.getHijos().get(0).GetValue());
+    public String Arithmetics_Inter(Node n, String signo){
+        //System.out.println("ARITHMS");
+        //System.out.println(n.getHijos().get(0).GetValue());
+        int data1=0;
+        String dat1="";
+        String dat2="";
+        if(isInteger(n.getHijos().get(0).GetValue())){
+            //System.out.println("Es entero");
+            data1 =Integer.parseInt(n.getHijos().get(0).GetValue());
+            dat1 = n.getHijos().get(0).GetValue();
+        }else{
+            //Search for the value on the arraylist
+            //System.out.println("Buscando valor data1");
+            data1 = Integer.parseInt(returnData(n.getHijos().get(0).GetValue()));
+            dat1 = n.getHijos().get(0).GetValue();
+        }
+        
         int data2 = 0;
         int retVal = 0;
         if(n.getHijos().get(1).GetValue()=="/" || n.getHijos().get(1).GetValue()=="*" || n.getHijos().get(1).GetValue()=="+"
                 || n.getHijos().get(1).GetValue()=="-"){
-            
-                    data2 = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
+                    //System.out.println("RECURSIVO CHINO");
+                    String tempData="";
+                    tempData = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
+                    //System.out.println("SALI DEL RESTAURANTE CHINO");
+                    //System.out.println(tempData);
+                    data2 = Integer.parseInt(returnData(tempData));
+                    dat2 = tempData;
+                    
         }else{
-            data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
+            if(isInteger(n.getHijos().get(1).GetValue())){
+                //System.out.println("ES ENTERO");
+                dat2 = n.getHijos().get(1).GetValue();
+                data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
+            }else{
+                 //Search for the value on the arraylist
+                 //System.out.println("BUSCANDO VALOR DATA2");
+                 dat2 = n.getHijos().get(1).GetValue();
+                 data2 = Integer.parseInt(returnData(n.getHijos().get(1).GetValue()));
+            }
+            
         }
         switch(signo){
             case "+":
@@ -1364,36 +1400,69 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 break;
         }
         String temp = generarTemp();
-        System.out.println(signo);
-        System.out.println(data1);
-        System.out.println(data2);
+        //System.out.println(signo);
+        //System.out.println(data1);
+        //System.out.println(data2);
         //Agrega el cuadruplo a Cuadruplos
-        this.cuadruplos.add(new Cuadruplos(signo, Integer.toString(data1), Integer.toString(data2), temp));
-        return retVal;
+        this.exp_intermedio.add(temp);
+        this.exp_intermedio.add(Integer.toString(retVal));
+        this.cuadruplos.add(new Cuadruplos(signo, dat1, dat2, temp));
+        //System.out.println(temp);
+        return temp;
+    }
+    
+    public boolean isNumeric(String str){
+        try{
+            Integer.parseInt(str);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
+    
+    public String returnData(String str){
+        String extractValue = "";
+        //System.out.println(str);
+        for (int i = 0; i < this.exp_intermedio.size(); i++) {
+            if(this.exp_intermedio.get(i)== str){
+                //System.out.println(this.exp_intermedio.get(i));
+                extractValue = this.exp_intermedio.get(i+1);
+                
+            }
+            
+        }
+        //System.out.println(extractValue);
+        
+        return extractValue;
     }
     
     
     public void PROCEDURE_DECLARATION_INTER(Node n){
-        System.out.println("ESE XD");
+        //System.out.println("ESE XD");
         String varDecl = n.getHijos().get(1).GetValue();
         String val = "";
         Node temp = n.getHijos().get(2);
-        System.out.println(varDecl);
-        System.out.println(temp.GetValue());
+        //System.out.println(varDecl);
+        //System.out.println(temp.GetValue());
         switch(temp.GetValue()){
             case "+":
             case "-":
             case "/":
             case "*":
-                System.out.println("WENAS CHAVALOS");
-                int varA = Arithmetics_Inter(temp, temp.GetValue());
-                val = Integer.toString(varA);
+                //System.out.println("WENAS CHAVALOS");
+                String varA = Arithmetics_Inter(temp, temp.GetValue());
+                val = varA;
+                //System.out.println("SALI PRROS");
                 break;
             default:
                 val = temp.GetValue();
         }
         String temp2 = generarTemp();
+        this.exp_intermedio.add(temp2);
+        this.exp_intermedio.add(returnData(val));
         this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
+        this.exp_intermedio.add(varDecl);
+        this.exp_intermedio.add(returnData(temp2));
         this.cuadruplos.add(new Cuadruplos("=", temp2, "", varDecl));
         //System.out.println("ESE XD 2");
     }
@@ -1481,5 +1550,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     int cont_temp = 0;
     int cont_etiq = 0;
     ArrayList<String> exp_bool = new ArrayList();
+    ArrayList<String> exp_intermedio = new ArrayList();
 
 }
