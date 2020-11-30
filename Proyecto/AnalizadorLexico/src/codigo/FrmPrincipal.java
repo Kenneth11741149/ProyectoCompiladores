@@ -288,7 +288,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGap(0, 703, Short.MAX_VALUE)
         );
 
-        MIPS.addTab("tab2", jPanel4);
+        MIPS.addTab("MIPS", jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1258,17 +1258,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     //Codigo Intermedio
     public void codigo_intermedio(Node Arbol) {
+        /*
         System.out.println("INTERMEDIO");
         System.out.println("=>   ");
         System.out.print("Value: ");
         System.out.println(Arbol.getValue());
         System.out.print("Type: ");
         System.out.println(Arbol.getType());
+*/
         Node n = Arbol;
         if (n != null) {
             switch (n.GetValue()) {
                 case "DECLARATION":
-                    System.out.println("Breaking Data");
+                    int count =0;
+                    for (int i = 0; i < n.getHijos().size(); i++) {
+                        count++;
+                    }
+                    if(count==3){
+                        System.out.println("ENTRO A PROC DECL INT");
+                        PROCEDURE_DECLARATION_INTER(n);
+                    }
                     break;
                 case "INT METHOD":
                     String name = n.getHijos().get(1).getValue();
@@ -1328,11 +1337,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
     
     public int Arithmetics_Inter(Node n, String signo){
+        System.out.println("ARITHMS");
+        //System.out.println(n.getHijos().get(1).GetValue());
         int data1=Integer.parseInt(n.getHijos().get(0).GetValue());
         int data2 = 0;
         int retVal = 0;
         if(n.getHijos().get(1).GetValue()=="/" || n.getHijos().get(1).GetValue()=="*" || n.getHijos().get(1).GetValue()=="+"
                 || n.getHijos().get(1).GetValue()=="-"){
+            
                     data2 = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
         }else{
             data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
@@ -1352,6 +1364,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 break;
         }
         String temp = generarTemp();
+        System.out.println(signo);
+        System.out.println(data1);
+        System.out.println(data2);
         //Agrega el cuadruplo a Cuadruplos
         this.cuadruplos.add(new Cuadruplos(signo, Integer.toString(data1), Integer.toString(data2), temp));
         return retVal;
@@ -1359,8 +1374,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     
     public void PROCEDURE_DECLARATION_INTER(Node n){
-        
-        
+        System.out.println("ESE XD");
+        String varDecl = n.getHijos().get(1).GetValue();
+        String val = "";
+        Node temp = n.getHijos().get(2);
+        System.out.println(varDecl);
+        System.out.println(temp.GetValue());
+        switch(temp.GetValue()){
+            case "+":
+            case "-":
+            case "/":
+            case "*":
+                System.out.println("WENAS CHAVALOS");
+                int varA = Arithmetics_Inter(temp, temp.GetValue());
+                val = Integer.toString(varA);
+                break;
+            default:
+                val = temp.GetValue();
+        }
+        String temp2 = generarTemp();
+        this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
+        this.cuadruplos.add(new Cuadruplos("=", temp2, "", varDecl));
+        //System.out.println("ESE XD 2");
     }
     
     //EXP BOOLEAN ARRAY
