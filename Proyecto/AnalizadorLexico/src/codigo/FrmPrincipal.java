@@ -1275,6 +1275,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Node n = Arbol;
         if (n != null) {
             switch (n.GetValue()) {
+                case "FOR DECLARATION"://Deberia llamarse suma del for, pero idk
+                    String temp = generarTemp();
+                    this.cuadruplos.add(new Cuadruplos(n.getHijos().get(1).getValue(), n.getHijos().get(0).getValue(),"1", temp));
+                    this.cuadruplos.add(new Cuadruplos("=", temp,"", n.getHijos().get(0).getValue()));
+                    break;
+                case "FOR STATEMENT":
+                    this.cuadruplos.add(new Cuadruplos("=", n.getHijos().get(1).getValue(),"", n.getHijos().get(0).getValue()));
+                    break;
                 case "DECLARATION":
                     int count =0;
                     for (int i = 0; i < n.getHijos().size(); i++) {
@@ -1339,9 +1347,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     PROCEDURE_ASSIGNMENT_INTER(n);
                     break;
                 case "FOR":
+                    n.setSiguiente(nuevaEtiqueta());//Crear etiqueta de salida
+                    n.setComienzo(nuevaEtiqueta());//INICIALIZAR COMIENZO
+                    codigo_intermedio(n.getHijos().get(0));//Mandar la asignacion del for a code inter
+                    //GENERACION DEL BOOLSTATEMENT
+                    n.getHijos().get(1).setVerdadero(nuevaEtiqueta());
+                    n.getHijos().get(1).setFalso(n.getSiguiente());
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(),"",""));
+                    codigo_intermedio(n.getHijos().get(1));
+                    //Para Expresion del For 
+                    String etiqTemp = nuevaEtiqueta();
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", etiqTemp, "",""));
+                    codigo_intermedio(n.getHijos().get(2));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(1).getVerdadero(),"",""));
+                    codigo_intermedio(n.getHijos().get(3));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "",""));
                     break;
                 case "THEN":
                     System.out.println("THEN");
+                    this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
                     break;
                 default:
                     n.getHijos().forEach((hijo)
