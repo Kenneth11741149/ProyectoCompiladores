@@ -369,7 +369,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         txtResultado.setColumns(20);
         txtResultado.setRows(5);
-        txtResultado.setText("open-main()\n    define varchar as integer;\n    varchar := 10;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1; integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
+        txtResultado.setText("open-main()\n    define varchar as integer;\n    varchar := 10;\n    define varExeter as character := 'a';\n    define varEchelon as boolean := true;\n    define x as integer := 5+3/(5-2);\n   open-for(integer i :=0;i<6;i++) do\n\topen-test(x <3 | (!(x>15) & x>10 ) ) then\n\t    throwln(x);\n\tor\n\t     throw(i);\n                             close-test\n   close-for\n    open-until(true) do\n           throw(x);\n     close-until\n\nclose-main\nopen-method integer f2(integer x1; integer x2)\n    define x as integer;\n    f2();\n   return := x;\n \nclose-method");
         jScrollPane1.setViewportView(txtResultado);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -479,6 +479,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void btnAnalizarSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarSinActionPerformed
         // TODO add your handling code here:
         String ST = txtResultado.getText();
+        DefaultTableModel dm = (DefaultTableModel) jtable_cuadruplos.getModel();
+        dm.setRowCount(0);
         Sintax s = new Sintax(new codigo.LexerCup(new StringReader(ST)));
         txtAnalizarSin.setText("");
 
@@ -548,6 +550,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
 
             System.out.println("ACCESSING INTERMEDIATE");
+            this.exp_bool.clear();
+            this.exp_intermedio.clear();
             codigo_intermedio(arbol);
             
             
@@ -1266,6 +1270,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.out.print("Type: ");
         System.out.println(Arbol.getType());
 */
+        //System.out.print("Value: ");
+        //System.out.println(Arbol.getValue());
         Node n = Arbol;
         if (n != null) {
             switch (n.GetValue()) {
@@ -1275,9 +1281,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         count++;
                     }
                     if(count==3){
-                        System.out.println("ENTRO A PROC DECL INT");
+                        //System.out.println("ENTRO A PROC DECL INTER");
                         PROCEDURE_DECLARATION_INTER(n);
                     }
+                    break;
+                case "BOOLEAN STATEMENT":
+                    System.out.println("BOOLEX");
+                    this.exp_bool.clear();
+                    //System.out.println(n.getVerdadero());
+                    //System.out.println(n.getFalso());
+                    PROCEDURE_BOOLEAN_STATE_INTER(n);
+                    
                     break;
                 case "INT METHOD":
                     String name = n.getHijos().get(1).getValue();
@@ -1288,8 +1302,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     });
                     this.cuadruplos.add(new Cuadruplos("END", "", "", ""));
                     break;
-                case "BOOLEAN STATEMENT":
-                    this.exp_bool.clear();
+                case "TEST":
+                    //System.out.println("HALOOOOO");
+                    n.setSiguiente(nuevaEtiqueta());
+                    int counter =0;
+                    for (int i = 0; i < n.getHijos().size(); i++) {
+                        counter++;
+                    }
+                    System.out.println(counter);
+                    if(counter==2){
+                        //CASO 1: SOLO ES UN IF
+                        //System.out.println("TESTER");
+                        //System.out.println(n.getHijos().get(0).getValue());
+                        n.getHijos().get(0).setVerdadero(nuevaEtiqueta());
+                        n.getHijos().get(0).setFalso(n.getSiguiente());
+                        
+                        codigo_intermedio(n.getHijos().get(0));
+                        this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getVerdadero(), "", ""));
+                        codigo_intermedio(n.getHijos().get(1));//ES EL THEN POR SI PREGUNTAN
+                        
+                    }else if (counter>=3){
+                        //CASO 2: EXISTE UN IF ELSE
+                    }
+                    
+                    
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
                     break;
                     
                 case "THROWLN":
@@ -1301,7 +1338,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case "ASSIGNMENT":
                     PROCEDURE_ASSIGNMENT_INTER(n);
                     break;
-
+                case "FOR":
+                    break;
+                case "THEN":
+                    System.out.println("THEN");
+                    break;
                 default:
                     n.getHijos().forEach((hijo)
                             -> {
@@ -1470,30 +1511,63 @@ public class FrmPrincipal extends javax.swing.JFrame {
     //EXP BOOLEAN ARRAY
     public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
+        int hasOPREL = 0;
+        //System.out.println(n.getFalso());
+        System.out.println(n.getValue());
         if (temp != null) {
-            switch(temp.getType()){
-                case "ID":
-                    this.exp_bool.add(temp.getValue());
+            for (int i = 0; i < temp.getHijos().size(); i++) {
+                //System.out.println("DATOS");
+                //System.out.println(n.getHijos().get(i).getValue());
+                //System.out.println(n.getHijos().get(i).getVerdadero());
+                String tempComp = temp.getHijos().get(i).getValue();
+                System.out.println(tempComp);
+                if (tempComp.equals("|")) {
+                    hasOPREL = 1;
+                } else if (tempComp.equals("&")) {
+                    hasOPREL = 2;
+                } else if (tempComp.equals("!")) {
+                    hasOPREL = 3;
+                }
+            }
+            System.out.println(hasOPREL);
+            switch (hasOPREL) {
+                case 0:
+                    //REALIZAR EL BOOL STATEMENT
+                    this.cuadruplos.add(new Cuadruplos("IF"+temp.getHijos().get(1).GetValue(),temp.getHijos().get(0).GetValue(),
+                    temp.getHijos().get(2).getValue(),temp.getVerdadero()));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"", ""));
                     break;
-                case "Char":
-                    this.exp_bool.add(temp.getValue());
+                case 1:
+                    //ES UN OR
+                    System.out.println(temp.getHijos().get(0).GetValue());
+                    temp.getHijos().get(0).setVerdadero(temp.getVerdadero());
+                    temp.getHijos().get(0).setFalso(nuevaEtiqueta());
+                    
+                case 2:
+                    //ES AND
+                    //temp.getHijos().get()
+                case 3:
+                    //ES NOT
+                    temp.getHijos().get(0).setVerdadero(temp.getFalso());
+                    temp.getHijos().get(0).setFalso(temp.getVerdadero());
+                    PROCEDURE_BOOLEAN_STATE_INTER(temp.getHijos().get(0));
                     break;
-                case "integer":
-                    this.exp_bool.add(temp.getValue());
-                    break;
-                case "BOOL STATEMENT":
-                    this.exp_bool.add("(");
-                    for (Node hijo: temp.getHijos()){
-                        PROCEDURE_BOOLEAN_STATE_INTER(hijo);
-                    }
-                    this.exp_bool.add(")");
-                    break;
-                default:
-                    this.exp_bool.add(temp.GetValue());
+                    
+                    
             }
         }
     }
 
+    //RESOLVER IFS
+    public void PROCEDURE_TEST_INTER(Node n){
+        Node temp = n;
+        switch(temp.GetValue()){
+            case "BOOLEAN STATEMENT":
+                
+                break;
+            case "THEN":
+        }
+    }
     //Para generar etiqueta
     public String nuevaEtiqueta() {
         this.cont_etiq++;

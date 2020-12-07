@@ -379,7 +379,7 @@
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="open-main()&#xa;    define varchar as integer;&#xa;    varchar := 10;&#xa;    define x as integer := 5+3/(5-2);&#xa;   open-for(integer i :=0;i&lt;6;i++) do&#xa;&#x9;open-test(x &lt;3 | (!(x&gt;15) &amp; x&gt;10 ) ) then&#xa;&#x9;    throwln(x);&#xa;&#x9;or&#xa;&#x9;     throw(i);&#xa;                             close-test&#xa;   close-for&#xa;    open-until(true) do&#xa;           throw(x);&#xa;     close-until&#xa;&#xa;close-main&#xa;open-method integer f2(integer x1; integer x2)&#xa;    define x as integer;&#xa;    f2();&#xa;   return := x;&#xa; &#xa;close-method"/>
+            <Property name="text" type="java.lang.String" value="open-main()&#xa;    define varchar as integer;&#xa;    varchar := 10;&#xa;    define varExeter as character := &apos;a&apos;;&#xa;    define varEchelon as boolean := true;&#xa;    define x as integer := 5+3/(5-2);&#xa;   open-for(integer i :=0;i&lt;6;i++) do&#xa;&#x9;open-test(x &lt;3 | (!(x&gt;15) &amp; x&gt;10 ) ) then&#xa;&#x9;    throwln(x);&#xa;&#x9;or&#xa;&#x9;     throw(i);&#xa;                             close-test&#xa;   close-for&#xa;    open-until(true) do&#xa;           throw(x);&#xa;     close-until&#xa;&#xa;close-main&#xa;open-method integer f2(integer x1; integer x2)&#xa;    define x as integer;&#xa;    f2();&#xa;   return := x;&#xa; &#xa;close-method"/>
           </Properties>
         </Component>
       </SubComponents>

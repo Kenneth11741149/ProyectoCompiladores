@@ -6,6 +6,14 @@ MAIN
               varchar
               10
        DECLARATION
+              character
+              varExeter
+              'a'
+       DECLARATION
+              boolean
+              varEchelon
+              true
+       DECLARATION
               integer
               x
               +
@@ -15,6 +23,18 @@ MAIN
                             -
                                    5
                                    2
+       TEST
+              BOOLEAN SATEMENT
+                     |
+                            x
+                            <
+                            3
+                            x
+                            >
+                            1
+              THEN
+                     THROWLN
+                            x
        FOR
               FOR STATEMENT
                      i

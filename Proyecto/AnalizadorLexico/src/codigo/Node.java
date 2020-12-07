@@ -19,6 +19,11 @@ public class Node {
     private String type;
     private Boolean visited;
     private ArrayList<Node> hijos;
+    //Intermedio
+    public String siguiente;
+    public String comienzo;
+    public String verdadero;
+    public String falso;
 
     public Node() {
         value = "";
@@ -117,6 +122,38 @@ public class Node {
             e.printStackTrace();
         }
         return temp;
+    }
+    
+    public String getSiguiente(){
+        return siguiente;
+    }
+    
+    public void setSiguiente(String siguiente){
+        this.siguiente = siguiente;
+    }
+    
+    public String getComienzo(){
+        return comienzo;
+    }
+    
+    public void setComienzo(String comienzo){
+        this.comienzo = comienzo;
+    }
+    
+    public String getVerdadero() {
+        return verdadero;
+    }
+
+    public void setVerdadero(String verdadero) {
+        this.verdadero = verdadero;
+    }
+    
+    public String getFalso() {
+        return falso;
+    }
+    
+    public void setFalso(String falso) {
+        this.falso = falso;
     }
 
 }
