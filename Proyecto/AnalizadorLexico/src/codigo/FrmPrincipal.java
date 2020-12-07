@@ -197,6 +197,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtable_cuadruplos = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        ta_codigo_final = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtarbol = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -277,15 +279,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         MIPS.addTab("Cuadruplo", jPanel2);
 
+        ta_codigo_final.setEditable(false);
+        ta_codigo_final.setColumns(20);
+        ta_codigo_final.setRows(5);
+        jScrollPane5.setViewportView(ta_codigo_final);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 657, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 703, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         MIPS.addTab("MIPS", jPanel4);
@@ -1665,6 +1678,47 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return "t" + this.cont_temp;
     }
 
+    //CODIGO FINAL
+    //TODO LO QUE ESTE DEBAJO DE ESTO ES PARA LLEVAR EL CODIGO FUENTE A MIPS
+    public void codigo_final(){
+        ArrayList<Temporal> temporales = new ArrayList();
+        ArrayList<Temporal> parametros = new ArrayList();
+        
+        
+    }
+    
+    
+    public int iParam(ArrayList<Temporal> arr, String valor) {
+        int ret = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i).getActivado().equals(valor)) {
+                ret = i;
+            }
+        }
+        return ret;
+    }
+    
+    public void guardar_codigoF() {
+        FileWriter fichero2 = null;
+        PrintWriter pw = null;
+        try {
+            fichero2 = new FileWriter("./MIPS.asm");
+            pw = new PrintWriter(fichero2);
+            pw.print(this.ta_codigo_final.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != fichero2) {
+                    fichero2.close();
+                }
+            } catch (Exception e2) {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al generar MIPS");
+                //e2.printStackTrace();
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane MIPS;
     private javax.swing.JButton btnAnalizarSin;
@@ -1683,8 +1737,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton jb_int_final;
     private javax.swing.JTable jtable_cuadruplos;
+    private javax.swing.JTextArea ta_codigo_final;
     private javax.swing.JTextArea txtAnalizarSin;
     private javax.swing.JTextArea txtResultado;
     private javax.swing.JTextArea txtarbol;
@@ -1712,4 +1768,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     ArrayList<String> exp_intermedio = new ArrayList();
     //boolean Bandera_bool_process = false;
 
+    //Codigo Final
+    String ambito_final = "";
+    ArrayList<String> mensajes = new ArrayList();
 }
