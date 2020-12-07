@@ -23,6 +23,14 @@ MAIN
                             -
                                    5
                                    2
+       UNTIL
+              BOOLEAN STATEMENT
+                     x
+                     >
+                     3
+              DO
+                     THROW
+                            x
        TEST
               BOOLEAN STATEMENT
                      |

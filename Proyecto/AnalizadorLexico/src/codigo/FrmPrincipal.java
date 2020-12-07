@@ -549,18 +549,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                  */
             }
 
-            System.out.println("ACCESSING INTERMEDIATE");
-            this.exp_bool.clear();
-            this.exp_intermedio.clear();
-            codigo_intermedio(arbol);
+            
             
             
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
                 String data = "";
+                System.out.println("Hola");
                 while (myReader.hasNextLine()) {
+                    
                     data = myReader.nextLine();
+                    System.out.println(data);
                     txtarbol.append("\n");
                     txtarbol.append(data);
 
@@ -597,6 +597,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
+            System.out.println("ACCESSING INTERMEDIATE");
+            this.exp_bool.clear();
+            this.exp_intermedio.clear();
+            codigo_intermedio(arbol);
 
         } catch (Exception ex) {
             Symbol sym = s.getS();
@@ -1364,8 +1368,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     codigo_intermedio(n.getHijos().get(3));
                     this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "",""));
                     break;
+                case "UNTIL":
+                    n.setSiguiente(nuevaEtiqueta());//Crear etiqueta de salida
+                    n.setComienzo(nuevaEtiqueta());//INICIALIZAR COMIENZO
+                    n.getHijos().get(0).setVerdadero(n.getSiguiente());
+                    n.getHijos().get(0).setFalso(nuevaEtiqueta());
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(),"",""));
+                    codigo_intermedio(n.getHijos().get(0));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(),"",""));//Crear etiqueta falsa
+                    codigo_intermedio(n.getHijos().get(1));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(),"",""));
+                    break;
                 case "THEN":
                     System.out.println("THEN");
+                    this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
+                    break;
+                case "DO":
+                    System.out.println("DO");
                     this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
                     break;
                 default:
@@ -1599,7 +1618,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         this.cuadruplos.add(new Cuadruplos("ETIQ", tempFalse, "", ""));
                         //this.cuadruplos.add(new Cuadruplos("ETIQ", temp.getFalso(), "", ""));
                         this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(2).GetValue(), temp.getHijos().get(1).getValue(),
-                                temp.getHijos().get(2).GetValue(), temp.getHijos().get(0).getVerdadero()));
+                                temp.getHijos().get(3).GetValue(), temp.getHijos().get(0).getVerdadero()));
                         //this.cuadruplos.add(new Cuadruplos("GOTO", temp.))
                     } else {
 
@@ -1691,6 +1710,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     int cont_etiq = 0;
     ArrayList<String> exp_bool = new ArrayList();
     ArrayList<String> exp_intermedio = new ArrayList();
-    boolean Bandera_bool_process = false;
+    //boolean Bandera_bool_process = false;
 
 }
