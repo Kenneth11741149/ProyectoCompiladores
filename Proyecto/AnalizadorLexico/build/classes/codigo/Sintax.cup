@@ -1163,7 +1163,7 @@ SENTENCIA_BOOLEANA ::=
     
     //Esta parte hace falta ajustarla para lo de recursividad y lo de operaciones con precedencia y asociatividad
     SENTENCIA_BOOLEANA:h1 AND SENTENCIA_BOOLEANA:h2{:
-                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 Node and = new Node("&",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                         and.addHijo(((Node)h1).getHijos().get(i));
@@ -1180,7 +1180,7 @@ SENTENCIA_BOOLEANA ::=
               |
               SENTENCIA_BOOLEANA:h1 OR SENTENCIA_BOOLEANA:h2
               {:
-                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 Node or = new Node("|",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                         or.addHijo(((Node)h1).getHijos().get(i));
@@ -1193,7 +1193,7 @@ SENTENCIA_BOOLEANA ::=
               :}
               |
             NOT SENTENCIA_BOOLEANA:h1 {:
-                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 Node not = new Node("!",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                         not.addHijo(((Node)h1).getHijos().get(i));
@@ -1206,7 +1206,7 @@ SENTENCIA_BOOLEANA ::=
               
     Op_booleano:h2
           {: 
-            Node x = new Node("BOOLEAN SATEMENT",false);
+            Node x = new Node("BOOLEAN STATEMENT",false);
             Node x2 = new Node(h2.toString(),false);
             x.addHijo(x2);
             RESULT = x;

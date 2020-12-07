@@ -1512,15 +1512,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
         int hasOPREL = 0;
+        boolean bandera = false;
         //System.out.println(n.getFalso());
+        System.out.println("WHAT IS MY VALUE?");
         System.out.println(n.getValue());
         if (temp != null) {
+            int counterRef =0;
             for (int i = 0; i < temp.getHijos().size(); i++) {
+                counterRef++;
                 //System.out.println("DATOS");
                 //System.out.println(n.getHijos().get(i).getValue());
                 //System.out.println(n.getHijos().get(i).getVerdadero());
                 String tempComp = temp.getHijos().get(i).getValue();
-                System.out.println(tempComp);
+                //System.out.println(tempComp);
                 if (tempComp.equals("|")) {
                     hasOPREL = 1;
                 } else if (tempComp.equals("&")) {
@@ -1533,24 +1537,61 @@ public class FrmPrincipal extends javax.swing.JFrame {
             switch (hasOPREL) {
                 case 0:
                     //REALIZAR EL BOOL STATEMENT
-                    this.cuadruplos.add(new Cuadruplos("IF"+temp.getHijos().get(1).GetValue(),temp.getHijos().get(0).GetValue(),
-                    temp.getHijos().get(2).getValue(),temp.getVerdadero()));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"", ""));
+                    if (counterRef == 6) {
+                        System.out.println("WENAAA");
+                        this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
+                                temp.getHijos().get(2).getValue(), temp.getVerdadero()));
+                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
+                        
+                        //String tempFalse = nuevaEtiqueta();
+                        
+                        this.cuadruplos.add(new Cuadruplos("ETIQ", temp.getFalso(), "", ""));
+                        this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(4).GetValue(), temp.getHijos().get(3).GetValue(),
+                                temp.getHijos().get(5).getValue(), temp.getVerdadero()));
+                        //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
+                        
+                    } else {
+                        System.out.println("");
+                        System.out.println("ESE");
+                        System.out.println(counterRef);
+                        this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
+                                temp.getHijos().get(2).getValue(), temp.getVerdadero()));
+                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
+                        
+                    }
                     break;
                 case 1:
                     //ES UN OR
+
                     System.out.println(temp.getHijos().get(0).GetValue());
                     temp.getHijos().get(0).setVerdadero(temp.getVerdadero());
                     temp.getHijos().get(0).setFalso(nuevaEtiqueta());
-                    
+                    PROCEDURE_BOOLEAN_STATE_INTER(temp.getHijos().get(0));
+                    if (counterRef == 4) {
+                        String tempFalse = nuevaEtiqueta();
+                        //System.out.println(tempFalse);
+                        this.cuadruplos.add(new Cuadruplos("GOTO", tempFalse, "", ""));
+                        this.cuadruplos.add(new Cuadruplos("ETIQ", tempFalse, "", ""));
+                        //this.cuadruplos.add(new Cuadruplos("ETIQ", temp.getFalso(), "", ""));
+                        this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(2).GetValue(), temp.getHijos().get(1).getValue(),
+                                temp.getHijos().get(2).GetValue(), temp.getHijos().get(0).getVerdadero()));
+                        //this.cuadruplos.add(new Cuadruplos("GOTO", temp.))
+                    } else {
+
+                        System.out.println("Salio Recursivo");
+                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
+                    }
+                    break;
                 case 2:
-                    //ES AND
-                    //temp.getHijos().get()
+                //ES AND
+                //temp.getHijos().get()
                 case 3:
                     //ES NOT
                     temp.getHijos().get(0).setVerdadero(temp.getFalso());
                     temp.getHijos().get(0).setFalso(temp.getVerdadero());
                     PROCEDURE_BOOLEAN_STATE_INTER(temp.getHijos().get(0));
+                    System.out.println("Salio Recursivo");
+                    //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"",""));
                     break;
                     
                     
@@ -1625,5 +1666,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     int cont_etiq = 0;
     ArrayList<String> exp_bool = new ArrayList();
     ArrayList<String> exp_intermedio = new ArrayList();
+    boolean Bandera_bool_process = false;
 
 }

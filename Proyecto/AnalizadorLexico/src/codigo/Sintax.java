@@ -3806,7 +3806,7 @@ class CUP$Sintax$actions {
 		int h2right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h2 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 Node and = new Node("&",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                         and.addHijo(((Node)h1).getHijos().get(i));
@@ -3834,7 +3834,7 @@ class CUP$Sintax$actions {
 		int h2right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h2 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 Node or = new Node("|",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                         or.addHijo(((Node)h1).getHijos().get(i));
@@ -3857,7 +3857,7 @@ class CUP$Sintax$actions {
 		int h1right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h1 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-                Node x = new Node("BOOLEAN SATEMENT",false);
+                Node x = new Node("BOOLEAN STATEMENT",false);
                 Node not = new Node("!",false);
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                         not.addHijo(((Node)h1).getHijos().get(i));
@@ -3878,7 +3878,7 @@ class CUP$Sintax$actions {
 		int h2right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h2 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		 
-            Node x = new Node("BOOLEAN SATEMENT",false);
+            Node x = new Node("BOOLEAN STATEMENT",false);
             Node x2 = new Node(h2.toString(),false);
             x.addHijo(x2);
             RESULT = x;

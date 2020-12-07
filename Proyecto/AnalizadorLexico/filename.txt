@@ -24,14 +24,18 @@ MAIN
                                    5
                                    2
        TEST
-              BOOLEAN SATEMENT
+              BOOLEAN STATEMENT
                      |
+                            |
+                                   x
+                                   >
+                                   3
+                                   x
+                                   >
+                                   1
                             x
                             <
-                            3
-                            x
-                            >
-                            1
+                            2
               THEN
                      THROWLN
                             x
@@ -48,7 +52,7 @@ MAIN
                      ++
               THEN
                      TEST
-                            BOOLEAN SATEMENT
+                            BOOLEAN STATEMENT
                                    |
                                           x
                                           <
@@ -68,7 +72,7 @@ MAIN
                                    THROW
                                           i
        UNTIL
-              BOOLEAN SATEMENT
+              BOOLEAN STATEMENT
                      true
               DO
                      THROW
