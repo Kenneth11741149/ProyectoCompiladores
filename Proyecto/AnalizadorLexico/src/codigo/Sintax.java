@@ -2952,7 +2952,7 @@ class CUP$Sintax$actions {
               
                 Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("integer array",false);
-                Node x4 = new Node("["+n.toString()+"]",false);
+                Node x4 = new Node(n.toString(),false);
                 x.addHijo(x2);
                 x.addHijo((Node)h1);
                 x.addHijo(x4);
@@ -2980,10 +2980,12 @@ class CUP$Sintax$actions {
               
                 Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("integer matrix",false);
-                Node x4 = new Node("["+n1.toString()+"]"+"["+n2.toString()+"]",false);
+                Node x4 = new Node(n1.toString(),false);
+                Node x5 = new Node(n2.toString(),false);
                 x.addHijo(x2);
                 x.addHijo((Node)h1);
                 x.addHijo(x4);
+                x.addHijo(x5);
                 RESULT = x;
         
         
@@ -3046,7 +3048,7 @@ class CUP$Sintax$actions {
               
                 Node x = new Node("DECLARATION",false);
                 Node x2 = new Node("character array",false);
-                Node x4 = new Node("["+c1.toString()+"]",false);
+                Node x4 = new Node(c1.toString(),false);
                 x.addHijo(x2);
                 x.addHijo((Node)h1);
                 x.addHijo(x4);

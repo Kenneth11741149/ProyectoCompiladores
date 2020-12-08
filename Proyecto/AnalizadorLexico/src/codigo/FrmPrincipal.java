@@ -562,16 +562,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                  */
             }
 
-            
-            
-            
             try {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
                 String data = "";
                 System.out.println("Hola");
                 while (myReader.hasNextLine()) {
-                    
+
                     data = myReader.nextLine();
                     System.out.println(data);
                     txtarbol.append("\n");
@@ -642,20 +639,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void jb_int_finalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_int_finalMouseClicked
         // TODO add your handling code here:
         //TOMANDO LA DATA PRINCIPAL
-        if(this.cuadruplos.isEmpty()){
+        if (this.cuadruplos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay data analizada");
-        }else{
+        } else {
             DefaultTableModel model = (DefaultTableModel) jtable_cuadruplos.getModel();
             model.setRowCount(0);
             for (int i = 0; i < this.cuadruplos.size(); i++) {
                 model.addRow(this.cuadruplos.get(i).valTable());
-                
+
             }
             frame_int_final.pack();
             frame_int_final.setLocationRelativeTo(this);
             frame_int_final.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_jb_int_finalMouseClicked
 
     public void recorrerArbolA(Node n, Ambito ambito, int pos) {
@@ -942,8 +939,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String error = "Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito.";
             ReportError(error);
         } else {
+
             boolean añadir = true;
+            boolean array = true;
+            boolean matrix = false;
+            int i = 0;
+            int j = 0;
             String type = hijo.getHijos().get(0).getValue();
+            String nombreVariable = hijo.getHijos().get(1).getValue();
             //System.out.println("LMAAAAAAOOO Type" + type);
             switch (type) {
                 case "character": {
@@ -953,7 +956,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case "integer": {
                     if (hijo.getHijos().size() == 3) {
                         if (hijo.getHijos().get(2).getValue().equals("+") || hijo.getHijos().get(2).GetValue().equals("-") || hijo.getHijos().get(2).getValue().equals("*") || hijo.getHijos().get(2).getValue().equals("/")) {
-
+                            /* Code needed here*/
                         } else {
                             boolean verificar = isInteger(hijo.getHijos().get(2).getValue());
                             if (!verificar) {
@@ -997,10 +1000,107 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                     break;
                 }
+                /* Array Section */
+                case "integer array": {
+                    String ArrayLengthInString = hijo.getHijos().get(2).getValue();
+                    /* Validations on Line*/
+                    i = Integer.valueOf(ArrayLengthInString);
+                    Boolean valid = validar_filas_arrays(i, 4, nombreVariable);
+                    if (valid) {
+                        this.bOffSet += i * 4;
+                    } else {
+                        añadir = false;
+                    }
+                    array = true;
+                    break;
+                }
+                case "character array": {
+                    String ArrayLengthInString = hijo.getHijos().get(2).getValue();
+                    /* Validations on Line*/
+                    i = Integer.valueOf(ArrayLengthInString);
+                    Boolean valid = validar_filas_arrays(i, 1, nombreVariable);
+                    if (valid) {
+                        this.bOffSet += i * 1;
+                    } else {
+                        añadir = false;
+                    }
+                    array = true;
+                    break;
+                }
+                case "boolean array": {
+                    String ArrayLengthInString = hijo.getHijos().get(2).getValue();
+                    /* Validations on Line*/
+                    i = Integer.valueOf(ArrayLengthInString);
+                    Boolean valid = validar_filas_arrays(i, 4, nombreVariable);
+                    if (valid) {
+                        this.bOffSet += i * 4;
+                    } else {
+                        añadir = false;
+                    }
+                    array = true;
+                    break;
+                }
+                /*Matrix Section*/
+                case "integer matrix": {
+                    String ArrayMatrixLineLengthInString = hijo.getHijos().get(2).getValue();
+                    String ArrayMatrixColumnLengthInString = hijo.getHijos().get(3).getValue();
+
+                    i = Integer.valueOf(ArrayMatrixLineLengthInString);
+                    j = Integer.valueOf(ArrayMatrixColumnLengthInString);
+                    /* Validations on Line, Column*/
+                    Boolean valid = validar_filas_columnas_matrices(i,j,4,nombreVariable);
+                    if (valid) {
+                        this.bOffSet += i * j * 4;
+                    } else {
+                        añadir = false;
+                    }
+                    matrix = true;
+                    break;
+                }
+                case "character matrix": {
+                    String ArrayMatrixLineLengthInString = hijo.getHijos().get(2).getValue();
+                    String ArrayMatrixColumnLengthInString = hijo.getHijos().get(3).getValue();
+
+                    i = Integer.valueOf(ArrayMatrixLineLengthInString);
+                    j = Integer.valueOf(ArrayMatrixColumnLengthInString);
+                    /* Validations on Line, Column*/
+                    Boolean valid = validar_filas_columnas_matrices(i,j,1,nombreVariable);
+                    if (valid) {
+                        this.bOffSet += i * j * 1;
+                    } else {
+                        añadir = false;
+                    }
+                    matrix = true;
+                    break;
+                }
+                case "boolean matrix": {
+                    String ArrayMatrixLineLengthInString = hijo.getHijos().get(2).getValue();
+                    String ArrayMatrixColumnLengthInString = hijo.getHijos().get(3).getValue();
+
+                    i = Integer.valueOf(ArrayMatrixLineLengthInString);
+                    j = Integer.valueOf(ArrayMatrixColumnLengthInString);
+                    /* Validations on Line, Column*/
+                    Boolean valid = validar_filas_columnas_matrices(i,j,4,nombreVariable);
+                    if (valid) {
+                        this.bOffSet += i * j * 4;
+                    } else {
+                        añadir = false;
+                    }
+                    matrix = true;
+                    break;
+                }
+
             }
 
             if (añadir) {
-                ambito.getVariables().add(new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet));
+                Variable nueva = new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet);
+                ambito.getVariables().add(nueva);
+                if (array) {
+                    nueva.setI(i);
+                } else if (matrix) {
+                    nueva.setI(i);
+                    nueva.setJ(j);
+                }
             }
         }
     } //DEFINITIVAMENTE no borrar
@@ -1016,7 +1116,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String LeftSideAssignmentType = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
             String RightSideAssignmentType = SegundoHijoDehijo.getType();
             //Falta validar los methods y las asignaciones complejas.
-            
+
             System.out.println("ASSIGNMENT DEBUG: Assignment Child Size [" + hijo.getHijos().size() + "]");
             if (hijo.getHijos().size() == 2) {
                 switch (RightSideAssignmentType) { //This checks for the right side type. We must then   
@@ -1201,6 +1301,38 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return retVal;
     }
 
+    public boolean validar_filas_arrays(int i, int data_size, String nombreVariable) {
+        boolean retVal = true;
+        if (i > 0) {
+            int offset_increment = i * data_size;
+            if (offset_increment > 255) {
+                ReportError("ERROR SEMANTICO: Incremento de Offset no puede ser mayor a 255. Variable: [" + nombreVariable + "].");
+                return false;
+            }
+        } else {
+            ReportError("ERROR SEMANTICO: Tamaño de filas debe ser mayor a 0. Variable: [" + nombreVariable + "].");
+            return false;
+        }
+
+        return retVal;
+    }
+
+    public boolean validar_filas_columnas_matrices(int i, int j, int data_size, String nombreVariable) {
+        boolean retVal = true;
+
+        if (i >= 0 && j >= 0) {
+            int offset_increment = i * j * data_size;
+            if (offset_increment > 256) {
+                ReportError("ERROR SEMANTICO: Incremento de Offset no puede ser mayor a 256. Variable: [" + nombreVariable + "].");
+                return false;
+            }
+        } else {
+            ReportError("ERROR SEMANTICO: Tamaño de filas y columnas debe ser mayor a 0. Variable: [" + nombreVariable + "].");
+            return false;
+        }
+        return retVal;
+    }
+
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -1286,7 +1418,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.out.println(Arbol.getValue());
         System.out.print("Type: ");
         System.out.println(Arbol.getType());
-*/
+         */
         //System.out.print("Value: ");
         //System.out.println(Arbol.getValue());
         Node n = Arbol;
@@ -1294,18 +1426,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
             switch (n.GetValue()) {
                 case "FOR DECLARATION"://Deberia llamarse suma del for, pero idk
                     String temp = generarTemp();
-                    this.cuadruplos.add(new Cuadruplos(n.getHijos().get(1).getValue(), n.getHijos().get(0).getValue(),"1", temp));
-                    this.cuadruplos.add(new Cuadruplos("=", temp,"", n.getHijos().get(0).getValue()));
+                    this.cuadruplos.add(new Cuadruplos(n.getHijos().get(1).getValue(), n.getHijos().get(0).getValue(), "1", temp));
+                    this.cuadruplos.add(new Cuadruplos("=", temp, "", n.getHijos().get(0).getValue()));
                     break;
                 case "FOR STATEMENT":
-                    this.cuadruplos.add(new Cuadruplos("=", n.getHijos().get(1).getValue(),"", n.getHijos().get(0).getValue()));
+                    this.cuadruplos.add(new Cuadruplos("=", n.getHijos().get(1).getValue(), "", n.getHijos().get(0).getValue()));
                     break;
                 case "DECLARATION":
-                    int count =0;
+                    int count = 0;
                     for (int i = 0; i < n.getHijos().size(); i++) {
                         count++;
                     }
-                    if(count==3){
+                    if (count == 3) {
                         //System.out.println("ENTRO A PROC DECL INTER");
                         PROCEDURE_DECLARATION_INTER(n);
                     }
@@ -1316,7 +1448,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //System.out.println(n.getVerdadero());
                     //System.out.println(n.getFalso());
                     PROCEDURE_BOOLEAN_STATE_INTER(n);
-                    
+
                     break;
                 case "INT METHOD":
                     String name = n.getHijos().get(1).getValue();
@@ -1330,30 +1462,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case "TEST":
                     //System.out.println("HALOOOOO");
                     n.setSiguiente(nuevaEtiqueta());
-                    int counter =0;
+                    int counter = 0;
                     for (int i = 0; i < n.getHijos().size(); i++) {
                         counter++;
                     }
                     System.out.println(counter);
-                    if(counter==2){
+                    if (counter == 2) {
                         //CASO 1: SOLO ES UN IF
                         //System.out.println("TESTER");
                         //System.out.println(n.getHijos().get(0).getValue());
                         n.getHijos().get(0).setVerdadero(nuevaEtiqueta());
                         n.getHijos().get(0).setFalso(n.getSiguiente());
-                        
+
                         codigo_intermedio(n.getHijos().get(0));
                         this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getVerdadero(), "", ""));
                         codigo_intermedio(n.getHijos().get(1));//ES EL THEN POR SI PREGUNTAN
-                        
-                    }else if (counter>=3){
+
+                    } else if (counter >= 3) {
                         //CASO 2: EXISTE UN IF ELSE
                     }
-                    
-                    
+
                     this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
                     break;
-                    
+
                 case "THROWLN":
                     System.out.println("Em whatever");
                     break;
@@ -1370,35 +1501,35 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //GENERACION DEL BOOLSTATEMENT
                     n.getHijos().get(1).setVerdadero(nuevaEtiqueta());
                     n.getHijos().get(1).setFalso(n.getSiguiente());
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(), "", ""));
                     codigo_intermedio(n.getHijos().get(1));
                     //Para Expresion del For 
                     String etiqTemp = nuevaEtiqueta();
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", etiqTemp, "",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", etiqTemp, "", ""));
                     codigo_intermedio(n.getHijos().get(2));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(),"",""));
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(1).getVerdadero(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(), "", ""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(1).getVerdadero(), "", ""));
                     codigo_intermedio(n.getHijos().get(3));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "",""));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "", ""));
                     break;
                 case "UNTIL":
                     n.setSiguiente(nuevaEtiqueta());//Crear etiqueta de salida
                     n.setComienzo(nuevaEtiqueta());//INICIALIZAR COMIENZO
                     n.getHijos().get(0).setVerdadero(n.getSiguiente());
                     n.getHijos().get(0).setFalso(nuevaEtiqueta());
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(), "", ""));
                     codigo_intermedio(n.getHijos().get(0));
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(),"",""));//Crear etiqueta falsa
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(), "", ""));//Crear etiqueta falsa
                     codigo_intermedio(n.getHijos().get(1));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(), "", ""));
                     break;
                 case "THEN":
                     System.out.println("THEN");
-                    this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
+                    this.cuadruplos.add(new Cuadruplos("PROTO", "prototipo", "lel", "aiudaaa"));
                     break;
                 case "DO":
                     System.out.println("DO");
-                    this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
+                    this.cuadruplos.add(new Cuadruplos("PROTO", "prototipo", "lel", "aiudaaa"));
                     break;
                 default:
                     n.getHijos().forEach((hijo)
@@ -1409,12 +1540,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }
 
-    public void PROCEDURE_ASSIGNMENT_INTER(Node n){
+    public void PROCEDURE_ASSIGNMENT_INTER(Node n) {
         //Analizar el nodo
         String varAsign = n.getHijos().get(0).GetValue();
         String val = "";
         Node temp = n.getHijos().get(1);
-        switch(temp.GetValue()){
+        switch (temp.GetValue()) {
             case "+":
             case "-":
             case "/":
@@ -1423,14 +1554,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 val = varA;
                 break;
             default:
-                if(isNumeric(temp.GetValue())){
+                if (isNumeric(temp.GetValue())) {
                     val = temp.GetValue();
-                }else{
+                } else {
                     val = temp.GetValue();
                 }
-                
+
         }
-        
+
         String temp2 = generarTemp();
         this.exp_intermedio.add(temp2);
         this.exp_intermedio.add(returnData(val));
@@ -1438,52 +1569,52 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.exp_intermedio.add(varAsign);
         this.exp_intermedio.add(returnData(temp2));
         this.cuadruplos.add(new Cuadruplos("=", temp2, "", varAsign));
-             
+
     }
-    
-    public String Arithmetics_Inter(Node n, String signo){
+
+    public String Arithmetics_Inter(Node n, String signo) {
         //System.out.println("ARITHMS");
         //System.out.println(n.getHijos().get(0).GetValue());
-        int data1=0;
-        String dat1="";
-        String dat2="";
-        if(isInteger(n.getHijos().get(0).GetValue())){
+        int data1 = 0;
+        String dat1 = "";
+        String dat2 = "";
+        if (isInteger(n.getHijos().get(0).GetValue())) {
             //System.out.println("Es entero");
-            data1 =Integer.parseInt(n.getHijos().get(0).GetValue());
+            data1 = Integer.parseInt(n.getHijos().get(0).GetValue());
             dat1 = n.getHijos().get(0).GetValue();
-        }else{
+        } else {
             //Search for the value on the arraylist
             //System.out.println("Buscando valor data1");
             data1 = Integer.parseInt(returnData(n.getHijos().get(0).GetValue()));
             dat1 = n.getHijos().get(0).GetValue();
         }
-        
+
         int data2 = 0;
         int retVal = 0;
-        if(n.getHijos().get(1).GetValue()=="/" || n.getHijos().get(1).GetValue()=="*" || n.getHijos().get(1).GetValue()=="+"
-                || n.getHijos().get(1).GetValue()=="-"){
-                    //System.out.println("RECURSIVO CHINO");
-                    String tempData="";
-                    tempData = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
-                    //System.out.println("SALI DEL RESTAURANTE CHINO");
-                    //System.out.println(tempData);
-                    data2 = Integer.parseInt(returnData(tempData));
-                    dat2 = tempData;
-                    
-        }else{
-            if(isInteger(n.getHijos().get(1).GetValue())){
+        if (n.getHijos().get(1).GetValue() == "/" || n.getHijos().get(1).GetValue() == "*" || n.getHijos().get(1).GetValue() == "+"
+                || n.getHijos().get(1).GetValue() == "-") {
+            //System.out.println("RECURSIVO CHINO");
+            String tempData = "";
+            tempData = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
+            //System.out.println("SALI DEL RESTAURANTE CHINO");
+            //System.out.println(tempData);
+            data2 = Integer.parseInt(returnData(tempData));
+            dat2 = tempData;
+
+        } else {
+            if (isInteger(n.getHijos().get(1).GetValue())) {
                 //System.out.println("ES ENTERO");
                 dat2 = n.getHijos().get(1).GetValue();
                 data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
-            }else{
-                 //Search for the value on the arraylist
-                 //System.out.println("BUSCANDO VALOR DATA2");
-                 dat2 = n.getHijos().get(1).GetValue();
-                 data2 = Integer.parseInt(returnData(n.getHijos().get(1).GetValue()));
+            } else {
+                //Search for the value on the arraylist
+                //System.out.println("BUSCANDO VALOR DATA2");
+                dat2 = n.getHijos().get(1).GetValue();
+                data2 = Integer.parseInt(returnData(n.getHijos().get(1).GetValue()));
             }
-            
+
         }
-        switch(signo){
+        switch (signo) {
             case "+":
                 retVal = data1 + data2;
                 break;
@@ -1491,10 +1622,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 retVal = data1 - data2;
                 break;
             case "*":
-                retVal = data1*data2;
+                retVal = data1 * data2;
                 break;
             case "/":
-                retVal = data1/data2;
+                retVal = data1 / data2;
                 break;
         }
         String temp = generarTemp();
@@ -1508,41 +1639,40 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //System.out.println(temp);
         return temp;
     }
-    
-    public boolean isNumeric(String str){
-        try{
+
+    public boolean isNumeric(String str) {
+        try {
             Integer.parseInt(str);
             return true;
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
-    
-    public String returnData(String str){
+
+    public String returnData(String str) {
         String extractValue = "";
         //System.out.println(str);
         for (int i = 0; i < this.exp_intermedio.size(); i++) {
-            if(this.exp_intermedio.get(i)== str){
+            if (this.exp_intermedio.get(i) == str) {
                 //System.out.println(this.exp_intermedio.get(i));
-                extractValue = this.exp_intermedio.get(i+1);
-                
+                extractValue = this.exp_intermedio.get(i + 1);
+
             }
-            
+
         }
         //System.out.println(extractValue);
-        
+
         return extractValue;
     }
-    
-    
-    public void PROCEDURE_DECLARATION_INTER(Node n){
+
+    public void PROCEDURE_DECLARATION_INTER(Node n) {
         //System.out.println("ESE XD");
         String varDecl = n.getHijos().get(1).GetValue();
         String val = "";
         Node temp = n.getHijos().get(2);
         //System.out.println(varDecl);
         //System.out.println(temp.GetValue());
-        switch(temp.GetValue()){
+        switch (temp.GetValue()) {
             case "+":
             case "-":
             case "/":
@@ -1564,7 +1694,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.cuadruplos.add(new Cuadruplos("=", temp2, "", varDecl));
         //System.out.println("ESE XD 2");
     }
-    
+
     //EXP BOOLEAN ARRAY
     public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
@@ -1574,7 +1704,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.out.println("WHAT IS MY VALUE?");
         System.out.println(n.getValue());
         if (temp != null) {
-            int counterRef =0;
+            int counterRef = 0;
             for (int i = 0; i < temp.getHijos().size(); i++) {
                 counterRef++;
                 //System.out.println("DATOS");
@@ -1599,14 +1729,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                 temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                         this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
-                        
+
                         //String tempFalse = nuevaEtiqueta();
-                        
                         this.cuadruplos.add(new Cuadruplos("ETIQ", temp.getFalso(), "", ""));
                         this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(4).GetValue(), temp.getHijos().get(3).GetValue(),
                                 temp.getHijos().get(5).getValue(), temp.getVerdadero()));
                         //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
-                        
+
                     } else {
                         System.out.println("");
                         System.out.println("ESE");
@@ -1614,7 +1743,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                 temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                         this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
-                        
+
                     }
                     break;
                 case 1:
@@ -1650,22 +1779,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     System.out.println("Salio Recursivo");
                     //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"",""));
                     break;
-                    
-                    
+
             }
         }
     }
 
     //RESOLVER IFS
-    public void PROCEDURE_TEST_INTER(Node n){
+    public void PROCEDURE_TEST_INTER(Node n) {
         Node temp = n;
-        switch(temp.GetValue()){
+        switch (temp.GetValue()) {
             case "BOOLEAN STATEMENT":
-                
+
                 break;
             case "THEN":
         }
     }
+
     //Para generar etiqueta
     public String nuevaEtiqueta() {
         this.cont_etiq++;
@@ -1680,14 +1809,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     //CODIGO FINAL
     //TODO LO QUE ESTE DEBAJO DE ESTO ES PARA LLEVAR EL CODIGO FUENTE A MIPS
-    public void codigo_final(){
+    public void codigo_final() {
         ArrayList<Temporal> temporales = new ArrayList();
         ArrayList<Temporal> parametros = new ArrayList();
-        
-        
+
     }
-    
-    
+
     public int iParam(ArrayList<Temporal> arr, String valor) {
         int ret = 0;
         for (int i = 0; i < arr.size(); i++) {
@@ -1697,7 +1824,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         return ret;
     }
-    
+
     public void guardar_codigoF() {
         FileWriter fichero2 = null;
         PrintWriter pw = null;
@@ -1718,7 +1845,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane MIPS;
     private javax.swing.JButton btnAnalizarSin;

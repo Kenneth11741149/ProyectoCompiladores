@@ -10,6 +10,8 @@ public class Variable {
     public String type;
     public String id;
     public String ambito;
+    public int i; //Si la variable es un array esta variable tendra informacion de las filas.
+    public int j; //Si la variable es una matriz esta variable tendra informacion de las columnas.
     public int offset;//For MIPS in assembler
     
     public Variable(String type, String id, String ambito) {
@@ -27,6 +29,22 @@ public class Variable {
 
     public String getType() {
         return type;
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+    public int getJ() {
+        return j;
+    }
+
+    public void setJ(int j) {
+        this.j = j;
     }
 
     public void setType(String type) {

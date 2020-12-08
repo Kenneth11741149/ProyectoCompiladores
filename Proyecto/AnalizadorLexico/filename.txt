@@ -1,7 +1,8 @@
 MAIN
        DECLARATION
-              integer
+              integer array
               varchar
+              9
        ASSIGNMENT
               varchar
               10
@@ -23,30 +24,6 @@ MAIN
                             -
                                    5
                                    2
-       UNTIL
-              BOOLEAN STATEMENT
-                     x
-                     >
-                     3
-              DO
-                     THROW
-                            x
-       TEST
-              BOOLEAN STATEMENT
-                     |
-                            |
-                                   x
-                                   >
-                                   3
-                                   x
-                                   >
-                                   1
-                            x
-                            <
-                            2
-              THEN
-                     THROWLN
-                            x
        FOR
               FOR STATEMENT
                      i
@@ -96,8 +73,5 @@ INT METHOD
               DECLARATION
                      integer
                      x
-              METHOD-CALL
-                     f2
-                     PARAMETROS
        RETURN
               x
