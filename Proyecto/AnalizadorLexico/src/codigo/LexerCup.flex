@@ -12,6 +12,7 @@ import java_cup.runtime.Symbol;
 L=[a-zA-Z_]
 P = L+
 D=[0-9]+
+S = \"([^\\\"]|\\.)*\" 
 espacio=[ ,\t,\r,\n]+
 caracter = "'"[^]"'"|"'""'"
 %{
@@ -27,6 +28,7 @@ caracter = "'"[^]"'"|"'""'"
 /* Espacios en blanco */
 {espacio} {/*Ignore*/}
 
+
 /* Comentarios */
 ( "//"(.)* ) {/*Ignore*/}
 
@@ -37,6 +39,10 @@ caracter = "'"[^]"'"|"'""'"
 
 /* Tipos de datos */
 (integer ) {return new Symbol(sym.Int, yycolumn, yyline, yytext());}
+
+/* STRING */
+( "#"(.)*"#" ) {return new Symbol(sym.STRING, yycolumn, yyline, yytext());}
+
 
 /* Tipos de datos */
 ( character) {return new Symbol(sym.Character, yycolumn, yyline, yytext());}

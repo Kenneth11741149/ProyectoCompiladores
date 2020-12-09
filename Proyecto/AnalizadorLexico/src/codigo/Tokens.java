@@ -54,7 +54,8 @@ public enum Tokens {
     OpenMethod,
     CloseMethod,
     Return,
-    Coma
+    Coma,
+    STRING
     
     
 }

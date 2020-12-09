@@ -53,6 +53,7 @@ public class sym {
   public static final int Identificador = 38;
   public static final int Resta = 19;
   public static final int Caracter = 4;
+  public static final int STRING = 57;
   public static final int THrow = 49;
   public static final int Boolean = 46;
   public static final int Multiplicacion = 20;
@@ -122,7 +123,8 @@ public class sym {
   "Stop",
   "AND",
   "OR",
-  "NOT"
+  "NOT",
+  "STRING"
   };
 }
 

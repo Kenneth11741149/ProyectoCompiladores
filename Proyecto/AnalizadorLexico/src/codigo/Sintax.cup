@@ -43,7 +43,7 @@ terminal Linea, Comillas,Caracter, T_dato, Int,Character,OpenTest,CloseTest,Or,T
     Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,Return,
     Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,OpenMethod,CloseMethod,
     Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,Coma,
-    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop,AND,OR,NOT;
+    Numero, ERROR,CloseMain,As,Define,L,Boolean,Eat,Throwln,THrow,OpenMatch,CloseMatch,When,Stop,AND,OR,NOT,STRING;
 non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
     UNTIL,FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR,LECTURA,ESCRITURA,MATCH,CASE,Identificadoroletra,METHOD,CALLMETHOD,LISTABOOL,EXP,E,T,F,PARAMETROS,PARAMETROS2,LEXE,
     TYPM, TYPV;
@@ -695,7 +695,7 @@ DECLARACION ::=
         :}
     
     |
-    Identificadoroletra:h1 Igual CALLMETHOD:h2
+    Identificadoroletra:h1 Igual CALLMETHOD:h2  
         {:
         Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
@@ -704,8 +704,66 @@ DECLARACION ::=
         x.addHijo((Node)h2);
         RESULT = x;
         :}
-    
     |
+        Identificadoroletra:h1 Igual Op_booleano:b1 P_coma
+        {:
+        Node x = new Node("ASSIGNMENT",false);
+        x.addHijo((Node)h1);
+        Node x2 = new Node(b1.toString(),false);
+        x.addHijo((Node)x2);
+        RESULT = x;
+        :}
+    |   //new addition id := varchar[num];
+        Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Numero:n Corchete_c P_coma
+        {:
+        Node x = new Node("ASSIGNMENT DE ARRAY",false);
+        x.addHijo((Node)h1);
+        Node x2 = new Node(n.toString(),false);
+        Node x3 = (Node) h2;
+        x3.addHijo(x2);
+        x.addHijo(x3);
+        RESULT = x;
+        :}
+    |
+        //new addition id := varchar[num][num]
+        Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Numero:n Corchete_c  Corchete_a Numero:n2 Corchete_c P_coma
+        {:
+        Node x = new Node("ASSIGNMENT DE MATRIX",false);
+        x.addHijo((Node)h1);
+        Node x2 = new Node(n.toString(),false);
+        Node x3 = new Node(n2.toString(),false);
+        Node x4 = (Node) h2;
+        x4.addHijo(x2);
+        x4.addHijo(x3);
+        x.addHijo(x4);
+        RESULT = x;
+        :}
+    |
+    //new addition  id := varchar[id]
+        Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Identificadoroletra:h3 Corchete_c P_coma
+        {:
+        Node x = new Node("ASSIGNMENT DE ARRAY",false);
+        x.addHijo((Node)h1);
+        Node x2 = (Node) h2;
+        x2.addHijo((Node)h3);
+        x.addHijo(x2);
+        RESULT = x;
+        :}
+    |
+        //new addition  id := varchar[id][id]
+        Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Identificadoroletra:h3 Corchete_c  Corchete_a Identificadoroletra:h4 Corchete_c P_coma
+        {:
+        Node x = new Node("ASSIGNMENT DE MATRIX",false);
+        x.addHijo((Node)h1);
+      
+        Node x2 = (Node) h2;
+        x2.addHijo((Node)h3);
+        x2.addHijo((Node)h4);
+        x.addHijo(x2);
+        RESULT = x;
+        :}
+    |
+    
     Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Caracter:h2 P_coma
             {:
              Node x = new Node("ASSIGNMENT ARRAY",false);
@@ -735,7 +793,69 @@ DECLARACION ::=
                 RESULT = x;
             :}
 
-    | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Identificadoroletra:h2 P_coma
+    | //new addition array[num] := callmethod
+    Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual  CALLMETHOD:h2
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = new Node(n.toString(),false);
+                Node Callmethod = (Node)h2;
+                Callmethod.setType("METHOD-CALL");
+                corchetes.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}
+
+    | 
+    //new addition array[id] := callmethod
+    Identificadoroletra:h1 Corchete_a Identificadoroletra:c1 Corchete_c Igual  CALLMETHOD:h2
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node) c1;
+                Node Callmethod = (Node)h2;
+                Callmethod.setType("METHOD-CALL");
+                corchetes.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}
+
+    | 
+    //new addition array[id] := char
+    Identificadoroletra:h1 Corchete_a Identificadoroletra:h2 Corchete_c Igual Caracter:h3 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)h2;
+                corchetes.addHijo(new Node(h3.toString(),false));
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}
+    | 
+       //new addition array[id] := num
+    Identificadoroletra:h1 Corchete_a Identificadoroletra:h2 Corchete_c Igual Numero:h3 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)h2;
+                corchetes.addHijo(new Node(h3.toString(),false));
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}        
+   
+    |//new addition array[id] := id
+    Identificadoroletra:h1 Corchete_a Identificadoroletra:h2 Corchete_c Igual  Identificadoroletra:h3 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT ARRAY",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)h2;
+                corchetes.addHijo((Node)h3);
+                x.addHijo(corchetes);
+                RESULT = x;
+            :}
+
+    |
+    Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  Identificadoroletra:h2 P_coma
             {:
              Node x = new Node("ASSIGNMENT MATRIX",false);
                 x.addHijo((Node)h1);
@@ -770,7 +890,81 @@ DECLARACION ::=
                 x.addHijo(corchetes2);
                 RESULT = x;
             :}
+
+    |   //NEW ADDITION id[num][num] := methodcall;
+        Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Corchete_a Numero:n2 Corchete_c Igual  CALLMETHOD:h2  
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = new Node(n.toString(),false);
+                Node corchetes2 = new Node(n2.toString(),false);
+                Node Callmethod = (Node)h2;
+                Callmethod.setType("METHOD-CALL");
+                corchetes2.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
     |
+    // NEW ADDITION id[id][id] := id;
+    Identificadoroletra:h1 Corchete_a Identificadoroletra:c1 Corchete_c Corchete_a Identificadoroletra:c2 Corchete_c Igual  Identificadoroletra:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)c1;
+                Node corchetes2 = (Node)c2;
+                corchetes2.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
+        
+    |
+    //NEW ADDITION id[id][id] := char;
+    Identificadoroletra:h1 Corchete_a Identificadoroletra:c1 Corchete_c Corchete_a Identificadoroletra:c2 Corchete_c Igual  Caracter:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)c1;
+                Node corchetes2 = (Node)c2;
+                corchetes2.addHijo(new Node(h2.toString(),false));
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
+
+    |
+        //NEW ADDITON id[id][id] := num;
+        Identificadoroletra:h1 Corchete_a Identificadoroletra:c1 Corchete_c Corchete_a Identificadoroletra:c2 Corchete_c Igual  Numero:h2 P_coma
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)c1;
+                Node corchetes2 = (Node)c2;
+                corchetes2.addHijo(new Node(h2.toString(),false));
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
+    |
+        //NEW ADDITION id[id][id] := methodcall;
+        Identificadoroletra:h1 Corchete_a Identificadoroletra:c1 Corchete_c Corchete_a Identificadoroletra:c2 Corchete_c Igual  CALLMETHOD:h2
+            {:
+             Node x = new Node("ASSIGNMENT MATRIX",false);
+                x.addHijo((Node)h1);
+                Node corchetes = (Node)c1;
+                Node corchetes2 = (Node)c2;
+                Node Callmethod = (Node)h2;
+                Callmethod.setType("METHOD-CALL");
+                corchetes2.addHijo((Node)h2);
+                x.addHijo(corchetes);
+                x.addHijo(corchetes2);
+                RESULT = x;
+            :}
+    |
+
+    
+
     // int array
     Define Identificadoroletra:h1 As Int Corchete_a Numero:n Corchete_c P_coma
         {:
@@ -801,6 +995,37 @@ DECLARACION ::=
         
         :}
     |
+     /* int array NEW ADDITON
+    Define Identificadoroletra:h1 As Int Corchete_a Identificadoroletra:h2 Corchete_c P_coma
+        {:
+              
+                Node x = new Node("DECLARATION",false);
+                Node x2 = new Node("integer array",false);
+                
+                x.addHijo(x2);
+                x.addHijo((Node)h1);
+                x.addHijo((Node)h2);
+                RESULT = x;
+        
+        :}
+    |
+    // int matriz NEW ADDITON
+    Define Identificadoroletra:h1 As Int Corchete_a Identificadoroletra:h2 Corchete_c Corchete_a Identificadoroletra:h3 Corchete_c P_coma
+          {:
+              
+                Node x = new Node("DECLARATION",false);
+                Node x2 = new Node("integer matrix",false);
+               
+                x.addHijo(x2);
+                x.addHijo((Node)h1);
+                x.addHijo((Node)h2);
+                x.addHijo((Node)h3);
+                RESULT = x;
+        
+        :}
+    |*/
+
+    
 
    
     //Deprecated
@@ -1801,6 +2026,24 @@ ESCRITURA ::= THrow Parentesis_a Identificadoroletra:h1 Parentesis_c P_coma
                     for(int i = 0;i<((Node)h1).getHijos().size();i++){
                             x.addHijo(((Node)h1).getHijos().get(i));
                         }
+                    RESULT = x;
+               :}
+               |
+               Throwln Parentesis_a STRING:h1 Parentesis_c P_coma
+                {:
+                    Node x = new Node("THROWLN",false);
+                    Node x2 = new Node(h1.toString(),false);
+                    x.addHijo(x2);
+                    RESULT = x;
+               :}
+               |THrow Parentesis_a STRING:h1 Parentesis_c P_coma
+                {:
+                    Node x = new Node("THROW",false);
+                    Node x2 = new Node(h1.toString(),false);
+                    x.addHijo(x2);
+       
+                    
+
                     RESULT = x;
                :}
 

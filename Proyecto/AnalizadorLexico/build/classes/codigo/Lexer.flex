@@ -6,6 +6,7 @@ import static codigo.Tokens.*;
 %state multilinecomment
 L=[a-zA-Z_]
 P = L+
+S = \"([^\\\"]|\\.)*\" 
 D=[0-9]+
 espacio=[ ,\t,\r]+
 caracter = "'"[^]"'"|"'""'"
@@ -29,7 +30,7 @@ caracter = "'"[^]"'"|"'""'"
 /* Tipos de datos */
 ( integer ) {lexeme=yytext(); return Int;}
 
-
+(S)  {lexeme=yytext(); return STRING;}
 /* Tipos de datos */
 ( character) {lexeme=yytext(); return Character;}
 
@@ -149,6 +150,8 @@ caracter = "'"[^]"'"|"'""'"
 
 /* Identificador */
 {L}+ ({L}+|{D})* {lexeme=yytext(); return Identificador;}
+
+//String
 
 /* Identificador */
 {L} {lexeme=yytext(); return L;}

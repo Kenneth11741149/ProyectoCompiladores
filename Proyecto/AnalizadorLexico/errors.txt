@@ -1,1 +1,1 @@
-Variable [varchar] does not support Integer Type.
+Error semantico: llamado a funcion [f] refiere a una funcion que no existe.
