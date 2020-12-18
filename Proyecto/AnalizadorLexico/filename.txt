@@ -1,15 +1,27 @@
 MAIN
        DECLARATION
-              integer matrix
+              integer
               varchar
-              7
-              5
        DECLARATION
-              integer array
+              character
               varchar2
-              9
        ASSIGNMENT
               varchar2
-              varchar
-              4
-              4
+              METHOD-CALL
+                     f2
+                     PARAMETROS
+                            varchar
+                            varchar
+INT METHOD
+       f2
+       PARAMETROS
+              integer
+              x1
+              integer
+              x2
+       BLOQUE
+              DECLARATION
+                     integer
+                     x
+       RETURN
+              x

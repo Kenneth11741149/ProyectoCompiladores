@@ -1,0 +1,1 @@
+Error Semantico: El retorno de la funcion [f2] no se le puede asignar a [varchar2].

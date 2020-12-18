@@ -676,6 +676,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     } //No borrar
 
     public Boolean FunctionExists(Function function) {
+        FunctionVerificada = null;
         for (int i = 0; i < funciones.size(); i++) {
             //Debug Purposes
             //System.out.println("SDNADFNA SEXOO");
@@ -697,7 +698,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
                 }
                 if (ParameterSize == sameTypeParameters) {
+                    FunctionVerificada = funciones.get(i);
                     return true;
+                    
                 }
             }
         }
@@ -1002,6 +1005,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 case "METHOD-CALL": { // id := function(params);
                     PROCEDURE_MethodCall(SegundoHijoDehijo, ambito);
+                    if(FunctionVerificada == null){
+                        ReportError("Error Semantico: No se puede encontrar el tipo de la funcion llamada. ["+MethodIdCall+"]");
+                    } else {
+                        System.out.println("Function Return:"+FunctionVerificada.getType());
+                        String MethodReturnType = FunctionVerificada.getType();
+                        if(LeftSideAssignmentType.equals(FunctionVerificada.getType())){
+                            
+                        } else {
+                            ReportError("Error Semantico: El retorno de la funcion ["+FunctionVerificada.getId()+"] no se le puede asignar a ["+NombreVariable+"].");
+                        }
+                    }
                     break;
                 }
                 case "integer": { //id:=integer
@@ -1048,6 +1062,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public void PROCEDURE_MethodCall(Node hijo, Ambito ambito) {
         String MethodId = hijo.getHijos().get(0).getValue();
+        this.MethodIdCall = MethodId;
         Node PARAMETROS = hijo.getHijos().get(1);
         System.out.println("MethodCall");
         Function temporal;
@@ -1865,6 +1880,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     ArrayList<Function> funciones = new ArrayList();//Tabla de funciones
 
     Variable VariableVerificada = null; //Si la variable existe con el metodo verificar_variable_existenteA(), se deposita en este temporal.
+    Function FunctionVerificada = null;
+    String MethodIdCall = "";
     int bOffSet = 0;
     ArrayList<String> erroresSemanticos = new ArrayList();
     String ambito_actual = "";
