@@ -975,13 +975,59 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public void PROCEDURE_Assignment(Node hijo, Ambito ambito, int pos) {
         String NombreVariable = hijo.getHijos().get(0).GetValue(); //NombreVariable y VariableName son 2 diferentes.
+        String VariableType = hijo.getHijos().get(0).getType();
         VariableVerificada = null; //Por seguridad se limpia algun acceso sucio que puede existir.
         if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable del lado izquierdo no existe. Tira error
             String error = "Variable [" + NombreVariable + "] no existe.";
             ReportError(error);
         } else { // Si la variable del lado izquierdo existe, confirma el tipo.
+            Node PrimerHijodeHijo = hijo.getHijos().get(0);
             Node SegundoHijoDehijo = hijo.getHijos().get(1);
             String LeftSideAssignmentType = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
+            
+            if(VariableType.equals("VARIABLE array")){
+                Node arrayIndex = PrimerHijodeHijo.getHijos().get(0);
+                String arrayIndexType = arrayIndex.getType();
+                if(arrayIndexType.equals("integer")){
+                    int arrayIndexValue = Integer.parseInt(arrayIndex.GetValue());
+                    String TipoVariable = VariableVerificada.getType();
+                    String[] types = TipoVariable.split(" ");
+                    if(types.length > 1){
+                        if(types[2].equals("array")){
+                            if(arrayIndexValue > 0 && arrayIndexValue < VariableVerificada.getI()){
+                                
+                            } else {
+                                ReportError("ERROR SEMANTICO: Posicion de array invalido para la variable: ["+NombreVariable+"] ");
+                            }
+                        } else {
+                            ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                        }
+                    } else {
+                        ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                    }
+                } else if (arrayIndexType.equals("VARIABLE")) {
+                    String arrayIndexNameValue = arrayIndex.GetValue();
+                    String TipoVariable = VariableVerificada.getType();
+                    String[] types = TipoVariable.split(" ");
+                    if(types.length > 1){
+                        if(types[2].equals("array")){
+                            if(verificar_variable_existenteA(arrayIndexNameValue, ambito)){
+                                //Success
+                            } else {
+                                ReportError("ERROR SEMANTICO: Variable utilizada de posicion de array ["+arrayIndexNameValue+"] no existe.");
+                            }
+                        } else {
+                            ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                        }
+                    } else {
+                        ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                    }
+                }
+                
+            } else if (VariableType.equals("VARIABLE matrix")){
+                
+            }
+            
             String RightSideAssignmentType = SegundoHijoDehijo.getType();
             //Falta validar los methods y las asignaciones complejas.
 
@@ -1011,7 +1057,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         System.out.println("Function Return:"+FunctionVerificada.getType());
                         String MethodReturnType = FunctionVerificada.getType();
                         if(LeftSideAssignmentType.equals(FunctionVerificada.getType())){
-                            
+                            System.out.println("Successfull Assignment of MethodCall");
                         } else {
                             ReportError("Error Semantico: El retorno de la funcion ["+FunctionVerificada.getId()+"] no se le puede asignar a ["+NombreVariable+"].");
                         }

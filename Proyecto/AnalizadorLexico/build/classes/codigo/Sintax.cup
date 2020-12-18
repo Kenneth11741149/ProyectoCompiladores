@@ -789,13 +789,20 @@ DECLARACION ::=
                 x.addHijo(corchetes);
                 RESULT = x;
             :}
+            // id[num]:=num;
     | Identificadoroletra:h1 Corchete_a Numero:n Corchete_c Igual Numero:h2 P_coma
             {:
-             Node x = new Node("ASSIGNMENT ARRAY",false);
-                x.addHijo((Node)h1);
-                Node corchetes = new Node(n.toString(),false);
-                corchetes.addHijo(new Node(h2.toString(),false));
-                x.addHijo(corchetes);
+             Node x = new Node("ASSIGNMENT",false);
+                Node x1 = (Node)h1;
+                x1.setType("VARIABLE array");
+                Node x2 = (Node)n;
+                x2.setType("integer");
+                x1.addHijo(x2);
+                Node x3 = (Node)h2;
+                x3.setType("integer");
+                x.addHijo(x1);
+                x.addHijo(x3);
+                
                 RESULT = x;
             :}        
    
@@ -852,10 +859,15 @@ DECLARACION ::=
     Identificadoroletra:h1 Corchete_a Identificadoroletra:h2 Corchete_c Igual Numero:h3 P_coma
             {:
              Node x = new Node("ASSIGNMENT ARRAY",false);
-                x.addHijo((Node)h1);
-                Node corchetes = (Node)h2;
-                corchetes.addHijo(new Node(h3.toString(),false));
-                x.addHijo(corchetes);
+                Node x1 = (Node)h1;
+                x1.setType("VARIABLE array");
+                x.addHijo(x1);
+                Node x2 = (Node)h2;
+                x2.setType("VARIABLE");
+                x1.addHijo(x2);
+                Node x3 = (Node)h3;
+                x3.setType("integer");
+                x.addHijo(x3);
                 RESULT = x;
             :}        
    

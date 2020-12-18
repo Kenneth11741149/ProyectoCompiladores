@@ -1,17 +1,16 @@
 MAIN
        DECLARATION
-              integer
+              integer array
               varchar
+              10
        DECLARATION
-              character
+              integer array
               varchar2
+              10
        ASSIGNMENT
               varchar2
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-                            varchar
-                            varchar
+              varchar
+              2
 INT METHOD
        f2
        PARAMETROS

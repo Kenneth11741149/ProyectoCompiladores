@@ -3054,7 +3054,7 @@ class CUP$Sintax$actions {
 		int h2right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
 		Object h2 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
 		
-             Node x = new Node("ASSIGNMENT ARRAY",false);
+             Node x = new Node("ASSIGNMENT",false);
                 x.addHijo((Node)h1);
                 Node corchetes = new Node(n.toString(),false);
                 corchetes.addHijo(new Node(h2.toString(),false));
