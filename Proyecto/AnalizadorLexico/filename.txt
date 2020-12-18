@@ -1,10 +1,12 @@
 MAIN
        DECLARATION
-              boolean
+              integer array
               varchar
+              9
+       DECLARATION
+              integer array
+              varchar2
+              9
        ASSIGNMENT
+              varchar2
               varchar
-              METHOD-CALL
-                     f
-                     PARAMETROS
-                            2

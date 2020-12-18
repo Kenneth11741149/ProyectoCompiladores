@@ -8,6 +8,7 @@ package codigo;
 
 public class Variable {
     public String type;
+    public String coreType;
     public String id;
     public String ambito;
     public int i; //Si la variable es un array esta variable tendra informacion de las filas.

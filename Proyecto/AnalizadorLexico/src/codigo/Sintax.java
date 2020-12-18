@@ -2901,12 +2901,15 @@ class CUP$Sintax$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).value;
 		
-        Node x = new Node("ASSIGNMENT DE ARRAY",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = new Node(n.toString(),false);
+        x2.setType("integer");
         Node x3 = (Node) h2;
-        x3.addHijo(x2);
+        x3.setType("array");
+        //x3.addHijo(x2);
         x.addHijo(x3);
+        x.addHijo(x2);
         RESULT = x;
         
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-6)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2930,7 +2933,7 @@ class CUP$Sintax$actions {
 		int n2right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).right;
 		Object n2 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).value;
 		
-        Node x = new Node("ASSIGNMENT DE MATRIX",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = new Node(n.toString(),false);
         Node x3 = new Node(n2.toString(),false);
@@ -2958,11 +2961,15 @@ class CUP$Sintax$actions {
 		int h3right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).right;
 		Object h3 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).value;
 		
-        Node x = new Node("ASSIGNMENT DE ARRAY",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = (Node) h2;
-        x2.addHijo((Node)h3);
+        x2.setType("array");
+        Node x3 = (Node) h3;
+        x3.setType("VARIABLE");
+
         x.addHijo(x2);
+        x.addHijo(x3);
         RESULT = x;
         
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-6)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2986,10 +2993,11 @@ class CUP$Sintax$actions {
 		int h4right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).right;
 		Object h4 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).value;
 		
-        Node x = new Node("ASSIGNMENT DE MATRIX",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
       
         Node x2 = (Node) h2;
+        
         x2.addHijo((Node)h3);
         x2.addHijo((Node)h4);
         x.addHijo(x2);

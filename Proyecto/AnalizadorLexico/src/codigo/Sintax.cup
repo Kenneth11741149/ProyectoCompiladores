@@ -716,19 +716,22 @@ DECLARACION ::=
     |   //new addition id := varchar[num];
         Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Numero:n Corchete_c P_coma
         {:
-        Node x = new Node("ASSIGNMENT DE ARRAY",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = new Node(n.toString(),false);
+        x2.setType("integer");
         Node x3 = (Node) h2;
-        x3.addHijo(x2);
+        x3.setType("array");
+        //x3.addHijo(x2);
         x.addHijo(x3);
+        x.addHijo(x2);
         RESULT = x;
         :}
     |
         //new addition id := varchar[num][num]
         Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Numero:n Corchete_c  Corchete_a Numero:n2 Corchete_c P_coma
         {:
-        Node x = new Node("ASSIGNMENT DE MATRIX",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = new Node(n.toString(),false);
         Node x3 = new Node(n2.toString(),false);
@@ -742,21 +745,26 @@ DECLARACION ::=
     //new addition  id := varchar[id]
         Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Identificadoroletra:h3 Corchete_c P_coma
         {:
-        Node x = new Node("ASSIGNMENT DE ARRAY",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = (Node) h2;
-        x2.addHijo((Node)h3);
+        x2.setType("array");
+        Node x3 = (Node) h3;
+        x3.setType("VARIABLE");
+
         x.addHijo(x2);
+        x.addHijo(x3);
         RESULT = x;
         :}
     |
         //new addition  id := varchar[id][id]
         Identificadoroletra:h1 Igual Identificadoroletra:h2 Corchete_a Identificadoroletra:h3 Corchete_c  Corchete_a Identificadoroletra:h4 Corchete_c P_coma
         {:
-        Node x = new Node("ASSIGNMENT DE MATRIX",false);
+        Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
       
         Node x2 = (Node) h2;
+        
         x2.addHijo((Node)h3);
         x2.addHijo((Node)h4);
         x.addHijo(x2);

@@ -37,149 +37,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    /*private void analizarLexico() throws IOException {
-        int cont = 1;
-
-        String expr = (String) txtResultado.getText();
-        Lexer lexer = new Lexer(new StringReader(expr));
-        String resultado = "LINEA " + cont + "\t\tSIMBOLO\n";
-        while (true) {
-            Tokens token = lexer.yylex();
-            if (token == null) {
-                txtAnalizarLex.setText(resultado);
-                return;
-            }
-            switch (token) {
-                case Linea:
-                    cont++;
-                    resultado += "LINEA " + cont + "\n";
-                    break;
-                case Comillas:
-                    resultado += "  <Comillas>\t\t" + lexer.lexeme + "\n";
-                    break;
-                case Eat:
-                    resultado += "  <Reservada eat>\t" + lexer.lexeme + "\n";
-                    break;
-                case THrow:
-                case Throwln:
-                    resultado += "  <Reservada throw>\t" + lexer.lexeme + "\n";
-                    break;
-                case Int:
-                case Boolean:
-                case Character:
-                    resultado += "  <Tipo de dato>\t" + lexer.lexeme + "\n";
-                    break;
-                case OpenTest:
-                    resultado += "  <Reservada opentest>\t" + lexer.lexeme + "\n";
-                    break;
-                case CloseTest:
-                    resultado += "  <Reservada closetest>\t" + lexer.lexeme + "\n";
-                    break;
-                case Then:
-                    resultado += "  <Reservada then>\t" + lexer.lexeme + "\n";
-                    break;
-                case Or:
-                    resultado += "  <Reservada or>\t" + lexer.lexeme + "\n";
-                    break;
-                case Do:
-                    resultado += "  <Reservada do>\t" + lexer.lexeme + "\n";
-                    break;
-
-                case OpenFor:
-                    resultado += "  <Reservada openfor>\t" + lexer.lexeme + "\n";
-                    break;
-                case CloseFor:
-                    resultado += "  <Reserva closefor>\t" + lexer.lexeme + "\n";
-                    break;
-                case OpenUntil:
-                    resultado += "  <Reservada openuntil>\t" + lexer.lexeme + "\n";
-                    break;
-                case CloseUntil:
-                    resultado += "  <Reserva closeuntil>\t" + lexer.lexeme + "\n";
-                    break;
-
-                case Igual:
-                    resultado += "  <Operador igual>\t" + lexer.lexeme + "\n";
-                    break;
-                case Suma:
-                    resultado += "  <Operador suma>\t" + lexer.lexeme + "\n";
-                    break;
-                case Resta:
-                    resultado += "  <Operador resta>\t" + lexer.lexeme + "\n";
-                    break;
-                case Multiplicacion:
-                    resultado += "  <Operador multiplicacion>\t" + lexer.lexeme + "\n";
-                    break;
-                case Division:
-                    resultado += "  <Operador division>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_incremento:
-                    resultado += "  <Operador incremento>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_relacional:
-                    resultado += "  <Operador relacional>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_atribucion:
-                    resultado += "  <Operador atribucion>\t" + lexer.lexeme + "\n";
-                    break;
-                case Op_booleano:
-                    resultado += "  <Operador booleano>\t" + lexer.lexeme + "\n";
-                    break;
-                case Parentesis_a:
-                    resultado += "  <Parentesis de apertura>\t" + lexer.lexeme + "\n";
-                    break;
-                case Parentesis_c:
-                    resultado += "  <Parentesis de cierre>\t" + lexer.lexeme + "\n";
-                    break;
-                case Llave_a:
-                    resultado += "  <Llave de apertura>\t" + lexer.lexeme + "\n";
-                    break;
-                case Llave_c:
-                    resultado += "  <Llave de cierre>\t" + lexer.lexeme + "\n";
-                    break;
-                case Corchete_a:
-                    resultado += "  <Corchete de apertura>\t" + lexer.lexeme + "\n";
-                    break;
-                case Corchete_c:
-                    resultado += "  <Corchete de cierre>\t" + lexer.lexeme + "\n";
-                    break;
-                case Main:
-                    resultado += "  <Reservada open-main>\t" + lexer.lexeme + "\n";
-                    break;
-
-                case CloseMain:
-                    resultado += "  <Reservada close-main>\t" + lexer.lexeme + "\n";
-                    break;
-                case P_coma:
-                    resultado += "  <Punto y coma>\t" + lexer.lexeme + "\n";
-                    break;
-                case Coma:
-                    resultado += "  <coma>\t" + lexer.lexeme + "\n";
-                    break;
-                case Identificador:
-                    resultado += "  <Identificador>\t\t" + lexer.lexeme + "\n";
-                    break;
-                case Numero:
-                    resultado += "  <Numero>\t\t" + lexer.lexeme + "\n";
-                    break;
-                case Define:
-                    resultado += "  <Reservada define>\t" + lexer.lexeme + "\n";
-                    break;
-                case As:
-                    resultado += "  <Reservada as>\t" + lexer.lexeme + "\n";
-                    break;
-                case ERROR:
-                    resultado += "  <Simbolo no definido>\n";
-                    break;
-                
-                default:
-                    resultado += "  < " + lexer.lexeme + " >\n";
-                    break;
-            }
-        }
-    }
-
-    /**
+    /*  
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
@@ -1048,7 +906,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     i = Integer.valueOf(ArrayMatrixLineLengthInString);
                     j = Integer.valueOf(ArrayMatrixColumnLengthInString);
                     /* Validations on Line, Column*/
-                    Boolean valid = validar_filas_columnas_matrices(i,j,4,nombreVariable);
+                    Boolean valid = validar_filas_columnas_matrices(i, j, 4, nombreVariable);
                     if (valid) {
                         this.bOffSet += i * j * 4;
                     } else {
@@ -1064,7 +922,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     i = Integer.valueOf(ArrayMatrixLineLengthInString);
                     j = Integer.valueOf(ArrayMatrixColumnLengthInString);
                     /* Validations on Line, Column*/
-                    Boolean valid = validar_filas_columnas_matrices(i,j,1,nombreVariable);
+                    Boolean valid = validar_filas_columnas_matrices(i, j, 1, nombreVariable);
                     if (valid) {
                         this.bOffSet += i * j * 1;
                     } else {
@@ -1080,7 +938,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     i = Integer.valueOf(ArrayMatrixLineLengthInString);
                     j = Integer.valueOf(ArrayMatrixColumnLengthInString);
                     /* Validations on Line, Column*/
-                    Boolean valid = validar_filas_columnas_matrices(i,j,4,nombreVariable);
+                    Boolean valid = validar_filas_columnas_matrices(i, j, 4, nombreVariable);
                     if (valid) {
                         this.bOffSet += i * j * 4;
                     } else {
@@ -1111,67 +969,68 @@ public class FrmPrincipal extends javax.swing.JFrame {
         if (!verificar_variable_existenteA(NombreVariable, ambito)) { //Si la variable del lado izquierdo no existe. Tira error
             String error = "Variable [" + NombreVariable + "] no existe.";
             ReportError(error);
-        } else { //Si la variable del lado izquierdo existe, confirma el tipo.
+        } else { // Si la variable del lado izquierdo existe, confirma el tipo.
             Node SegundoHijoDehijo = hijo.getHijos().get(1);
             String LeftSideAssignmentType = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
             String RightSideAssignmentType = SegundoHijoDehijo.getType();
             //Falta validar los methods y las asignaciones complejas.
 
             System.out.println("ASSIGNMENT DEBUG: Assignment Child Size [" + hijo.getHijos().size() + "]");
-            if (hijo.getHijos().size() == 2) {
-                switch (RightSideAssignmentType) { //This checks for the right side type. We must then   
-                    case "VARIABLE": {
-                        String VariableName = SegundoHijoDehijo.GetValue();
-                        VariableVerificada = null;
-                        if (verificar_variable_existenteA(VariableName, ambito)) {
-                            RightSideAssignmentType = VariableVerificada.getType();
-                            System.out.println("Table assignment Type: " + RightSideAssignmentType);
-                            if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                                System.out.println("Successfull ASSIGNMENT of " + LeftSideAssignmentType + " to " + RightSideAssignmentType + " on variable " + NombreVariable);
-                            } else {
-                                ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "]");
-                            }
-                        } else {
-                            ReportError("Variable [" + VariableName + "] no existe en el ambito de la asignacion a " + NombreVariable);
-                        }
-                        break;
-                    }
-                    case "METHOD-CALL": {
-                        PROCEDURE_MethodCall(SegundoHijoDehijo, ambito);
-                        break;
-                    }
-                    case "integer": {
+            switch (RightSideAssignmentType) { //This checks for the right side type. We must then   
+                case "VARIABLE": { // id := id
+                    String VariableName = SegundoHijoDehijo.GetValue();
+                    VariableVerificada = null;
+                    if (verificar_variable_existenteA(VariableName, ambito)) {
+                        RightSideAssignmentType = VariableVerificada.getType();
+                        System.out.println("Table assignment Type: " + RightSideAssignmentType);
                         if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                            System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
+                            System.out.println("Successfull ASSIGNMENT of " + LeftSideAssignmentType + " to " + RightSideAssignmentType + " on variable " + NombreVariable);
                         } else {
-                            ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                            ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "]");
                         }
-                        break;
+                    } else {
+                        ReportError("Variable [" + VariableName + "] no existe en el ambito de la asignacion a " + NombreVariable);
                     }
-                    case "character": {
-                        if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                            System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
-                        } else {
-                            ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
-                        }
-                        break;
-                    }
-                    case "boolean": {
-                        if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                            System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
-                        } else {
-                            ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
-                        }
-                        break;
-                    }
-                    default: {
-                        ReportError("Unrecognized NodeType in ASSIGNMENT to: [" + NombreVariable + "] + [" + RightSideAssignmentType + "]");
-                        break;
-                    }
+                    break;
                 }
+                case "METHOD-CALL": { // id := function(params);
+                    PROCEDURE_MethodCall(SegundoHijoDehijo, ambito);
+                    break;
+                }
+                case "integer": { //id:=character
+                    if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                        System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
+                    } else {
+                        ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                    }
+                    break;
+                }
+                case "character": { // id:= character
+                    if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                        System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
+                    } else {
+                        ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                    }
+                    break;
+                }
+                case "boolean": { // id := boolean
+                    if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
+                        System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
+                    } else {
+                        ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                    }
+                    break;
+                }
+                case "array": { // id := array[pos] AND  id := array[id]
+                    PROCEDURE_Assign_array_to_id(hijo, SegundoHijoDehijo, NombreVariable, LeftSideAssignmentType, RightSideAssignmentType, ambito);
+                    break;
+                }
+                
 
-            } else {
-                System.out.println("ALERT: PATH NOT CODED YET.");
+                default: {
+                    ReportError("Unrecognized NodeType in ASSIGNMENT to: [" + NombreVariable + "] + [" + RightSideAssignmentType + "]");
+                    break;
+                }
             }
 
         }
@@ -1259,6 +1118,57 @@ public class FrmPrincipal extends javax.swing.JFrame {
         recorrerArbolA(arbol, ambito, pos);
     }
 
+    public void PROCEDURE_Assign_array_to_id(Node hijo, Node SegundoHijoDehijo, String NombreVariable, String LeftSideAssignmentType, String RightSideAssignmentType, Ambito ambito) {
+        String VariableName = SegundoHijoDehijo.GetValue();
+        VariableVerificada = null;
+        if (verificar_variable_existenteA(VariableName, ambito)) {
+            RightSideAssignmentType = VariableVerificada.getType();
+            //PUT CODE HERE.
+            String[] types = RightSideAssignmentType.split(" ");
+                
+            //
+            if (LeftSideAssignmentType.equals(RightSideAssignmentType) || LeftSideAssignmentType.equals(types[0])) {
+                Node TercerHijoDeHijo = hijo.getHijos().get(2);
+                String posType = TercerHijoDeHijo.getType();
+                if (posType.equals("integer")) {
+                    int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
+                    if (posValor >= 0 && posValor < VariableVerificada.getI()) {
+                        if (LeftSideAssignmentType.equals(types[0])) {
+                            System.out.println("Successful assignment id:=array[pos]");
+                        } else {
+                            ReportError("Variable [" + NombreVariable + "] does not support {" + RightSideAssignmentType + "} Type.");
+                        }
+                    } else {
+                        ReportError("Error Semantico: Variable de tipo array: [" + VariableName + "] hace referencia a una posicion invalida.");
+                    }
+                } else if (posType.equals("VARIABLE")) {
+                    String posIDname = TercerHijoDeHijo.getValue();
+                    if (verificar_variable_existenteA(posIDname, ambito)) {
+                        posType = VariableVerificada.getType();
+                        if (posType.equals("integer")) {
+                            System.out.println("Successful assignment id:=array[id]");
+                        } else {
+                            ReportError("Error Semantico: La posicion en la variable array [" + VariableName + "] hace referencia a una variable que no es de tipo integer. tipo recibido:[" + posType + "].");
+                        }
+
+                    } else {
+                        ReportError("Error Semantico: La posicion en la variable array [" + VariableName + "] hace referencia a una variable que no existe.");
+                    }
+
+                } else if (posType.equals("Complex Calculation")) {
+                    System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
+                }
+            } else {
+                ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "].");
+            }
+        } else {
+            ReportError("ERROR SEMANTICO: La variable [" + VariableName + "] no existe.");
+        }
+    }
+
+    public String Array_Type_Extractor(){
+        return "S";
+    }
     public String verificarasignaciond(String tipo, String var2, String ambitointerno, String ambitoglobal) {
         String result = "true";
 

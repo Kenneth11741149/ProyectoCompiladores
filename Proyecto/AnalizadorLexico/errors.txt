@@ -1,1 +1,0 @@
-Error semantico: llamado a funcion [f] refiere a una funcion que no existe.
