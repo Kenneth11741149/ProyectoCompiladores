@@ -900,13 +900,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 /*Matrix Section*/
                 case "integer matrix": {
-                    
+
                     String ArrayMatrixLineLengthInString = hijo.getHijos().get(2).getValue();
                     String ArrayMatrixColumnLengthInString = hijo.getHijos().get(3).getValue();
 
                     i = Integer.valueOf(ArrayMatrixLineLengthInString);
                     j = Integer.valueOf(ArrayMatrixColumnLengthInString);
-                    
+
                     /* Validations on Line, Column*/
                     Boolean valid = validar_filas_columnas_matrices(i, j, 4, nombreVariable);
                     System.out.println(valid);
@@ -956,15 +956,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             if (añadir) {
                 Variable nueva = new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet);
                 ambito.getVariables().add(nueva);
-                System.out.println("SEXOOOOOOOO");
+
                 if (array) {
-                    System.out.println("ARRAY ASIDHASDUGNFASD");
+
                     nueva.setI(i);
                 } else if (matrix) {
-                    System.out.println("SEXOOOOO 2 + "+j);
+
                     nueva.setI(i);
                     nueva.setJ(j);
-                    
+
                 }
             }
         }
@@ -1033,54 +1033,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 }
                 case "matrix": {
-                    String VariableName = SegundoHijoDehijo.GetValue();
-                    VariableVerificada = null;
-                    if (verificar_variable_existenteA(VariableName, ambito)) {
-                        RightSideAssignmentType = VariableVerificada.getType();
-                        //PUT CODE HERE.
-                        String[] types = RightSideAssignmentType.split(" ");
-                        String[] types2 = LeftSideAssignmentType.split(" ");
-                        System.out.println(types[0]+"SEXOOOOO");
-                        //
-                        if (LeftSideAssignmentType.equals(RightSideAssignmentType) || types2[0].equals(types[0])) {
-                            Node TercerHijoDeHijo = hijo.getHijos().get(2);
-                            Node CuartoHijoDeHijo = hijo.getHijos().get(3);
-                            String posType = TercerHijoDeHijo.getType();
-                            if (posType.equals("integer")) {
-                                int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
-                                int posValor2 = Integer.parseInt(CuartoHijoDeHijo.getValue());
-                                System.out.println(posValor2);
-                                System.out.println(VariableVerificada.getJ());
-                                Boolean test =  posValor2 >= 0 && posValor2 < VariableVerificada.getJ();
-                                System.out.println(test+"SEXOOOOOO");
-                                if (posValor >= 0 && posValor < VariableVerificada.getI() && posValor2 >= 0 && posValor2 < VariableVerificada.getJ()) {
-                                    System.out.println("Assigment Matrix success.");
-                                } else {
-                                    ReportError("Error Semantico: Variable de tipo matrix: [" + VariableName + "] hace referencia a una posicion invalida.");
-                                }
-                            } else if (posType.equals("VARIABLE")) {
-                                String posIDname = TercerHijoDeHijo.getValue();
-                                if (verificar_variable_existenteA(posIDname, ambito)) {
-                                    posType = VariableVerificada.getType();
-                                    if (posType.equals("integer")) {
-                                        System.out.println("Successful assignment id:=array[id]");
-                                    } else {
-                                        ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no es de tipo integer. tipo recibido:[" + posType + "].");
-                                    }
-
-                                } else {
-                                    ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no existe.");
-                                }
-
-                            } else if (posType.equals("Complex Calculation")) {
-                                System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
-                            }
-                        } else {
-                            ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "].");
-                        }
-                    } else {
-                        ReportError("ERROR SEMANTICO: La variable [" + VariableName + "] no existe.");
-                    }
+                    PROCEDURE_Assign_matrix_to_id(hijo, SegundoHijoDehijo, NombreVariable, LeftSideAssignmentType, RightSideAssignmentType, ambito);
                     break;
                 }
 
@@ -1182,15 +1135,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
             RightSideAssignmentType = VariableVerificada.getType();
             //PUT CODE HERE.
             String[] types = RightSideAssignmentType.split(" ");
+            String[] types2 = LeftSideAssignmentType.split(" ");
+            Boolean arrayValidation = true;
+            try{
+                String confirmType = types[1];
+                System.out.println(confirmType+"SEXOOOOOOOO");
+                if(!confirmType.equals("array")){
+                    arrayValidation = false;
+                }
+            }catch(Exception e){
+                arrayValidation = false;
+            }
 
             //
-            if (LeftSideAssignmentType.equals(RightSideAssignmentType) || LeftSideAssignmentType.equals(types[0])) {
+            if ((LeftSideAssignmentType.equals(RightSideAssignmentType) || types2[0].equals(types[0])) && arrayValidation) {
                 Node TercerHijoDeHijo = hijo.getHijos().get(2);
                 String posType = TercerHijoDeHijo.getType();
                 if (posType.equals("integer")) {
                     int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
                     if (posValor >= 0 && posValor < VariableVerificada.getI()) {
-                         System.out.println("Successful assignment id:=array[pos]");
+                        System.out.println("Successful assignment id:=array[pos]");
                     } else {
                         ReportError("Error Semantico: Variable de tipo array: [" + VariableName + "] hace referencia a una posicion invalida.");
                     }
@@ -1206,6 +1170,66 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                     } else {
                         ReportError("Error Semantico: La posicion en la variable array [" + VariableName + "] hace referencia a una variable que no existe.");
+                    }
+
+                } else if (posType.equals("Complex Calculation")) {
+                    System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
+                }
+            } else {
+                ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "].");
+            }
+        } else {
+            ReportError("ERROR SEMANTICO: La variable [" + VariableName + "] no existe.");
+        }
+    }
+
+    public void PROCEDURE_Assign_matrix_to_id(Node hijo, Node SegundoHijoDehijo, String NombreVariable, String LeftSideAssignmentType, String RightSideAssignmentType, Ambito ambito) {
+        String VariableName = SegundoHijoDehijo.GetValue();
+        VariableVerificada = null;
+        if (verificar_variable_existenteA(VariableName, ambito)) {
+            RightSideAssignmentType = VariableVerificada.getType();
+            //PUT CODE HERE.
+            String[] types = RightSideAssignmentType.split(" ");
+            String[] types2 = LeftSideAssignmentType.split(" ");
+            Boolean matrixValidation = true;
+            try{
+                String confirmType = types[1];
+                System.out.println(confirmType+"SEXOOOOOOOO");
+                if(!confirmType.equals("matrix")){
+                    matrixValidation = false;
+                }
+            }catch(Exception e){
+                matrixValidation = false;
+            }
+            //
+            if ((LeftSideAssignmentType.equals(RightSideAssignmentType) || types2[0].equals(types[0])) && matrixValidation) {
+                Node TercerHijoDeHijo = hijo.getHijos().get(2);
+                Node CuartoHijoDeHijo = hijo.getHijos().get(3);
+                String posType = TercerHijoDeHijo.getType();
+                if (posType.equals("integer")) {
+                    int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
+                    int posValor2 = Integer.parseInt(CuartoHijoDeHijo.getValue());
+                    System.out.println(posValor2);
+                    System.out.println(VariableVerificada.getJ());
+                    Boolean test = posValor2 >= 0 && posValor2 < VariableVerificada.getJ();
+                    
+                    if (posValor >= 0 && posValor < VariableVerificada.getI() && posValor2 >= 0 && posValor2 < VariableVerificada.getJ()) {
+                        System.out.println("Assigment Matrix success.");
+                    } else {
+                        ReportError("Error Semantico: Variable de tipo matrix: [" + VariableName + "] hace referencia a una posicion invalida.");
+                    }
+                } else if (posType.equals("VARIABLE")) {
+                    String posIDname = TercerHijoDeHijo.getValue();
+                    if (verificar_variable_existenteA(posIDname, ambito)) {
+                        posType = VariableVerificada.getType();
+                        if (posType.equals("integer")) {
+                            System.out.println("Successful assignment id:=array[id]");
+                        } else {
+                            ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no es de tipo integer. tipo recibido:[" + posType + "].");
+                        }
+
+                    } else {
+                        ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no existe.");
                     }
 
                 } else if (posType.equals("Complex Calculation")) {
