@@ -799,7 +799,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } else {
 
             boolean añadir = true;
-            boolean array = true;
+            boolean array = false;
             boolean matrix = false;
             int i = 0;
             int j = 0;
@@ -900,13 +900,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 /*Matrix Section*/
                 case "integer matrix": {
+                    
                     String ArrayMatrixLineLengthInString = hijo.getHijos().get(2).getValue();
                     String ArrayMatrixColumnLengthInString = hijo.getHijos().get(3).getValue();
 
                     i = Integer.valueOf(ArrayMatrixLineLengthInString);
                     j = Integer.valueOf(ArrayMatrixColumnLengthInString);
+                    
                     /* Validations on Line, Column*/
                     Boolean valid = validar_filas_columnas_matrices(i, j, 4, nombreVariable);
+                    System.out.println(valid);
                     if (valid) {
                         this.bOffSet += i * j * 4;
                     } else {
@@ -953,11 +956,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             if (añadir) {
                 Variable nueva = new Variable(hijo.getHijos().get(0).getValue(), hijo.getHijos().get(1).getValue(), ambito.getName(), this.bOffSet);
                 ambito.getVariables().add(nueva);
+                System.out.println("SEXOOOOOOOO");
                 if (array) {
+                    System.out.println("ARRAY ASIDHASDUGNFASD");
                     nueva.setI(i);
                 } else if (matrix) {
+                    System.out.println("SEXOOOOO 2 + "+j);
                     nueva.setI(i);
                     nueva.setJ(j);
+                    
                 }
             }
         }
@@ -997,11 +1004,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     PROCEDURE_MethodCall(SegundoHijoDehijo, ambito);
                     break;
                 }
-                case "integer": { //id:=character
+                case "integer": { //id:=integer
                     if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
                         System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
                     } else {
-                        ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                        ReportError("Variable [" + NombreVariable + "] does not support integer Type.");
                     }
                     break;
                 }
@@ -1009,7 +1016,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
                         System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
                     } else {
-                        ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                        ReportError("Variable [" + NombreVariable + "] does not support character Type.");
                     }
                     break;
                 }
@@ -1017,7 +1024,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
                         System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
                     } else {
-                        ReportError("Variable [" + NombreVariable + "] does not support Integer Type.");
+                        ReportError("Variable [" + NombreVariable + "] does not support boolean Type.");
                     }
                     break;
                 }
@@ -1025,7 +1032,57 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     PROCEDURE_Assign_array_to_id(hijo, SegundoHijoDehijo, NombreVariable, LeftSideAssignmentType, RightSideAssignmentType, ambito);
                     break;
                 }
-                
+                case "matrix": {
+                    String VariableName = SegundoHijoDehijo.GetValue();
+                    VariableVerificada = null;
+                    if (verificar_variable_existenteA(VariableName, ambito)) {
+                        RightSideAssignmentType = VariableVerificada.getType();
+                        //PUT CODE HERE.
+                        String[] types = RightSideAssignmentType.split(" ");
+                        String[] types2 = LeftSideAssignmentType.split(" ");
+                        System.out.println(types[0]+"SEXOOOOO");
+                        //
+                        if (LeftSideAssignmentType.equals(RightSideAssignmentType) || types2[0].equals(types[0])) {
+                            Node TercerHijoDeHijo = hijo.getHijos().get(2);
+                            Node CuartoHijoDeHijo = hijo.getHijos().get(3);
+                            String posType = TercerHijoDeHijo.getType();
+                            if (posType.equals("integer")) {
+                                int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
+                                int posValor2 = Integer.parseInt(CuartoHijoDeHijo.getValue());
+                                System.out.println(posValor2);
+                                System.out.println(VariableVerificada.getJ());
+                                Boolean test =  posValor2 >= 0 && posValor2 < VariableVerificada.getJ();
+                                System.out.println(test+"SEXOOOOOO");
+                                if (posValor >= 0 && posValor < VariableVerificada.getI() && posValor2 >= 0 && posValor2 < VariableVerificada.getJ()) {
+                                    System.out.println("Assigment Matrix success.");
+                                } else {
+                                    ReportError("Error Semantico: Variable de tipo matrix: [" + VariableName + "] hace referencia a una posicion invalida.");
+                                }
+                            } else if (posType.equals("VARIABLE")) {
+                                String posIDname = TercerHijoDeHijo.getValue();
+                                if (verificar_variable_existenteA(posIDname, ambito)) {
+                                    posType = VariableVerificada.getType();
+                                    if (posType.equals("integer")) {
+                                        System.out.println("Successful assignment id:=array[id]");
+                                    } else {
+                                        ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no es de tipo integer. tipo recibido:[" + posType + "].");
+                                    }
+
+                                } else {
+                                    ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no existe.");
+                                }
+
+                            } else if (posType.equals("Complex Calculation")) {
+                                System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
+                            }
+                        } else {
+                            ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "].");
+                        }
+                    } else {
+                        ReportError("ERROR SEMANTICO: La variable [" + VariableName + "] no existe.");
+                    }
+                    break;
+                }
 
                 default: {
                     ReportError("Unrecognized NodeType in ASSIGNMENT to: [" + NombreVariable + "] + [" + RightSideAssignmentType + "]");
@@ -1125,7 +1182,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             RightSideAssignmentType = VariableVerificada.getType();
             //PUT CODE HERE.
             String[] types = RightSideAssignmentType.split(" ");
-                
+
             //
             if (LeftSideAssignmentType.equals(RightSideAssignmentType) || LeftSideAssignmentType.equals(types[0])) {
                 Node TercerHijoDeHijo = hijo.getHijos().get(2);
@@ -1133,11 +1190,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 if (posType.equals("integer")) {
                     int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
                     if (posValor >= 0 && posValor < VariableVerificada.getI()) {
-                        if (LeftSideAssignmentType.equals(types[0])) {
-                            System.out.println("Successful assignment id:=array[pos]");
-                        } else {
-                            ReportError("Variable [" + NombreVariable + "] does not support {" + RightSideAssignmentType + "} Type.");
-                        }
+                         System.out.println("Successful assignment id:=array[pos]");
                     } else {
                         ReportError("Error Semantico: Variable de tipo array: [" + VariableName + "] hace referencia a una posicion invalida.");
                     }
@@ -1166,9 +1219,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }
 
-    public String Array_Type_Extractor(){
+    public String Array_Type_Extractor() {
         return "S";
     }
+
     public String verificarasignaciond(String tipo, String var2, String ambitointerno, String ambitoglobal) {
         String result = "true";
 

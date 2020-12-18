@@ -1,8 +1,9 @@
 MAIN
        DECLARATION
-              integer array
+              integer matrix
               varchar
-              9
+              7
+              5
        DECLARATION
               integer array
               varchar2
@@ -10,3 +11,5 @@ MAIN
        ASSIGNMENT
               varchar2
               varchar
+              4
+              4

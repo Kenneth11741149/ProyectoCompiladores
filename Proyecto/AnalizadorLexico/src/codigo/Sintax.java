@@ -2936,11 +2936,14 @@ class CUP$Sintax$actions {
         Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
         Node x2 = new Node(n.toString(),false);
+        x2.setType("integer");
         Node x3 = new Node(n2.toString(),false);
+        x3.setType("integer");
         Node x4 = (Node) h2;
-        x4.addHijo(x2);
-        x4.addHijo(x3);
+        x4.setType("matrix");
         x.addHijo(x4);
+        x.addHijo(x2);
+        x.addHijo(x3);
         RESULT = x;
         
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-9)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
@@ -2995,12 +2998,17 @@ class CUP$Sintax$actions {
 		
         Node x = new Node("ASSIGNMENT",false);
         x.addHijo((Node)h1);
-      
+       
         Node x2 = (Node) h2;
-        
-        x2.addHijo((Node)h3);
-        x2.addHijo((Node)h4);
+        x2.setType("matrix");
+        Node x3 = (Node)h3;
+        x3.setType("VARIABLE");
+        Node x4 = (Node)h4;
+        x4.setType("VARIABLE");
         x.addHijo(x2);
+        x.addHijo(x3);
+        x.addHijo(x4);
+        
         RESULT = x;
         
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-9)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
