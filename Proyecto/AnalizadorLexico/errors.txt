@@ -1,0 +1,2 @@
+Error Sintactico en la linea 8 Columna 7. No se esperaba esto: "2"
+Error Sintactico en la linea 8 Columna 24. No se esperaba esto: "[2] OpenMatch con case-do incorrecta. No hay nada que hacer en el do."

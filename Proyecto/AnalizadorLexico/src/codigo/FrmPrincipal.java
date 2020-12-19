@@ -1642,6 +1642,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         codigo_intermedio(hijo);
                     });
                     break;
+                case "METHOD-CALL":
+                    //REALIZAR LLAMADA DE FUNCION, ESPERO FUNUNCIE xd
+                    //OP_FUNCALL(n);
+                    break;
                 default:
                     n.getHijos().forEach((hijo)
                             -> {
@@ -1649,6 +1653,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     });
             }
         }
+    }
+    
+    public void OP_FUNCALL(Node n){
+        String nombreFunc = n.getHijos().get(0).getValue();
+        Node params = n.getHijos().get(1);
+        for (int i = 0; i < params.getHijos().size(); i++) {
+            
+        }
+        
+        
     }
 
     public void PROCEDURE_ASSIGNMENT_INTER(Node n) {
@@ -1674,11 +1688,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
 
         String temp2 = generarTemp();
-        this.exp_intermedio.add(temp2);
-        this.exp_intermedio.add(returnData(val));
+        //this.exp_intermedio.add(temp2);
+        //this.exp_intermedio.add(returnData(val));
         this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
-        this.exp_intermedio.add(varAsign);
-        this.exp_intermedio.add(returnData(temp2));
+        //this.exp_intermedio.add(varAsign);
+        //this.exp_intermedio.add(returnData(temp2));
         this.cuadruplos.add(new Cuadruplos("=", temp2, "", varAsign));
 
     }
@@ -1690,13 +1704,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         String dat1 = "";
         String dat2 = "";
         if (isInteger(n.getHijos().get(0).GetValue())) {
-            //System.out.println("Es entero");
-            data1 = Integer.parseInt(n.getHijos().get(0).GetValue());
+            
             dat1 = n.getHijos().get(0).GetValue();
         } else {
-            //Search for the value on the arraylist
-            //System.out.println("Buscando valor data1");
-            data1 = Integer.parseInt(returnData(n.getHijos().get(0).GetValue()));
+            
             dat1 = n.getHijos().get(0).GetValue();
         }
 
@@ -1704,48 +1715,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
         int retVal = 0;
         if (n.getHijos().get(1).GetValue() == "/" || n.getHijos().get(1).GetValue() == "*" || n.getHijos().get(1).GetValue() == "+"
                 || n.getHijos().get(1).GetValue() == "-") {
-            //System.out.println("RECURSIVO CHINO");
+            
             String tempData = "";
             tempData = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
-            //System.out.println("SALI DEL RESTAURANTE CHINO");
-            //System.out.println(tempData);
-            data2 = Integer.parseInt(returnData(tempData));
+            
             dat2 = tempData;
 
         } else {
             if (isInteger(n.getHijos().get(1).GetValue())) {
                 //System.out.println("ES ENTERO");
                 dat2 = n.getHijos().get(1).GetValue();
-                data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
+                //data2 = Integer.parseInt(n.getHijos().get(1).GetValue());
             } else {
                 //Search for the value on the arraylist
                 //System.out.println("BUSCANDO VALOR DATA2");
                 dat2 = n.getHijos().get(1).GetValue();
-                data2 = Integer.parseInt(returnData(n.getHijos().get(1).GetValue()));
+                //data2 = Integer.parseInt(returnData(n.getHijos().get(1).GetValue()));
             }
 
         }
-        switch (signo) {
-            case "+":
-                retVal = data1 + data2;
-                break;
-            case "-":
-                retVal = data1 - data2;
-                break;
-            case "*":
-                retVal = data1 * data2;
-                break;
-            case "/":
-                retVal = data1 / data2;
-                break;
-        }
+        
         String temp = generarTemp();
-        //System.out.println(signo);
-        //System.out.println(data1);
-        //System.out.println(data2);
-        //Agrega el cuadruplo a Cuadruplos
-        this.exp_intermedio.add(temp);
-        this.exp_intermedio.add(Integer.toString(retVal));
+        
         this.cuadruplos.add(new Cuadruplos(signo, dat1, dat2, temp));
         //System.out.println(temp);
         return temp;
@@ -1979,7 +1970,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     //Generar Temps
     public String generarTemp() {
         this.cont_temp++;
-        return "t" + this.cont_temp;
+        return "#t" + this.cont_temp;
     }
 
     //CODIGO FINAL
@@ -2015,7 +2006,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     String numero = "[0-9]+";
                     int t1 = 0;
                     int t2 = 0;
-                    if(cuad.getArg1().contains("t") && cuad.getArg2().contains("t")){
+                    if(cuad.getArg1().contains("#t") && cuad.getArg2().contains("#t")){
                         for (int i = 0; i < 10; i++) {
                             if (cuad.getArg1().equals(temporales.get(i).activado)) {
                                 t1 = i;
@@ -2024,7 +2015,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 t2 = i;
                             }
                         }
-                    }else if(cuad.getArg1().contains("t")){
+                    }else if(cuad.getArg1().contains("#t")){
                         boolean flag = false;
                         for (int i = 0; i < 10; i++) {
                             if (cuad.getArg1().equals(temporales.get(i).activado)) {
@@ -2041,7 +2032,48 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }else{
                             
                         }
+                    }else if(cuad.getArg2().contains("#t")){
+                        boolean flag = false;
+                        for (int i = 0; i < 10; i++) {
+                            if (cuad.getArg1().equals(temporales.get(i).activado)) {
+                                t1 = i;
+                            }
+                            if (!temporales.get(i).isVivo() && !flag) {
+                                t2 = i;
+                                temporales.get(i).setVivo(true);
+                                flag = true;
+                            }
+                        }
+                        if (cuad.getArg2().matches(numero)) {
+                            code += "       li $t" + t1 + ", " + cuad.getArg2() + "\n";
+                        }
+                        
+                    }else{
+                        
                     }
+                    int temp3 = 0;
+                    for (int i = 0; i < 10; i++) {
+                        if (!temporales.get(i).isVivo()) {
+                            temp3 = i;
+                            temporales.get(i).setVivo(true);
+                            temporales.get(i).setActivado(cuad.getRes());
+                            break;
+                        }
+                    }
+                    if(cuad.getOperador().equals("+")){
+                        code += "       add $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
+                    }else if(cuad.getOperador().equals("-")){
+                        code += "       sub $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
+                    }else if(cuad.getOperador().equals("*")){
+                        code += "       mul $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
+                    }else if(cuad.getOperador().equals("/")){
+                        code += "       div $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
+                    }
+                    
+                    temporales.get(t1).setVivo(false);
+                    temporales.get(t1).setActivado("");
+                    temporales.get(t2).setVivo(false);
+                    temporales.get(t2).setActivado("");
                     break;
                 case "Func":
                     this.ambito_final = cuad.getArg1();
@@ -2050,7 +2082,42 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         code += "main:\n";
                         code += "       move $fp, $sp\n";
                     }
-                
+                    break;
+                default:
+                    if(cuad.getOperador().contains("IF")){
+                        String operator = cuad.getOperador().substring(2, cuad.getOperador().length());
+                        int t_izq = 0;
+                        int t_der = 0;
+                        for (int i = 0; i < 10; i++) {
+                            if (!temporales.get(i).isVivo()) {
+                                t_izq = i;
+                                temporales.get(i).setVivo(true);
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < 10; i++) {
+                            if (!temporales.get(i).isVivo()) {
+                                t_der = i;
+                                temporales.get(i).setVivo(true);
+                                break;
+                            }
+                        }
+                        if (cuad.getArg1().matches("[0-9]+")) {
+                            code += "       li $t" + t_izq + ", " + cuad.getArg1() + "\n";
+                        }
+                        
+                        if (cuad.getArg2().matches("[0-9]+")) {
+                            code += "       li $t" + t_der + ", " + cuad.getArg2() + "\n";
+                        }
+                        switch(operator){
+                            case ">":
+                                code += "       bgt $t" + t_izq + ", $t" + t_der + ", _" + cuad.getRes()+ "\n";
+                                break;
+                            case "<":
+                                code += "       bgt $t" + t_izq + ", $t" + t_der + ", _" + cuad.getRes() + "\n";
+                                break;
+                        }
+                    }
             }
         }
         

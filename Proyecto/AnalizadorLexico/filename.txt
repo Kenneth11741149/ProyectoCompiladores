@@ -1,26 +1,10 @@
-MAIN
        DECLARATION
-              integer array
-              varchar
-              10
-       DECLARATION
-              integer array
-              varchar2
-              10
-       ASSIGNMENT
-              varchar2
-              varchar
-              2
-INT METHOD
-       f2
-       PARAMETROS
               integer
-              x1
-              integer
-              x2
-       BLOQUE
-              DECLARATION
-                     integer
-                     x
-       RETURN
               x
+              +
+                     5
+                     /
+                            varchar
+                            -
+                                   5
+                                   2
