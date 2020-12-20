@@ -1,2 +1,0 @@
-Error semantico: llamado a funcion [f2] refiere a una funcion que no existe.
-Unable to convert [varchar] to String. 

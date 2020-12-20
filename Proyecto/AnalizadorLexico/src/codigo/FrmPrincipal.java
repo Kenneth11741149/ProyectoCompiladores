@@ -465,16 +465,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
-            
-            
-            
+
             System.out.println("ACCESSING INTERMEDIATE");
             this.exp_bool.clear();
             this.exp_intermedio.clear();
             codigo_intermedio(arbol);
-            
+
             String temp = this.txtAnalizarSin.getText();
-            if(temp.contains("correctamente")){
+            if (temp.contains("correctamente")) {
+
                 codigo_final();
             }
             System.out.println("Hola");
@@ -671,9 +670,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     } //No borrar
 
     public void PrintVariableData(Ambito ambito) {
-        System.out.println(ambito.getName() + ambito.getVariables().size());
+        //System.out.println(ambito.getName() + ambito.getVariables().size());
         for (int i = 0; i < ambito.getVariables().size(); i++) {
-            System.out.println(ambito.getVariables().get(i).printData());
+            variables.add(ambito.getVariables().get(i));
+            //.out.println(ambito.getVariables().get(i).printData());
             //DebugSystem.out.println("P2");
         }
         for (int i = 0; i < ambito.getSubAmbitos().size(); i++) {
@@ -708,7 +708,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 if (ParameterSize == sameTypeParameters) {
                     FunctionVerificada = funciones.get(i);
                     return true;
-                    
+
                 }
             }
         }
@@ -992,50 +992,50 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Node PrimerHijodeHijo = hijo.getHijos().get(0);
             Node SegundoHijoDehijo = hijo.getHijos().get(1);
             String LeftSideAssignmentType = VariableVerificada.getType(); //Variable Verificada es una variable global llamada por verificar_variable_existenteA. Devuelve lo que encontro.
-            
-            if(VariableType.equals("VARIABLE array")){
+
+            if (VariableType.equals("VARIABLE array")) {
                 Node arrayIndex = PrimerHijodeHijo.getHijos().get(0);
                 String arrayIndexType = arrayIndex.getType();
-                if(arrayIndexType.equals("integer")){
+                if (arrayIndexType.equals("integer")) {
                     int arrayIndexValue = Integer.parseInt(arrayIndex.GetValue());
                     String TipoVariable = VariableVerificada.getType();
                     String[] types = TipoVariable.split(" ");
-                    if(types.length > 1){
-                        if(types[2].equals("array")){
-                            if(arrayIndexValue > 0 && arrayIndexValue < VariableVerificada.getI()){
-                                
+                    if (types.length > 1) {
+                        if (types[2].equals("array")) {
+                            if (arrayIndexValue > 0 && arrayIndexValue < VariableVerificada.getI()) {
+
                             } else {
-                                ReportError("ERROR SEMANTICO: Posicion de array invalido para la variable: ["+NombreVariable+"] ");
+                                ReportError("ERROR SEMANTICO: Posicion de array invalido para la variable: [" + NombreVariable + "] ");
                             }
                         } else {
-                            ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                            ReportError("ERROR SEMANTICO: Variable [" + NombreVariable + "] no es de tipo array.");
                         }
                     } else {
-                        ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                        ReportError("ERROR SEMANTICO: Variable [" + NombreVariable + "] no es de tipo array.");
                     }
                 } else if (arrayIndexType.equals("VARIABLE")) {
                     String arrayIndexNameValue = arrayIndex.GetValue();
                     String TipoVariable = VariableVerificada.getType();
                     String[] types = TipoVariable.split(" ");
-                    if(types.length > 1){
-                        if(types[2].equals("array")){
-                            if(verificar_variable_existenteA(arrayIndexNameValue, ambito)){
+                    if (types.length > 1) {
+                        if (types[2].equals("array")) {
+                            if (verificar_variable_existenteA(arrayIndexNameValue, ambito)) {
                                 //Success
                             } else {
-                                ReportError("ERROR SEMANTICO: Variable utilizada de posicion de array ["+arrayIndexNameValue+"] no existe.");
+                                ReportError("ERROR SEMANTICO: Variable utilizada de posicion de array [" + arrayIndexNameValue + "] no existe.");
                             }
                         } else {
-                            ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                            ReportError("ERROR SEMANTICO: Variable [" + NombreVariable + "] no es de tipo array.");
                         }
                     } else {
-                        ReportError("ERROR SEMANTICO: Variable ["+NombreVariable+"] no es de tipo array.");
+                        ReportError("ERROR SEMANTICO: Variable [" + NombreVariable + "] no es de tipo array.");
                     }
                 }
-                
-            } else if (VariableType.equals("VARIABLE matrix")){
-                
+
+            } else if (VariableType.equals("VARIABLE matrix")) {
+
             }
-            
+
             String RightSideAssignmentType = SegundoHijoDehijo.getType();
             //Falta validar los methods y las asignaciones complejas.
 
@@ -1059,15 +1059,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 case "METHOD-CALL": { // id := function(params);
                     PROCEDURE_MethodCall(SegundoHijoDehijo, ambito);
-                    if(FunctionVerificada == null){
-                        ReportError("Error Semantico: No se puede encontrar el tipo de la funcion llamada. ["+MethodIdCall+"]");
+                    if (FunctionVerificada == null) {
+                        ReportError("Error Semantico: No se puede encontrar el tipo de la funcion llamada. [" + MethodIdCall + "]");
                     } else {
-                        System.out.println("Function Return:"+FunctionVerificada.getType());
+                        System.out.println("Function Return:" + FunctionVerificada.getType());
                         String MethodReturnType = FunctionVerificada.getType();
-                        if(LeftSideAssignmentType.equals(FunctionVerificada.getType())){
+                        if (LeftSideAssignmentType.equals(FunctionVerificada.getType())) {
                             System.out.println("Successfull Assignment of MethodCall");
                         } else {
-                            ReportError("Error Semantico: El retorno de la funcion ["+FunctionVerificada.getId()+"] no se le puede asignar a ["+NombreVariable+"].");
+                            ReportError("Error Semantico: El retorno de la funcion [" + FunctionVerificada.getId() + "] no se le puede asignar a [" + NombreVariable + "].");
                         }
                     }
                     break;
@@ -1206,13 +1206,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String[] types = RightSideAssignmentType.split(" ");
             String[] types2 = LeftSideAssignmentType.split(" ");
             Boolean arrayValidation = true;
-            try{
+            try {
                 String confirmType = types[1];
-                System.out.println(confirmType+"SEXOOOOOOOO");
-                if(!confirmType.equals("array")){
+                System.out.println(confirmType + "SEXOOOOOOOO");
+                if (!confirmType.equals("array")) {
                     arrayValidation = false;
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 arrayValidation = false;
             }
 
@@ -1261,13 +1261,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String[] types = RightSideAssignmentType.split(" ");
             String[] types2 = LeftSideAssignmentType.split(" ");
             Boolean matrixValidation = true;
-            try{
+            try {
                 String confirmType = types[1];
-                System.out.println(confirmType+"SEXOOOOOOOO");
-                if(!confirmType.equals("matrix")){
+                System.out.println(confirmType + "SEXOOOOOOOO");
+                if (!confirmType.equals("matrix")) {
                     matrixValidation = false;
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 matrixValidation = false;
             }
             //
@@ -1281,7 +1281,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     System.out.println(posValor2);
                     System.out.println(VariableVerificada.getJ());
                     Boolean test = posValor2 >= 0 && posValor2 < VariableVerificada.getJ();
-                    
+
                     if (posValor >= 0 && posValor < VariableVerificada.getI() && posValor2 >= 0 && posValor2 < VariableVerificada.getJ()) {
                         System.out.println("Assigment Matrix success.");
                     } else {
@@ -1488,18 +1488,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     });
                     break;
                 case "RETURN":
-                    int countR=0;
+                    int countR = 0;
                     for (int i = 0; i < n.getHijos().size(); i++) {
                         countR++;
                     }
-                    if(countR==1){
-                        this.cuadruplos.add(new Cuadruplos("RET", n.getHijos().get(0).getValue(),"",""));
+                    if (countR == 1) {
+                        this.cuadruplos.add(new Cuadruplos("RET", n.getHijos().get(0).getValue(), "", ""));
                     }
                     break;
                 case "MAIN":
                     System.out.println("Excuse me?");
-                    this.cuadruplos.add(new Cuadruplos("Func", n.getValue(),"",""));
-                        n.getHijos().forEach((hijo)
+                    this.cuadruplos.add(new Cuadruplos("Func", n.getValue(), "", ""));
+                    n.getHijos().forEach((hijo)
                             -> {
                         codigo_intermedio(hijo);
                     });
@@ -1507,18 +1507,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case "FOR DECLARATION"://Deberia llamarse suma del for, pero idk
                     String temp = generarTemp();
-                    this.cuadruplos.add(new Cuadruplos(n.getHijos().get(1).getValue(), n.getHijos().get(0).getValue(),"1", temp));
-                    this.cuadruplos.add(new Cuadruplos("=", temp,"", n.getHijos().get(0).getValue()));
+                    this.cuadruplos.add(new Cuadruplos(n.getHijos().get(1).getValue(), n.getHijos().get(0).getValue(), "1", temp));
+                    this.cuadruplos.add(new Cuadruplos("=", temp, "", n.getHijos().get(0).getValue()));
                     break;
                 case "FOR STATEMENT":
-                    this.cuadruplos.add(new Cuadruplos("=", n.getHijos().get(1).getValue(),"", n.getHijos().get(0).getValue()));
+                    this.cuadruplos.add(new Cuadruplos("=", n.getHijos().get(1).getValue(), "", n.getHijos().get(0).getValue()));
                     break;
                 case "DECLARATION":
-                    int count =0;
+                    int count = 0;
                     for (int i = 0; i < n.getHijos().size(); i++) {
                         count++;
                     }
-                    if(count==3){
+                    if (count == 3) {
                         //System.out.println("ENTRO A PROC DECL INTER");
                         PROCEDURE_DECLARATION_INTER(n);
                     }
@@ -1529,7 +1529,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //System.out.println(n.getVerdadero());
                     //System.out.println(n.getFalso());
                     PROCEDURE_BOOLEAN_STATE_INTER(n);
-                    
+
                     break;
                 case "INT METHOD":
                     String name = n.getHijos().get(0).getValue();
@@ -1543,58 +1543,57 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case "TEST":
                     //System.out.println("HALOOOOO");
                     n.setSiguiente(nuevaEtiqueta());
-                    int counter =0;
+                    int counter = 0;
                     for (int i = 0; i < n.getHijos().size(); i++) {
                         counter++;
                     }
                     System.out.println(counter);
-                    if(counter==2){
+                    if (counter == 2) {
                         //CASO 1: SOLO ES UN IF
                         //System.out.println("TESTER");
                         //System.out.println(n.getHijos().get(0).getValue());
                         n.getHijos().get(0).setVerdadero(nuevaEtiqueta());
                         n.getHijos().get(0).setFalso(n.getSiguiente());
-                        
+
                         codigo_intermedio(n.getHijos().get(0));
                         this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getVerdadero(), "", ""));
                         //this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getHijos().get(0).getVerdadero(), "", ""));
                         codigo_intermedio(n.getHijos().get(1));//ES EL THEN POR SI PREGUNTAN
-                        
-                    }else if (counter==3){
+
+                    } else if (counter == 3) {
                         //CASO 2: EXISTE UN IF ELSE
                         n.getHijos().get(0).setVerdadero(nuevaEtiqueta());
                         n.getHijos().get(0).setFalso(n.getSiguiente());
                         codigo_intermedio(n.getHijos().get(0));
                         this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getVerdadero(), "", ""));
                         codigo_intermedio(n.getHijos().get(1));
-                        this.cuadruplos.add(new Cuadruplos("GOTO", n.getSiguiente(),"",""));
-                        this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(),"",""));
+                        this.cuadruplos.add(new Cuadruplos("GOTO", n.getSiguiente(), "", ""));
+                        this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(), "", ""));
                         codigo_intermedio(n.getHijos().get(2));
                     }
-                    
-                    
+
                     this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
                     break;
-                    
+
                 case "THROWLN":
-                    int countT =0;
-                    for( int i = 0; i<n.getHijos().size(); i++){
+                    int countT = 0;
+                    for (int i = 0; i < n.getHijos().size(); i++) {
                         countT++;
                     }
-                    if(countT==1){
+                    if (countT == 1) {
                         //Solo imprime 1 valor
-                        this.cuadruplos.add(new Cuadruplos("Print", n.getHijos().get(0).getValue(),"",""));
+                        this.cuadruplos.add(new Cuadruplos("Print", n.getHijos().get(0).getValue(), "", ""));
                     }
-                    
+
                     break;
                 case "THROW":
-                    int countTn =0;
-                    for( int i = 0; i<n.getHijos().size(); i++){
+                    int countTn = 0;
+                    for (int i = 0; i < n.getHijos().size(); i++) {
                         countTn++;
                     }
-                    if(countTn==1){
+                    if (countTn == 1) {
                         //Solo imprime 1 valor
-                        this.cuadruplos.add(new Cuadruplos("Print", n.getHijos().get(0).getValue(),"",""));
+                        this.cuadruplos.add(new Cuadruplos("Print", n.getHijos().get(0).getValue(), "", ""));
                     }
                     break;
                 case "EAT":
@@ -1610,29 +1609,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //GENERACION DEL BOOLSTATEMENT
                     n.getHijos().get(1).setVerdadero(nuevaEtiqueta());
                     n.getHijos().get(1).setFalso(n.getSiguiente());
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(), "", ""));
                     codigo_intermedio(n.getHijos().get(1));
                     //Para Expresion del For 
                     String etiqTemp = nuevaEtiqueta();
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", etiqTemp, "",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", etiqTemp, "", ""));
                     codigo_intermedio(n.getHijos().get(2));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(),"",""));
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(1).getVerdadero(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(), "", ""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(1).getVerdadero(), "", ""));
                     codigo_intermedio(n.getHijos().get(3));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "",""));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "", ""));
                     break;
                 case "UNTIL":
                     n.setSiguiente(nuevaEtiqueta());//Crear etiqueta de salida
                     n.setComienzo(nuevaEtiqueta());//INICIALIZAR COMIENZO
                     n.getHijos().get(0).setVerdadero(n.getSiguiente());
                     n.getHijos().get(0).setFalso(nuevaEtiqueta());
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getComienzo(), "", ""));
                     codigo_intermedio(n.getHijos().get(0));
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(),"",""));//Crear etiqueta falsa
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(), "", ""));//Crear etiqueta falsa
                     codigo_intermedio(n.getHijos().get(1));
-                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("GOTO", n.getComienzo(), "", ""));
                     //this.cuadruplos.add(new Cuadruplos("GOTO", n.getSiguiente(),"",""));
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(),"",""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
                     break;
                 case "THEN":
                     //System.out.println("THEN");
@@ -1662,17 +1661,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void OP_FUNCALL(Node n){
+
+    public void OP_FUNCALL(Node n) {
         String nombreFunc = n.getHijos().get(0).getValue();
         Node params = n.getHijos().get(1);
         //int count = 0;
         for (int i = 0; i < params.getHijos().size(); i++) {
-          this.cuadruplos.add(new Cuadruplos("param", params.getHijos().get(i).GetValue(), "",""));  
+            this.cuadruplos.add(new Cuadruplos("param", params.getHijos().get(i).GetValue(), "", ""));
         }
-        this.cuadruplos.add(new Cuadruplos("call", nombreFunc,"",""));
-        
-        
+        this.cuadruplos.add(new Cuadruplos("call", nombreFunc, "", ""));
+
     }
 
     public void PROCEDURE_ASSIGNMENT_INTER(Node n) {
@@ -1714,10 +1712,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         String dat1 = "";
         String dat2 = "";
         if (isInteger(n.getHijos().get(0).GetValue())) {
-            
+
             dat1 = n.getHijos().get(0).GetValue();
         } else {
-            
+
             dat1 = n.getHijos().get(0).GetValue();
         }
 
@@ -1725,10 +1723,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         int retVal = 0;
         if (n.getHijos().get(1).GetValue() == "/" || n.getHijos().get(1).GetValue() == "*" || n.getHijos().get(1).GetValue() == "+"
                 || n.getHijos().get(1).GetValue() == "-") {
-            
+
             String tempData = "";
             tempData = Arithmetics_Inter(n.getHijos().get(1), n.getHijos().get(1).getValue());
-            
+
             dat2 = tempData;
 
         } else {
@@ -1744,9 +1742,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
 
         }
-        
+
         String temp = generarTemp();
-        
+
         this.cuadruplos.add(new Cuadruplos(signo, dat1, dat2, temp));
         //System.out.println(temp);
         return temp;
@@ -1808,16 +1806,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     //EXP BOOLEAN ARRAY
-     public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
+    public void PROCEDURE_BOOLEAN_STATE_INTER(Node n) {
         Node temp = n;
         int hasOPREL = 0;
         boolean bandera = false;
         //System.out.println(n.getFalso());
         System.out.println("WHAT IS MY VALUE?");
         System.out.println(n.getValue());
-        int pos=0;
+        int pos = 0;
         if (temp != null) {
-            int counterRef =0;
+            int counterRef = 0;
             for (int i = 0; i < temp.getHijos().size(); i++) {
                 counterRef++;
                 //System.out.println("DATOS");
@@ -1835,11 +1833,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     pos = i;
                     hasOPREL = 3;
                 } else {
-                    if(tempComp.equals("true") || tempComp.equals("false")){
+                    if (tempComp.equals("true") || tempComp.equals("false")) {
                         hasOPREL = 1000;
                     }
                 }
-                
+
             }
             System.out.println(hasOPREL);
             switch (hasOPREL) {
@@ -1868,7 +1866,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
 
                         }
-                        
+
                     } else if (ExtractType.equals("&")) {
                         if (counterRef == 6) {
                             System.out.println("WENAAA");
@@ -1917,30 +1915,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(2).GetValue(), temp.getHijos().get(1).getValue(),
                                 temp.getHijos().get(3).GetValue(), temp.getHijos().get(0).getVerdadero()));
                         //this.cuadruplos.add(new Cuadruplos("GOTO", temp.))
-                    } else  {
+                    } else {
 
                         System.out.println("Salio Recursivo");
                         this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
                     }
                     break;
                 case 2:
-                //ES AND
-                //temp.getHijos().get()
+                    //ES AND
+                    //temp.getHijos().get()
                     System.out.print("VERDADERO");
                     System.out.println(temp.getVerdadero());
                     temp.getHijos().get(pos).setVerdadero(nuevaEtiqueta());
                     temp.getHijos().get(pos).setFalso(temp.getFalso());
                     PROCEDURE_BOOLEAN_STATE_INTER(temp.getHijos().get(pos));
-                    if(counterRef ==4 &&  pos ==0){
+                    if (counterRef == 4 && pos == 0) {
                         //String tempVerdadera = nuevaEtiqueta();
-                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"",""));
-                        this.cuadruplos.add(new Cuadruplos("ETIQ", temp.getHijos().get(0).getVerdadero(),"",""));
-                        this.cuadruplos.add(new Cuadruplos("IF"+temp.getHijos().get(2).getValue(), temp.getHijos().get(1).getValue(),
+                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
+                        this.cuadruplos.add(new Cuadruplos("ETIQ", temp.getHijos().get(0).getVerdadero(), "", ""));
+                        this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(2).getValue(), temp.getHijos().get(1).getValue(),
                                 temp.getHijos().get(3).GetValue(), temp.getVerdadero()));
                         //System.out.println(temp.getHijos().get(0).getVerdadero());
-                    }else if(counterRef==1){
+                    } else if (counterRef == 1) {
                         //System.out.println(temp.getVerdadero());
-                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"",""));
+                        this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
                     }
                     break;
                 case 3:
@@ -1953,9 +1951,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case 1000:
                     //Sea true o false nada mas
-                    
+
                     break;
-                    
+
             }
         }
     }
@@ -1985,7 +1983,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     //CODIGO FINAL
     //TODO LO QUE ESTE DEBAJO DE ESTO ES PARA LLEVAR EL CODIGO FUENTE A MIPS
-    public void codigo_final(){
+
+    /*public void GetTipo(int ambito,String var) {
+        if(ambito == 0){
+            for (int i = 0; i < GlobalAmbitos.get(GlobalAmbitos.size()).variables.size(); i++) {
+                if(variables.get(i))
+                
+            }
+            GlobalAmbitos.get(GlobalAmbitos.size());
+            
+        }
+    }*/
+    public void codigo_final() {
+        System.out.println("CODIGO FINAL");
+        int contambitos = 0;
+        int contMSG = 0;
         ArrayList<Temporal> temporales = new ArrayList();
         ArrayList<Temporal> parametros = new ArrayList();
         int arg = 0;
@@ -1996,15 +2008,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         this.ta_codigo_final.setText("");
         String code = "";
-        code += ".data\n";
-        
+        String data = "";
+        data += ".data\n";
+
         code += "   .text\n"
                 + "   .globl main\n";
+        System.out.println(code);
         //Recorrer cuadruplos
-        for (Cuadruplos cuad: this.cuadruplos) {
+        for (Cuadruplos cuad : this.cuadruplos) {
+
             System.out.println(cuad.operador);
             System.out.println(cuad.arg1);
-            switch(cuad.getOperador()){
+            switch (cuad.getOperador()) {
                 case "END":
                     if (this.ambito_final.equals("MAIN")) {
                         code += "       li $v0,10\n"
@@ -2025,7 +2040,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     String numero = "[0-9]+";
                     int t1 = 0;
                     int t2 = 0;
-                    if(cuad.getArg1().contains("#t") && cuad.getArg2().contains("#t")){
+                    if (cuad.getArg1().contains("#t") && cuad.getArg2().contains("#t")) {
                         for (int i = 0; i < 10; i++) {
                             if (cuad.getArg1().equals(temporales.get(i).activado)) {
                                 t1 = i;
@@ -2034,7 +2049,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 t2 = i;
                             }
                         }
-                    }else if(cuad.getArg1().contains("#t")){
+                    } else if (cuad.getArg1().contains("#t")) {
                         boolean flag = false;
                         for (int i = 0; i < 10; i++) {
                             if (cuad.getArg1().equals(temporales.get(i).activado)) {
@@ -2048,15 +2063,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
                         if (cuad.getArg2().matches(numero)) {
                             code += "       li $t" + t2 + ", " + cuad.getArg2() + "\n";
-                        }else{
-                            if(isLocalVar(cuad.getArg2())){
+                        } else {
+                            if (isLocalVar(cuad.getArg2())) {
                                 code += "       lw $t" + t2 + ", -" + getOffsetFrame(cuad.getArg2()) + "($fp)\n";
-                            }else{
+                            } else {
                                 code += "       lw $t" + t2 + ", _" + cuad.getArg2() + "\n";
                             }
-                            
+
                         }
-                    }else if(cuad.getArg2().contains("#t")){
+                    } else if (cuad.getArg2().contains("#t")) {
                         //System.out.println("Cuad arg2 es temp#");
                         //System.out.println(cuad.getArg2());
                         boolean flag = false;
@@ -2081,8 +2096,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 code += "       lw $t" + t1 + ", _" + cuad.getArg1() + "\n";
                             }
                         }
-                        
-                    }else{
+
+                    } else {
                         for (int i = 0; i < 10; i++) {
                             if (!temporales.get(i).isVivo()) {
                                 t1 = i;
@@ -2097,15 +2112,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 break;
                             }
                         }
-                        
+
                         if (cuad.getArg1().matches(numero)) {
                             code += "       li $t" + t1 + ", " + cuad.getArg1() + "\n";
                         }
-                        
+
                         if (cuad.getArg2().matches(numero)) {
                             code += "       li $t" + t2 + ", " + cuad.getArg2() + "\n";
                         }
-                        
+
                     }
                     int temp3 = 0;
                     for (int i = 0; i < 10; i++) {
@@ -2119,16 +2134,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //System.out.println(t1);
                     //System.out.println(t2);
                     //System.out.println(temp3);
-                    if(cuad.getOperador().equals("+")){
+                    if (cuad.getOperador().equals("+")) {
                         code += "       add $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
-                    }else if(cuad.getOperador().equals("-")){
+                    } else if (cuad.getOperador().equals("-")) {
                         code += "       sub $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
-                    }else if(cuad.getOperador().equals("*")){
+                    } else if (cuad.getOperador().equals("*")) {
                         code += "       mul $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
-                    }else if(cuad.getOperador().equals("/")){
+                    } else if (cuad.getOperador().equals("/")) {
                         code += "       div $t" + temp3 + ", $t" + t1 + ", $t" + t2 + "\n";
                     }
-                    
+
                     temporales.get(t1).setVivo(false);
                     temporales.get(t1).setActivado("");
                     temporales.get(t2).setVivo(false);
@@ -2137,7 +2152,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //System.out.println(code);
                     break;
                 case "=":
-                    String num = "[0-9]+";
+                    /*String num = "[0-9]+";
                     boolean flag = false;
                     int asig = 0;
                     int ntemp = 0;
@@ -2156,6 +2171,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if(flag){
                         //LOCAL NOT WORKING
                         if (isLocalVar(cuad.res)) {
+                            
+                            System.out.println("PRUEBAAAAA");
                             code += "       sw $t" + asig + ", -" + getOffsetFrame(cuad.getRes()) + "($fp)\n";
                         }else{
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
@@ -2171,20 +2188,157 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
                         
                     }
-                    
+                     */
                     break;
                 case "Func":
                     this.ambito_final = cuad.getArg1();
+
+                    if (contambitos == 0) {
+
+                        variables.clear();
+                        PrintVariableData(GlobalAmbitos.get(GlobalAmbitos.size() - 1));
+                        System.out.println(this.ambito_final + " Variables ");
+
+                        for (int i = 0; i < variables.size(); i++) {
+                            System.out.println(variables.get(i).id);
+                        }
+                    } else {
+                        //System.out.println("F2222");
+                        int cantparams = 0;
+                        for (int i = 0; i < funciones.size(); i++) {
+                            if (this.ambito_final == funciones.get(i).getId()) {
+                                cantparams = funciones.get(i).getParams().size();
+
+                            }
+
+                        }
+                        variables.clear();
+                        PrintVariableData(GlobalAmbitos.get(contambitos - 1));
+                        System.out.println(this.ambito_final + " Variables ");
+                        for (int i = 0; i < cantparams; i++) {
+                            params.add(variables.get(0));
+                            variables.remove(0);
+                        }
+                        System.out.println("PARAMS");
+                        for (int i = 0; i < params.size(); i++) {
+                            System.out.println(params.get(i).getId());
+
+                        }
+                        System.out.println("VARIABLES");
+                        for (int i = 0; i < variables.size(); i++) {
+                            System.out.println(variables.get(i).id);
+                        }
+                    }
+                    contambitos++;
+
                     parametros.clear();
-                    if(cuad.getArg1().equals("MAIN")){
+                    if (cuad.getArg1().equals("MAIN")) {
                         code += "main:\n";
                         code += "       move $fp, $sp\n";
                     }
                     break;
+                case "Print":
+                    String tempmensaje = cuad.getArg1().substring(1, cuad.getArg1().length() - 1);
+
+                    if (cuad.getArg1().contains("#")) {
+                        boolean flag = false;
+                        int contm = 0;
+                        for (int i = 0; i < mensajes.size(); i++) {
+                            if (mensajes.get(i).equals(tempmensaje)) {
+                                flag = true;
+                                contm = i;
+                            }
+
+                        }
+                        if (flag) {
+                            //data += "msg"+contMSG+":      .asciiz  \""+mensajes.get(contm)+"\"\n";
+                            code += "       li $v0, 4\n";
+                            code += "       la $a0,msg" + contm + "\n";
+                            code += "       syscall\n";
+
+                        } else {
+                            mensajes.add(tempmensaje);
+                            data += "msg" + contMSG + ":      .asciiz  \"" + tempmensaje + "\"\n";
+                            code += "       li $v0, 4\n";
+                            code += "       la $a0,msg" + contMSG + "\n";
+                            code += "       syscall\n";
+                            contMSG++;
+
+                        }
+
+                    } else {
+                        for (int i = 0; i < variables.size(); i++) {
+                            if (cuad.arg1.equals(variables.get(i).id)) {
+
+                                String tipo = variables.get(i).type;
+                                System.out.println(tipo);
+                                if (tipo.equals("integer")) {
+                                    boolean flag = false;
+                                    int contm = 0;
+                                    for (int j = 0; j < varsdata.size(); j++) {
+                                        if (varsdata.get(i).equals(cuad.arg1)) {
+                                            flag = true;
+                                            contm = i;
+                                        }
+
+                                    }
+                                    if(!flag){
+                                         data += "_" + cuad.arg1+ ":      .word 0\n";
+                                         varsdata.add(cuad.arg1);
+                                    }
+                                    
+                                    //print integer
+                                    code += "       li $v0, 1\n";
+                                    code += "       la $a0,_" + cuad.getArg1() + "\n";
+                                    code += "       syscall\n";
+                                } else if (tipo.equals("character")) {
+                                    //print char
+
+                                }
+                            }
+
+                        }
+
+                    }
+                    break;
+                case "Eat":
+                     for (int i = 0; i < variables.size(); i++) {
+                            if (cuad.arg1.equals(variables.get(i).id)) {
+
+                                String tipo = variables.get(i).type;
+                                System.out.println(tipo);
+                                if (tipo.equals("integer")) {
+                                    boolean flag = false;
+                                    int contm = 0;
+                                    for (int j = 0; j < varsdata.size(); j++) {
+                                        if (varsdata.get(i).equals(cuad.arg1)) {
+                                            flag = true;
+                                            contm = i;
+                                        }
+
+                                    }
+                                    if(!flag){
+                                         data += "_" + cuad.arg1+ ":      .word 0\n";
+                                         varsdata.add(cuad.arg1);
+                                    }
+                                    
+                                    //print integer
+                                    code += "       li $v0, 5\n";
+                                    code += "       syscall\n";
+                                    code += "       sw $v0,_" + cuad.getArg1() + "\n";
+                                    
+                                } else if (tipo.equals("character")) {
+                                    //print char
+
+                                }
+                            }
+
+                        }
+                    break;
                 default:
-                    if(cuad.getOperador().contains("IF")){
+                    if (cuad.getOperador().contains("IF")) {
                         String operator = cuad.getOperador().substring(2, cuad.getOperador().length());
-                        
+
                         int t_izq = 0;
                         int t_der = 0;
                         for (int i = 0; i < 10; i++) {
@@ -2207,28 +2361,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         //ARG1
                         if (cuad.getArg1().matches("[0-9]+")) {
                             code += "       li $t" + t_izq + ", " + cuad.getArg1() + "\n";
-                        }else{
-                            if(isLocalVar(cuad.getArg1())){
+                        } else {
+                            if (isLocalVar(cuad.getArg1())) {
                                 System.out.println("ENcontro local");
                                 code += "       lw $t" + t_izq + ", -" + getOffsetFrame(cuad.getArg1()) + "($fp)\n";
-                            }else{
+                            } else {
                                 code += "       lw $t" + t_izq + ", _" + cuad.getArg1() + "\n";
                             }
                         }
-                        
+
                         //ARG2
                         if (cuad.getArg2().matches("[0-9]+")) {
                             code += "       li $t" + t_der + ", " + cuad.getArg2() + "\n";
-                        }else{
-                            if(isLocalVar(cuad.getArg2())){
+                        } else {
+                            if (isLocalVar(cuad.getArg2())) {
                                 code += "       lw $t" + t_der + ", -" + getOffsetFrame(cuad.getArg2()) + "($fp)\n";
-                            }else{
+                            } else {
                                 code += "       lw $t" + t_der + ", _" + cuad.getArg2() + "\n";
                             }
                         }
-                        switch(operator){
+                        switch (operator) {
                             case ">":
-                                code += "       bgt $t" + t_izq + ", $t" + t_der + ", _" + cuad.getRes()+ "\n";
+                                code += "       bgt $t" + t_izq + ", $t" + t_der + ", _" + cuad.getRes() + "\n";
                                 break;
                             case "<":
                                 code += "       blt $t" + t_izq + ", $t" + t_der + ", _" + cuad.getRes() + "\n";
@@ -2249,20 +2403,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         temporales.get(t_izq).setVivo(false);
                         temporales.get(t_der).setVivo(false);
                         System.out.println(" ");
+
                         System.out.println(code);
+
                     }
             }
         }
+        data += code;
+        code = data;
+        System.out.println(code);
         this.ta_codigo_final.append(code);
-        //guardar_codigoF();
-        
+        guardar_codigoF();
+
     }
-    
-    public boolean isLocalVar(String variable){
+
+    public boolean isLocalVar(String variable) {
         boolean retValue = false;
         System.out.println(this.ambito_final);
-        
-        
+
         for (int i = 0; this.variables.size() < 10; i++) {
             System.out.println(i);
             System.out.println(this.variables.get(i).getAmbito());
@@ -2282,8 +2440,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
         return ret;
     }
-    
-    public int getOffsetFrame(String variable){
+
+    public int getOffsetFrame(String variable) {
         int off = 0;
         for (int i = 0; i < this.variables.size(); i++) {
             if (variable.equals(this.variables.get(i).getId()) && this.ambito_final.equals(this.variables.get(i).getAmbito())) {
@@ -2309,7 +2467,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
             } catch (Exception e2) {
                 JOptionPane.showMessageDialog(this, "Ocurrio un error al generar MIPS");
-                //e2.printStackTrace();
+                e2.printStackTrace();
             }
         }
     }
@@ -2364,9 +2522,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     ArrayList<String> exp_bool = new ArrayList();
     ArrayList<String> exp_intermedio = new ArrayList();
     //boolean Bandera_bool_process = false;
-    String tempTrueForBools="";
-
+    String tempTrueForBools = "";
+    ArrayList<Variable> params = new ArrayList();
     //Codigo Final
     String ambito_final = "";
     ArrayList<String> mensajes = new ArrayList();
+    ArrayList<String> varsdata = new ArrayList();
 }

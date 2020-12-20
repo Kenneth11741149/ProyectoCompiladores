@@ -695,6 +695,14 @@ DECLARACION ::=
         :}
     
     |
+    Identificadoroletra:h1 Igual Caracter:c1 P_coma
+        {:
+        Node x = new Node("ASSIGNMENT",false);
+        x.addHijo((Node)h1);
+        x.addHijo(new Node(c1.toString(),false));
+        RESULT = x;
+        :}
+    |
     Identificadoroletra:h1 Igual CALLMETHOD:h2  
         {:
         Node x = new Node("ASSIGNMENT",false);

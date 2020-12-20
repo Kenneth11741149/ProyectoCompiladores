@@ -20,7 +20,20 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Erick%20C/Documents/UNITEC/Mod5_A2020_Compiladores_II/Proyecto/Proyecto_Compiladores_vBeta0.0.2/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/FrmPrincipal.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/LexerCup.flex</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Node.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Variable.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Principal.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Function.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Sintax.cup</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/sym.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Intermedio_Final.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Lexer.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/FrmPrincipal.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Sintax.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Lexer.flex</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/Tokens.java</file>
+            <file>file:/C:/Users/Leonardo/Desktop/Unitec/Clases%20viejas/Compi1/ProyectoCompiladores/Proyecto/AnalizadorLexico/src/codigo/LexerCup.java</file>
         </group>
     </open-files>
 </project-private>

@@ -2,110 +2,11 @@ MAIN
        DECLARATION
               integer
               varchar
-       ASSIGNMENT
+       THROW
+              #INGRESE UN NUMERO#
+       EAT
               varchar
-              10
-       DECLARATION
-              character
-              varExeter
-              'a'
-       DECLARATION
-              boolean
-              varEchelon
-              true
-       DECLARATION
-              integer
-              x
-              +
-                     5
-                     /
-                            varchar
-                            -
-                                   5
-                                   2
-       UNTIL
-              BOOLEAN STATEMENT
-                     x
-                     >
-                     3
-              DO
-                     THROW
-                            x
-       TEST
-              BOOLEAN STATEMENT
-                     |
-                            &
-                                   &
-                                          x
-                                          >
-                                          3
-                                          x
-                                          >
-                                          0
-                                   x
-                                   >
-                                   4
-                            x
-                            >
-                            10
-              THEN
-                     THROWLN
-                            x
-       FOR
-              FOR STATEMENT
-                     i
-                     0
-              BOOLEAN STATEMENT
-                     i
-                     <
-                     6
-              FOR DECLARATION
-                     i
-                     ++
-              THEN
-                     TEST
-                            BOOLEAN STATEMENT
-                                   |
-                                          x
-                                          <
-                                          3
-                                          &
-                                                 !
-                                                        x
-                                                        >
-                                                        15
-                                                 x
-                                                 >
-                                                 10
-                            THEN
-                                   THROWLN
-                                          x
-                            OR
-                                   THROW
-                                          i
-       UNTIL
-              BOOLEAN STATEMENT
-                     true
-              DO
-                     THROW
-                            x
-INT METHOD
-       f2
-       PARAMETROS
-              integer
-              x1
-              integer
-              x2
-       BLOQUE
-              DECLARATION
-                     integer
-                     x
-              DECLARATION
-                     integer
-                     y
-              METHOD-CALL
-                     f2
-                     PARAMETROS
-                            x
-       RETURN
-              x
+       THROW
+              #xddd#
+       THROW
+              varchar
