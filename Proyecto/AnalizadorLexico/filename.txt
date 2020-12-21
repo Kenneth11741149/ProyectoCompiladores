@@ -2,11 +2,44 @@ MAIN
        DECLARATION
               integer
               varchar
-       THROW
-              #INGRESE UN NUMERO#
-       EAT
+       ASSIGNMENT
               varchar
+              10
+       DECLARATION
+              character
+              varExeter
+              'a'
+       DECLARATION
+              boolean
+              varEchelon
+              true
+       DECLARATION
+              integer
+              x
+              +
+                     5
+                     /
+                            3
+                            -
+                                   5
+                                   2
        THROW
-              #xddd#
+              #buenas mis queridos chavalos#
+       OPENMATCH
+              letra
+              CHAR-CASE
+                     x
+                     THEN
+                            DECLARATION
+                                   integer
+                                   x
+              CHAR-CASE
+                     z
+                     THEN
+                            DECLARATION
+                                   integer
+                                   x
        THROW
-              varchar
+              #hola#
+       THROW
+              x

@@ -472,7 +472,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             codigo_intermedio(arbol);
 
             String temp = this.txtAnalizarSin.getText();
-            if (temp.contains("correctamente")) {
+            if (temp.contains("correctamente") || temp.equals(" ")) {
 
                 codigo_final();
             }
@@ -1507,7 +1507,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case "FOR DECLARATION"://Deberia llamarse suma del for, pero idk
                     String temp = generarTemp();
-                    this.cuadruplos.add(new Cuadruplos(n.getHijos().get(1).getValue(), n.getHijos().get(0).getValue(), "1", temp));
+                    String tempSignoCompuesto = n.getHijos().get(1).getValue();
+                    String toCuad = Character.toString(tempSignoCompuesto.charAt(0));
+                    //System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    //System.out.println(toCuad);
+                    this.cuadruplos.add(new Cuadruplos(toCuad, n.getHijos().get(0).getValue(), "1", temp));
                     this.cuadruplos.add(new Cuadruplos("=", temp, "", n.getHijos().get(0).getValue()));
                     break;
                 case "FOR STATEMENT":
@@ -1641,7 +1645,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         codigo_intermedio(hijo);
                     });
                     break;
+                case "OPENMATCH":
+                    break;
                 case "DO":
+                    
                     System.out.println("DO");
                     //this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
                     n.getHijos().forEach((hijo)
@@ -1678,6 +1685,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         String varAsign = n.getHijos().get(0).GetValue();
         String val = "";
         Node temp = n.getHijos().get(1);
+        boolean flagged = false;
         switch (temp.GetValue()) {
             case "+":
             case "-":
@@ -1685,6 +1693,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             case "*":
                 String varA = Arithmetics_Inter(n, n.GetValue());
                 val = varA;
+                flagged = true;
                 break;
             default:
                 if (isNumeric(temp.GetValue())) {
@@ -1694,14 +1703,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
         }
-
-        String temp2 = generarTemp();
-        //this.exp_intermedio.add(temp2);
-        //this.exp_intermedio.add(returnData(val));
-        this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
-        //this.exp_intermedio.add(varAsign);
-        //this.exp_intermedio.add(returnData(temp2));
-        this.cuadruplos.add(new Cuadruplos("=", temp2, "", varAsign));
+        if (flagged) {
+            //String temp2 = generarTemp();
+            //this.exp_intermedio.add(temp2);
+            //this.exp_intermedio.add(returnData(val));
+            //this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
+            //this.exp_intermedio.add(varAsign);
+            //this.exp_intermedio.add(returnData(temp2));
+            this.cuadruplos.add(new Cuadruplos("=", val, "", varAsign));
+        } else {
+            this.cuadruplos.add(new Cuadruplos("=", val, " ", varAsign));
+        }
 
     }
 
@@ -1782,6 +1794,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Node temp = n.getHijos().get(2);
         //System.out.println(varDecl);
         //System.out.println(temp.GetValue());
+        boolean isFlagged = false;
         switch (temp.GetValue()) {
             case "+":
             case "-":
@@ -1791,18 +1804,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 String varA = Arithmetics_Inter(temp, temp.GetValue());
                 val = varA;
                 //System.out.println("SALI PRROS");
+                isFlagged =true;
                 break;
             default:
                 val = temp.GetValue();
         }
-        String temp2 = generarTemp();
-        this.exp_intermedio.add(temp2);
-        this.exp_intermedio.add(returnData(val));
-        this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
-        this.exp_intermedio.add(varDecl);
-        this.exp_intermedio.add(returnData(temp2));
-        this.cuadruplos.add(new Cuadruplos("=", temp2, "", varDecl));
-        //System.out.println("ESE XD 2");
+        if (isFlagged) {
+            //String temp2 = generarTemp();
+            //this.exp_intermedio.add(temp2);
+            //this.exp_intermedio.add(returnData(val));
+            //this.cuadruplos.add(new Cuadruplos("=", val, "", temp2));
+            //this.exp_intermedio.add(varDecl);
+            //this.exp_intermedio.add(returnData(temp2));
+            this.cuadruplos.add(new Cuadruplos("=", val, "", varDecl));
+            //System.out.println("ESE XD 2");
+        } else {
+            this.cuadruplos.add(new Cuadruplos("=", val, "", varDecl));
+        }
     }
 
     //EXP BOOLEAN ARRAY
@@ -2152,14 +2170,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     //System.out.println(code);
                     break;
                 case "=":
-                    /*String num = "[0-9]+";
-                    boolean flag = false;
+                    String num = "[0-9]+";
+                    boolean flagger = false;
                     int asig = 0;
                     int ntemp = 0;
                     for (int i = 0; i < 10; i++) {
                         if (temporales.get(i).isVivo() && temporales.get(i).getActivado().equals(cuad.getArg1())) {
                             asig = i;
-                            flag= true;
+                            flagger= true;
                         }
                     }
                     for (int i = 0; i < 10; i++) {
@@ -2168,27 +2186,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             break;
                         }
                     }
-                    if(flag){
+                    if(flagger){
                         //LOCAL NOT WORKING
                         if (isLocalVar(cuad.res)) {
                             
-                            System.out.println("PRUEBAAAAA");
-                            code += "       sw $t" + asig + ", -" + getOffsetFrame(cuad.getRes()) + "($fp)\n";
-                        }else{
+                            //System.out.println("PRUEBAAAAA");
+                            //code += "       sw $t" + asig + ", -" + getOffsetFrame(cuad.getRes()) + "($fp)\n";
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
+                        }else{
+                            System.out.println("HOLAAA, AIUDAAAAAAAAAA");
                         }
                         temporales.get(asig).setVivo(false);
                         temporales.get(asig).setActivado("");
                     }else if(cuad.getArg1().matches(num)){
                         code += "       li $t" + ntemp + ", " + cuad.getArg1() + "\n";
                         if (isLocalVar(cuad.res)) {
-                            code += "       sw $t" + asig + ", -" + getOffsetFrame(cuad.getRes()) + "($fp)\n";
+                            //code += "       sw $t" + asig + ", -" + getOffsetFrame(cuad.getRes()) + "($fp)\n";
+                            code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }else{
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }
                         
                     }
-                     */
+                     
                     break;
                 case "Func":
                     this.ambito_final = cuad.getArg1();
@@ -2200,7 +2220,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         System.out.println(this.ambito_final + " Variables ");
 
                         for (int i = 0; i < variables.size(); i++) {
-                            System.out.println(variables.get(i).id);
+                            if (variables.get(i).type.equals("integer")) {
+                                data+="_"+variables.get(i).id +":       .word 0"+"\n";
+                            }
                         }
                     } else {
                         //System.out.println("F2222");
@@ -2238,9 +2260,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
                     break;
                 case "Print":
-                    String tempmensaje = cuad.getArg1().substring(1, cuad.getArg1().length() - 1);
-
+                    
+                    System.out.println("Hola");
                     if (cuad.getArg1().contains("#")) {
+                        String tempmensaje = cuad.getArg1().substring(1, cuad.getArg1().length() - 1);
+                        System.out.println("Es un comment");
                         boolean flag = false;
                         int contm = 0;
                         for (int i = 0; i < mensajes.size(); i++) {
@@ -2253,20 +2277,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         if (flag) {
                             //data += "msg"+contMSG+":      .asciiz  \""+mensajes.get(contm)+"\"\n";
                             code += "       li $v0, 4\n";
-                            code += "       la $a0,msg" + contm + "\n";
+                            code += "       la $a0,_msg" + contm + "\n";
                             code += "       syscall\n";
 
                         } else {
                             mensajes.add(tempmensaje);
-                            data += "msg" + contMSG + ":      .asciiz  \"" + tempmensaje + "\"\n";
+                            data += "_msg" + contMSG + ":      .asciiz  \"" + tempmensaje + "\"\n";
                             code += "       li $v0, 4\n";
-                            code += "       la $a0,msg" + contMSG + "\n";
+                            code += "       la $a0,_msg" + contMSG + "\n";
                             code += "       syscall\n";
                             contMSG++;
 
                         }
 
                     } else {
+                        System.out.println(cuad.arg1);
+                        System.out.println("Aqui estoy");
+                        /*
                         for (int i = 0; i < variables.size(); i++) {
                             if (cuad.arg1.equals(variables.get(i).id)) {
 
@@ -2289,7 +2316,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                     
                                     //print integer
                                     code += "       li $v0, 1\n";
-                                    code += "       la $a0,_" + cuad.getArg1() + "\n";
+                                    code += "       lw $a0,_" + cuad.getArg1() + "\n";
                                     code += "       syscall\n";
                                 } else if (tipo.equals("character")) {
                                     //print char
@@ -2297,8 +2324,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 }
                             }
 
+                        }*/
+                        boolean canPrintInteger = false;
+                        for (int i = 0; i < variables.size(); i++) {
+                            if (cuad.arg1.equals(variables.get(i).id) && variables.get(i).type.equals("integer")) {
+                                canPrintInteger = true;
+                            }
                         }
-
+                        if (canPrintInteger) {
+                            code += "       li $v0, 1\n";
+                            code += "       lw $a0,_" + cuad.getArg1() + "\n";
+                            code += "       syscall\n";
+                        }
                     }
                     break;
                 case "Eat":
@@ -2420,12 +2457,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public boolean isLocalVar(String variable) {
         boolean retValue = false;
         System.out.println(this.ambito_final);
-
+        /*
         for (int i = 0; this.variables.size() < 10; i++) {
             System.out.println(i);
             System.out.println(this.variables.get(i).getAmbito());
             if (this.variables.get(i).getId().equals(variable) && this.variables.get(i).getAmbito().equals(this.ambito_final)) {
                 retValue = true;
+            }
+        }
+        */
+        if(this.ambito_final.equals("MAIN")){
+            for (int i = 0; i <this.variables.size(); i++) {
+                if(variable.equals(this.variables.get(i).id)){
+                    retValue = true;
+                }
             }
         }
         return retValue;
@@ -2528,4 +2573,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     String ambito_final = "";
     ArrayList<String> mensajes = new ArrayList();
     ArrayList<String> varsdata = new ArrayList();
+    
+    
 }
