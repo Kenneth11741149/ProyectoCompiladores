@@ -352,6 +352,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.ta_codigo_final.setText("");
         this.cuadruplos.clear();
         this.variables.clear();
+        this.mensajes.clear();
         this.cont_etiq = 0;
         String ST = txtResultado.getText();
         DefaultTableModel dm = (DefaultTableModel) jtable_cuadruplos.getModel();
