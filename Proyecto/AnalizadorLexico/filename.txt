@@ -23,23 +23,50 @@ MAIN
                             -
                                    5
                                    2
+       DECLARATION
+              integer
+              y
+              3
        THROW
-              #buenas mis queridos chavalos#
-       OPENMATCH
-              letra
-              CHAR-CASE
+              #Kenneth se la arta XD #
+       UNTIL
+              BOOLEAN STATEMENT
                      x
-                     THEN
-                            DECLARATION
-                                   integer
+                     >
+                     10
+              DO
+                     TEST
+                            BOOLEAN STATEMENT
+                                   |
+                                          x
+                                          >
+                                          3
+                                          x
+                                          <
+                                          9
+                            THEN
+                                   ASSIGNMENT
+                                          x
+                                          6
+                            OR
+                                   ASSIGNMENT
+                                          x
+                                          1
+                     THROW
+                            x
+                     ASSIGNMENT
+                            x
+                            12
+                     TEST
+                            BOOLEAN STATEMENT
                                    x
-              CHAR-CASE
-                     z
-                     THEN
-                            DECLARATION
-                                   integer
-                                   x
+                                   >
+                                   8
+                            THEN
+                                   ASSIGNMENT
+                                          x
+                                          1000
+                     THROW
+                            x
        THROW
-              #hola#
-       THROW
-              x
+              #FIN#

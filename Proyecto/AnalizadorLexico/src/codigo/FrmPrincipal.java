@@ -1563,7 +1563,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getVerdadero(), "", ""));
                         //this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getHijos().get(0).getVerdadero(), "", ""));
                         codigo_intermedio(n.getHijos().get(1));//ES EL THEN POR SI PREGUNTAN
-
+                        this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
                     } else if (counter == 3) {
                         //CASO 2: EXISTE UN IF ELSE
                         n.getHijos().get(0).setVerdadero(nuevaEtiqueta());
@@ -1571,12 +1571,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         codigo_intermedio(n.getHijos().get(0));
                         this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getVerdadero(), "", ""));
                         codigo_intermedio(n.getHijos().get(1));
-                        this.cuadruplos.add(new Cuadruplos("GOTO", n.getSiguiente(), "", ""));
+                        String tempX = nuevaEtiqueta();
+                        this.cuadruplos.add(new Cuadruplos("GOTO", tempX, "", ""));
                         this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(0).getFalso(), "", ""));
+                        
                         codigo_intermedio(n.getHijos().get(2));
+                        this.cuadruplos.add(new Cuadruplos("ETIQ",tempX,"",""));
                     }
-
-                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
+                    
+                    
                     break;
 
                 case "THROWLN":
@@ -1691,7 +1694,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             case "-":
             case "/":
             case "*":
-                String varA = Arithmetics_Inter(n, n.GetValue());
+                String varA = Arithmetics_Inter(temp, temp.GetValue());
                 val = varA;
                 flagged = true;
                 break;
@@ -2401,9 +2404,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         } else {
                             if (isLocalVar(cuad.getArg1())) {
                                 System.out.println("ENcontro local");
-                                code += "       lw $t" + t_izq + ", -" + getOffsetFrame(cuad.getArg1()) + "($fp)\n";
-                            } else {
+                                //code += "       lw $t" + t_izq + ", -" + getOffsetFrame(cuad.getArg1()) + "($fp)\n";
                                 code += "       lw $t" + t_izq + ", _" + cuad.getArg1() + "\n";
+                            } else {
+                                System.out.println("Aiudaa");
                             }
                         }
 
@@ -2412,9 +2416,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             code += "       li $t" + t_der + ", " + cuad.getArg2() + "\n";
                         } else {
                             if (isLocalVar(cuad.getArg2())) {
-                                code += "       lw $t" + t_der + ", -" + getOffsetFrame(cuad.getArg2()) + "($fp)\n";
-                            } else {
+                                //code += "       lw $t" + t_der + ", -" + getOffsetFrame(cuad.getArg2()) + "($fp)\n";
                                 code += "       lw $t" + t_der + ", _" + cuad.getArg2() + "\n";
+                            } else {
+                                System.out.println("Aiuda");
                             }
                         }
                         switch (operator) {
