@@ -349,6 +349,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnAnalizarSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarSinActionPerformed
         // TODO add your handling code here:
+        this.ta_codigo_final.setText("");
+        this.cuadruplos.clear();
+        this.variables.clear();
+        this.cont_etiq = 0;
         String ST = txtResultado.getText();
         DefaultTableModel dm = (DefaultTableModel) jtable_cuadruplos.getModel();
         dm.setRowCount(0);
@@ -472,8 +476,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
             codigo_intermedio(arbol);
 
             String temp = this.txtAnalizarSin.getText();
-            if (temp.contains("correctamente") || temp.equals(" ")) {
-
+            //FIX SEMANTICO
+            if (true) {
+                
                 codigo_final();
             }
             System.out.println("Hola");
@@ -1685,6 +1690,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public void PROCEDURE_ASSIGNMENT_INTER(Node n) {
         //Analizar el nodo
+        
         String varAsign = n.getHijos().get(0).GetValue();
         String val = "";
         Node temp = n.getHijos().get(1);
@@ -1707,6 +1713,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         }
         if (flagged) {
+             
             //String temp2 = generarTemp();
             //this.exp_intermedio.add(temp2);
             //this.exp_intermedio.add(returnData(val));
@@ -1715,6 +1722,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             //this.exp_intermedio.add(returnData(temp2));
             this.cuadruplos.add(new Cuadruplos("=", val, "", varAsign));
         } else {
+             
             this.cuadruplos.add(new Cuadruplos("=", val, " ", varAsign));
         }
 
@@ -2015,6 +2023,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             
         }
     }*/
+    
     public void codigo_final() {
         System.out.println("CODIGO FINAL");
         int contambitos = 0;
@@ -2037,7 +2046,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.out.println(code);
         //Recorrer cuadruplos
         for (Cuadruplos cuad : this.cuadruplos) {
-
+            System.out.println("cuadruplooooos");
             System.out.println(cuad.operador);
             System.out.println(cuad.arg1);
             switch (cuad.getOperador()) {
@@ -2136,10 +2145,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                         if (cuad.getArg1().matches(numero)) {
                             code += "       li $t" + t1 + ", " + cuad.getArg1() + "\n";
+                        }else{
+                            code += "       lw $t" + t1 + ",_" + cuad.getArg1() + "\n";
                         }
 
                         if (cuad.getArg2().matches(numero)) {
                             code += "       li $t" + t2 + ", " + cuad.getArg2() + "\n";
+                        }else{
+                            code += "       lw $t" + t2 + ",_" + cuad.getArg1() + "\n";
                         }
 
                     }
@@ -2342,38 +2355,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
                     break;
                 case "Eat":
-                     for (int i = 0; i < variables.size(); i++) {
-                            if (cuad.arg1.equals(variables.get(i).id)) {
-
-                                String tipo = variables.get(i).type;
-                                System.out.println(tipo);
-                                if (tipo.equals("integer")) {
-                                    boolean flag = false;
-                                    int contm = 0;
-                                    for (int j = 0; j < varsdata.size(); j++) {
-                                        if (varsdata.get(i).equals(cuad.arg1)) {
-                                            flag = true;
-                                            contm = i;
-                                        }
-
-                                    }
-                                    if(!flag){
-                                         data += "_" + cuad.arg1+ ":      .word 0\n";
-                                         varsdata.add(cuad.arg1);
-                                    }
-                                    
-                                    //print integer
+                    boolean isInteger = false;
+                    boolean isChar = false;
+                        for (int i = 0; i < variables.size(); i++) {
+                            if (cuad.arg1.equals(variables.get(i).id) && variables.get(i).type.equals("integer")) {
+                                isInteger = true;
+                            }
+                        }
+                            if(isInteger){
                                     code += "       li $v0, 5\n";
                                     code += "       syscall\n";
                                     code += "       sw $v0,_" + cuad.getArg1() + "\n";
-                                    
-                                } else if (tipo.equals("character")) {
-                                    //print char
-
-                                }
                             }
-
-                        }
+                           
+                 
                     break;
                 default:
                     if (cuad.getOperador().contains("IF")) {
@@ -2400,6 +2395,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         //GET ARGS
                         //ARG1
                         if (cuad.getArg1().matches("[0-9]+")) {
+                            
                             code += "       li $t" + t_izq + ", " + cuad.getArg1() + "\n";
                         } else {
                             if (isLocalVar(cuad.getArg1())) {
@@ -2407,7 +2403,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 //code += "       lw $t" + t_izq + ", -" + getOffsetFrame(cuad.getArg1()) + "($fp)\n";
                                 code += "       lw $t" + t_izq + ", _" + cuad.getArg1() + "\n";
                             } else {
+                                
                                 System.out.println("Aiudaa");
+                                System.out.println(cuad.getArg1());
                             }
                         }
 
@@ -2454,7 +2452,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         data += code;
         code = data;
         System.out.println(code);
-        this.ta_codigo_final.append(code);
+        this.ta_codigo_final.setText(code);
         guardar_codigoF();
 
     }
