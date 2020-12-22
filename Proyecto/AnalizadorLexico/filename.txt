@@ -19,61 +19,44 @@ MAIN
               +
                      5
                      /
-                            3
+                            varchar
                             -
                                    5
                                    2
-       FOR
-              FOR STATEMENT
-                     i
-                     0
-              BOOLEAN STATEMENT
-                     i
-                     <
-                     6
-              FOR DECLARATION
-                     i
-                     ++
-              THEN
-                     TEST
-                            BOOLEAN STATEMENT
-                                   |
-                                          x
-                                          <
-                                          3
-                                          &
-                                                 !
-                                                        x
-                                                        >
-                                                        15
-                                                 x
-                                                 >
-                                                 10
-                            THEN
-                                   THROWLN
-                                          x
-                            OR
-                                   THROW
-                                          i
        UNTIL
               BOOLEAN STATEMENT
-                     true
+                     x
+                     >
+                     3
               DO
                      THROW
                             x
+       TEST
+              BOOLEAN STATEMENT
+                     |
+                            |
+                                   x
+                                   >
+                                   3
+                                   x
+                                   >
+                                   4
+                            x
+                            >
+                            10
+              THEN
+                     THROWLN
+                            x
+       METHOD-CALL
+              f2
+              PARAMETROS
 INT METHOD
        f2
-       PARAMETROS
-              integer
-              x1
-              integer
-              x2
        BLOQUE
+              THROW
+                     #SERE UN PAYASO#
               DECLARATION
                      integer
-                     x
-              METHOD-CALL
-                     f2
-                     PARAMETROS
+                     echelon
        RETURN
-              x
+              echelon

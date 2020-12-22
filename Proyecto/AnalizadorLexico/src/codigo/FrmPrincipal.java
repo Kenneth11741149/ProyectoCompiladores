@@ -2066,8 +2066,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 //System.out.println(this.stackerss.get(i));
                                 code += "       lw "+this.stackerss.get(i)+"\n";
                             }
-                            code += "       jr $ra\n";
+                            
                         }
+                        code += "       jr $ra\n";
                         this.stackerss.clear();
                     }
                     break;
@@ -2434,7 +2435,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case "call":
                     System.out.println("");
-                    arg=0;
+                    code += "       jal _"+cuad.arg1+  " \n";
                     break;
                 default:
                     if (cuad.getOperador().contains("IF")) {
