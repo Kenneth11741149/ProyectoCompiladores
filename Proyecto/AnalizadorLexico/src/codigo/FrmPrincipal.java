@@ -1166,7 +1166,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 default: {
-                    ReportError("Unrecognized NodeType in ASSIGNMENT to: [" + NombreVariable + "] + [" + RightSideAssignmentType + "]");
+                   // ReportError("Unrecognized NodeType in ASSIGNMENT to: [" + NombreVariable + "] + [" + RightSideAssignmentType + "]");
                     break;
                 }
             }
