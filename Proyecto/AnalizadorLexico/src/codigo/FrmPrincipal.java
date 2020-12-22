@@ -2153,7 +2153,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         if (cuad.getArg2().matches(numero)) {
                             code += "       li $t" + t2 + ", " + cuad.getArg2() + "\n";
                         }else{
-                            code += "       lw $t" + t2 + ",_" + cuad.getArg1() + "\n";
+                            code += "       lw $t" + t2 + ",_" + cuad.getArg2() + "\n";
                         }
 
                     }
