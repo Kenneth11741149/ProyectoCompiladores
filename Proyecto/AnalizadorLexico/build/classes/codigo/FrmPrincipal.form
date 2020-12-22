@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JFrame" name="frame_int_final">
 
@@ -405,7 +405,7 @@
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="open-main()&#xa;    define varchar as integer;&#xa;    varchar := 10;&#xa;    define varExeter as character := &apos;a&apos;;&#xa;    define varEchelon as boolean := true;&#xa;    define x as integer := 5+3/(5-2);&#xa;   open-for(integer i :=0;i&lt;6;i++) do&#xa;&#x9;open-test(x &lt;3 | (!(x&gt;15) &amp; x&gt;10 ) ) then&#xa;&#x9;    throwln(x);&#xa;&#x9;or&#xa;&#x9;     throw(i);&#xa;                             close-test&#xa;   close-for&#xa;    open-until(true) do&#xa;           throw(x);&#xa;     close-until&#xa;&#xa;close-main&#xa;open-method integer f2(integer x1; integer x2)&#xa;    define x as integer;&#xa;    f2();&#xa;   return := x;&#xa; &#xa;close-method"/>
+            <Property name="text" type="java.lang.String" value="open-main()&#xa;   define x as integer;&#xa;   define y as integer;&#xa;   define op as integer:= 1;&#xa;   define result as integer;&#xa;  &#xa;   open-until(x==5)   do&#xa;             throw(#\u005cn#);&#xa;             throw(#Ingrese el primer numero  \u005cn#);&#xa;             eat(x);&#xa;             throw(#Ingrese el segundo numero \u005cn#);&#xa;             eat(y);&#xa;&#xa;            throw(#Ingrese 1 para sumar \u005cn#);&#xa;            throw(#Ingrese 2 para restar \u005cn#);&#xa;            throw(#Ingrese 3 para  multiplicar \u005cn#);&#xa;            throw(#Ingrese 4 para dividir \u005cn#);&#xa;            throw(#Ingrese 5 para salir\u005cn#);&#xa;            eat(op);&#xa;            open-test(op==1)  then&#xa;&#x9;result := x+y;&#xa;                              throw(#El resultado es \u005cn#);&#xa;&#x9;throw(result);&#xa;            close-test&#xa;            open-test(op==2)  then&#xa;&#x9;result := x-y;&#xa;                              throw(#El resultado es \u005cn#);&#xa;&#x9;throw(result);&#xa;            close-test&#xa;           open-test(op==3)  then&#xa;&#x9;result := x*y;&#xa;                              throw(#El resultado es \u005cn#);&#xa;&#x9;throw(result);&#xa;            close-test&#xa;            open-test(op==4)  then&#xa;&#x9;result := x/y;&#xa;                              throw(#El resultado es \u005cn#);&#xa;&#x9;throw(result);&#xa;            close-test&#xa;            open-test(op&gt;5)  then&#xa;&#x9;&#xa;                              throw(#Opcion no valida#);&#xa;&#x9;&#xa;            close-test&#xa;           &#xa;   close-until&#xa;   &#xa;&#xa;close-main" containsInvalidXMLChars="true"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -2325,5 +2325,37 @@ CASE ::=
                 raiz.addHijo(x);
                 RESULT = raiz;
     :}
-    
+    |
+      CASE:h1 When Numero:h2 Igual SENTENCIA:h3 Stop P_coma
+            {:
+                
+                Node raiz = new Node("ROOT",false);
+                for(int i = 0;i<((Node)h1).getHijos().size();i++){
+                raiz.addHijo(((Node)h1).getHijos().get(i));
+                }
+                Node x = new Node("CASE",false);
+                x.addHijo(new Node(h2.toString(),false));
+                Node THEN = new Node("THEN",false);
+                for(int i = 0;i<((Node)h3).getHijos().size();i++){
+                THEN.addHijo(((Node)h3).getHijos().get(i));
+                }
+                x.addHijo(THEN);
+                raiz.addHijo(x);
+                RESULT = raiz;
+    :}
+    |
+     When Numero:h1 Igual SENTENCIA:h2 Stop P_coma
+
+       {:
+                Node raiz = new Node("Raiz",false);
+                Node x = new Node("CASE",false);
+                x.addHijo(new Node(h1.toString(),false));
+                Node THEN = new Node("THEN",false);
+                for(int i = 0;i<((Node)h2).getHijos().size();i++){
+                THEN.addHijo(((Node)h2).getHijos().get(i));
+                }
+                x.addHijo(THEN);
+                raiz.addHijo(x);
+                RESULT = raiz;
+    :}
 ;
