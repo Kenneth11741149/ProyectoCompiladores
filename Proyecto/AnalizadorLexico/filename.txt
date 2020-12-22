@@ -1,45 +1,33 @@
 MAIN
+       THROW
+              #INGRESE UN NUMERO#
        DECLARATION
               integer
               varchar
-       ASSIGNMENT
+       EAT
               varchar
-              10
-       DECLARATION
-              character
-              varExeter
-              'a'
-       DECLARATION
-              boolean
-              varEchelon
-              true
-       DECLARATION
-              integer
-              x
-              +
-                     5
-                     /
-                            varchar
-                            -
-                                   5
-                                   2
-       DECLARATION
-              character
-              letra
-              'c'
-       DECLARATION
-              integer
-              z
-              1
-       OPENMATCH
-              varchar
-              NUM-CASE
-                     10
-                     THEN
-                            THROW
-                                   #SooS#
-              NUM-CASE
-                     11
-                     THEN
-                            THROW
-                                   #ses#
+       FOR
+              FOR STATEMENT
+                     i
+                     0
+              BOOLEAN STATEMENT
+                     i
+                     <
+                     varchar
+              FOR DECLARATION
+                     i
+                     ++
+              THEN
+                     METHOD-CALL
+                            f2
+                            PARAMETROS
+INT METHOD
+       f2
+       BLOQUE
+              THROW
+                     #Hola Mundo \n#
+              DECLARATION
+                     integer
+                     echelon
+       RETURN
+              echelon

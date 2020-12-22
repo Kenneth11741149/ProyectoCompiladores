@@ -368,7 +368,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             myWriter.close();
 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+           // System.out.println("An error occurred.");
             e.printStackTrace();
         }
 
@@ -380,12 +380,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             myWriter.close();
 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+           // System.out.println("An error occurred.");
             e.printStackTrace();
         }
         try {
             s.parse();
-            System.out.println(s.getS());
+          //  System.out.println(s.getS());
             txtAnalizarSin.setText("Analisis realizado correctamente");
             txtAnalizarSin.setForeground(new Color(25, 111, 61));
             txtarbol.setText("");
@@ -405,13 +405,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
              */
             Ambito nuevo = new Ambito("MAIN", null);
             PROCEDURE_SemanticAnalisis(arbol, nuevo, 0);
-            System.out.println("TestingPrint");
+           // System.out.println("TestingPrint");
             PrintGlobalVariablesData();
             /*for (int i = 0; i < this.variables.size(); i++) {
                 System.out.println(variables.get(i).printData());
             }*/
 
-            System.out.println("NADUFNADFNADFN");
+          
             for (int i = 0; i < this.funciones.size(); i++) {
                 System.out.print("Func: ");
                 System.out.print(this.funciones.get(i).getId());
@@ -429,11 +429,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 File myObj = new File("filename.txt");
                 Scanner myReader = new Scanner(myObj);
                 String data = "";
-                System.out.println("Hola");
+           
                 while (myReader.hasNextLine()) {
 
                     data = myReader.nextLine();
-                    System.out.println(data);
+                   // System.out.println(data);
                     txtarbol.append("\n");
                     txtarbol.append(data);
 
@@ -471,7 +471,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 e.printStackTrace();
             }
 
-            System.out.println("ACCESSING INTERMEDIATE");
+           // System.out.println("ACCESSING INTERMEDIATE");
             this.exp_bool.clear();
             this.exp_intermedio.clear();
             codigo_intermedio(arbol);
@@ -482,7 +482,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 
                 codigo_final();
             }
-            System.out.println("Hola");
+           
         } catch (Exception ex) {
             Symbol sym = s.getS();
             txtAnalizarSin.setText("");
@@ -527,7 +527,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_int_finalMouseClicked
 
     public void recorrerArbolA(Node n, Ambito ambito, int pos) {
-        System.out.println("HIJOS " + ambito.getName());
+       // System.out.println("HIJOS " + ambito.getName());
         /* Node hijo = n.getHijos().get(0);
         for (Node hijos : hijo.getHijos()) {
             System.out.println(hijos.GetValue());
@@ -543,7 +543,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         while (pos < n.getHijos().size()) {
             Node hijo = n.getHijos().get(pos);
 
-            System.out.println(hijo.GetValue());
+            //System.out.println(hijo.GetValue());
             pos++;
             switch (hijo.getValue()) {
                 case "MAIN": {
@@ -576,7 +576,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
                 case "TEST": {
-                    System.out.println("Hijos del If" + hijo.getHijos().size());
+                   // System.out.println("Hijos del If" + hijo.getHijos().size());
                     String nameAmbito1 = ambito.getName() + "-TEST-THEN-" + pos;
                     String nameAmbito2 = ambito.getName() + "-TEST-OR-" + pos;
                     Ambito TestThen = new Ambito(nameAmbito1, ambito);
@@ -754,15 +754,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             //Boolean answ2 = function.getParams().size() == funciones.get(i).getParams().size();
             //System.out.println(ParameterSize + " and " + ParameterSize2);
             if (function.getId().equals(funciones.get(i).getId()) && function.getParams().size() == funciones.get(i).getParams().size()) {
-                System.out.println("Function name and size has been compared and matched");
+               // System.out.println("Function name and size has been compared and matched");
                 int sameTypeParameters = 0;
                 for (int j = 0; j < function.getParams().size(); j++) {
                     if (function.getParams().get(j).equals(funciones.get(i).getParams().get(j))) {
                         sameTypeParameters++;
-                        System.out.println("Parameter comparison was successfull.");
+                       // System.out.println("Parameter comparison was successfull.");
                     } else {
-                        System.out.println(function.getParams().get(j) + " Does not equal " + funciones.get(i).getParams().get(j));
-                        System.out.println("Parameter not compatible.");
+                       // System.out.println(function.getParams().get(j) + " Does not equal " + funciones.get(i).getParams().get(j));
+                       // System.out.println("Parameter not compatible.");
                     }
                 }
                 if (ParameterSize == sameTypeParameters) {
@@ -842,7 +842,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
                         newFunction.getParams().add(ParamsType);
                         IntegerMethod.getVariables().add(new Variable(ParamsType, ParamsName, IntegerMethod.getName() + "-" + FunctionName, this.bOffSet));
-                        System.out.println("New " + functionType + " method variable aggregation complete");
+                       // System.out.println("New " + functionType + " method variable aggregation complete");
                     }
 
                 }
@@ -853,7 +853,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         }
         if (!error) {
-            System.out.println("Ambito y prototipo de funcion agregado exitosamente!");
+           // System.out.println("Ambito y prototipo de funcion agregado exitosamente!");
             GlobalAmbitos.add(IntegerMethod);
             newFunction.setAmbito(IntegerMethod);
             funciones.add(newFunction);
@@ -863,7 +863,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public void PROCEDURE_Declaration(Node hijo, Ambito ambito, int pos) {
         if (verificar_variable_existenteA(hijo.getHijos().get(1).getValue(), ambito)) {
-            System.out.println("ERROR");
+           // System.out.println("ERROR");
             this.erroresSemanticos.add("Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito actual o en ambitos exteriores.");
             String error = "Error Semantico: variable: " + hijo.getHijos().get(1).getValue() + " ya existe en el ambito.";
             ReportError(error);
@@ -980,7 +980,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                     /* Validations on Line, Column*/
                     Boolean valid = validar_filas_columnas_matrices(i, j, 4, nombreVariable);
-                    System.out.println(valid);
+                  //  System.out.println(valid);
                     if (valid) {
                         this.bOffSet += i * j * 4;
                     } else {
@@ -1099,16 +1099,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
             String RightSideAssignmentType = SegundoHijoDehijo.getType();
             //Falta validar los methods y las asignaciones complejas.
 
-            System.out.println("ASSIGNMENT DEBUG: Assignment Child Size [" + hijo.getHijos().size() + "]");
+          //  System.out.println("ASSIGNMENT DEBUG: Assignment Child Size [" + hijo.getHijos().size() + "]");
             switch (RightSideAssignmentType) { //This checks for the right side type. We must then   
                 case "VARIABLE": { // id := id
                     String VariableName = SegundoHijoDehijo.GetValue();
                     VariableVerificada = null;
                     if (verificar_variable_existenteA(VariableName, ambito)) {
                         RightSideAssignmentType = VariableVerificada.getType();
-                        System.out.println("Table assignment Type: " + RightSideAssignmentType);
+                      //  System.out.println("Table assignment Type: " + RightSideAssignmentType);
                         if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                            System.out.println("Successfull ASSIGNMENT of " + LeftSideAssignmentType + " to " + RightSideAssignmentType + " on variable " + NombreVariable);
+                          //  System.out.println("Successfull ASSIGNMENT of " + LeftSideAssignmentType + " to " + RightSideAssignmentType + " on variable " + NombreVariable);
                         } else {
                             ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "]");
                         }
@@ -1122,10 +1122,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if (FunctionVerificada == null) {
                         ReportError("Error Semantico: No se puede encontrar el tipo de la funcion llamada. [" + MethodIdCall + "]");
                     } else {
-                        System.out.println("Function Return:" + FunctionVerificada.getType());
+                       // System.out.println("Function Return:" + FunctionVerificada.getType());
                         String MethodReturnType = FunctionVerificada.getType();
                         if (LeftSideAssignmentType.equals(FunctionVerificada.getType())) {
-                            System.out.println("Successfull Assignment of MethodCall");
+                         //   System.out.println("Successfull Assignment of MethodCall");
                         } else {
                             ReportError("Error Semantico: El retorno de la funcion [" + FunctionVerificada.getId() + "] no se le puede asignar a [" + NombreVariable + "].");
                         }
@@ -1134,7 +1134,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 case "integer": { //id:=integer
                     if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                        System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
+                       // System.out.println("Successful assignment of integer to variable[" + NombreVariable + "] ");
                     } else {
                         ReportError("Variable [" + NombreVariable + "] does not support integer Type.");
                     }
@@ -1142,7 +1142,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 case "character": { // id:= character
                     if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                        System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
+                       // System.out.println("Successful assignment of character to variable[" + NombreVariable + "] ");
                     } else {
                         ReportError("Variable [" + NombreVariable + "] does not support character Type.");
                     }
@@ -1150,7 +1150,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
                 case "boolean": { // id := boolean
                     if (LeftSideAssignmentType.equals(RightSideAssignmentType)) {
-                        System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
+                       // System.out.println("Successful assignment of boolean to variable[" + NombreVariable + "] ");
                     } else {
                         ReportError("Variable [" + NombreVariable + "] does not support boolean Type.");
                     }
@@ -1178,7 +1178,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         String MethodId = hijo.getHijos().get(0).getValue();
         this.MethodIdCall = MethodId;
         Node PARAMETROS = hijo.getHijos().get(1);
-        System.out.println("MethodCall");
+     //   System.out.println("MethodCall");
         Function temporal;
         ArrayList<String> ParametersOfTemporalFunction = new ArrayList();
         for (int i = 0; i < PARAMETROS.getHijos().size(); i++) {
@@ -1187,29 +1187,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 VariableVerificada = null;
                 Boolean VariableExiste = verificar_variable_existenteA(ParameterNode.getValue(), ambito);
                 if (VariableExiste) {
-                    System.out.println(VariableVerificada.getType());
+                    //System.out.println(VariableVerificada.getType());
                     ParametersOfTemporalFunction.add(VariableVerificada.getType());
                 } else {
                     String error = "Error semantico: Variable [" + ParameterNode.getValue() + "] no existe en el llamado a [" + MethodId + "].";
                     ReportError(error);
                 }
             } else if (ParameterNode.getType().equals("integer")) {
-                System.out.println("Int MethodCall Parameter");
+               // System.out.println("Int MethodCall Parameter");
                 ParametersOfTemporalFunction.add("integer");
             } else if (ParameterNode.getType().equals("boolean")) {
-                System.out.println("Boolean MethodCall Parameter");
+               // System.out.println("Boolean MethodCall Parameter");
                 ParametersOfTemporalFunction.add("boolean");
             } else if (ParameterNode.getType().equals("character")) {
-                System.out.println("Character MethodCall Parameter");
+               // System.out.println("Character MethodCall Parameter");
                 ParametersOfTemporalFunction.add("character");
             }
         }
         temporal = new Function(MethodId, ParametersOfTemporalFunction);
-        System.out.println("ASUIANDFNADFNADF");
+       
         if (FunctionExists(temporal)) {
             // Successfull MethodCall
         } else {
-            System.out.println("Function does not exist.");
+           // System.out.println("Function does not exist.");
             String error = "Error semantico: llamado a funcion [" + MethodId + "] refiere a una funcion que no existe.";
             ReportError(error);
         }
@@ -1219,7 +1219,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //Saca los prototipos de las funciones. Se debe ejecutar como primera pasada del compilador antes de recorrerArbolA.
         while (pos < Padre.getHijos().size()) {
             Node hijo = Padre.getHijos().get(pos);
-            System.out.println("Prototype Identifier:" + hijo.GetValue());
+           // System.out.println("Prototype Identifier:" + hijo.GetValue());
             pos++;
             switch (hijo.getValue()) {
                 case "INT METHOD": {
@@ -1281,7 +1281,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Boolean arrayValidation = true;
             try {
                 String confirmType = types[1];
-                System.out.println(confirmType + "SEXOOOOOOOO");
+              
                 if (!confirmType.equals("array")) {
                     arrayValidation = false;
                 }
@@ -1296,7 +1296,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 if (posType.equals("integer")) {
                     int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
                     if (posValor >= 0 && posValor < VariableVerificada.getI()) {
-                        System.out.println("Successful assignment id:=array[pos]");
+                       // System.out.println("Successful assignment id:=array[pos]");
                     } else {
                         ReportError("Error Semantico: Variable de tipo array: [" + VariableName + "] hace referencia a una posicion invalida.");
                     }
@@ -1305,7 +1305,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if (verificar_variable_existenteA(posIDname, ambito)) {
                         posType = VariableVerificada.getType();
                         if (posType.equals("integer")) {
-                            System.out.println("Successful assignment id:=array[id]");
+                          //  System.out.println("Successful assignment id:=array[id]");
                         } else {
                             ReportError("Error Semantico: La posicion en la variable array [" + VariableName + "] hace referencia a una variable que no es de tipo integer. tipo recibido:[" + posType + "].");
                         }
@@ -1315,7 +1315,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
 
                 } else if (posType.equals("Complex Calculation")) {
-                    System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
+                  //  System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
                 }
             } else {
                 ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "].");
@@ -1336,7 +1336,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Boolean matrixValidation = true;
             try {
                 String confirmType = types[1];
-                System.out.println(confirmType + "SEXOOOOOOOO");
+                
                 if (!confirmType.equals("matrix")) {
                     matrixValidation = false;
                 }
@@ -1351,12 +1351,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 if (posType.equals("integer")) {
                     int posValor = Integer.parseInt(TercerHijoDeHijo.getValue());
                     int posValor2 = Integer.parseInt(CuartoHijoDeHijo.getValue());
-                    System.out.println(posValor2);
-                    System.out.println(VariableVerificada.getJ());
+                   // System.out.println(posValor2);
+                   // System.out.println(VariableVerificada.getJ());
                     Boolean test = posValor2 >= 0 && posValor2 < VariableVerificada.getJ();
 
                     if (posValor >= 0 && posValor < VariableVerificada.getI() && posValor2 >= 0 && posValor2 < VariableVerificada.getJ()) {
-                        System.out.println("Assigment Matrix success.");
+                     //   System.out.println("Assigment Matrix success.");
                     } else {
                         ReportError("Error Semantico: Variable de tipo matrix: [" + VariableName + "] hace referencia a una posicion invalida.");
                     }
@@ -1365,7 +1365,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if (verificar_variable_existenteA(posIDname, ambito)) {
                         posType = VariableVerificada.getType();
                         if (posType.equals("integer")) {
-                            System.out.println("Successful assignment id:=array[id]");
+                           // System.out.println("Successful assignment id:=array[id]");
                         } else {
                             ReportError("Error Semantico: La posicion en la variable matrix [" + VariableName + "] hace referencia a una variable que no es de tipo integer. tipo recibido:[" + posType + "].");
                         }
@@ -1375,7 +1375,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
 
                 } else if (posType.equals("Complex Calculation")) {
-                    System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
+                  //  System.out.println("COMPLEX CALCULATION ON SEMANTIC ANALISIS NOT MADE.");
                 }
             } else {
                 ReportError("ERROR SEMANTICO: No se puede asignar <" + RightSideAssignmentType + "> a la variable [" + NombreVariable + "].");
@@ -1518,7 +1518,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private String recorrido(Node raiz) {
         String cuerpo = "";
         for (Node child : raiz.getHijos()) {
-            System.out.println(child.toString());
+           // System.out.println(child.toString());
             if (!(child.getValue().equals("vacio"))) {
                 cuerpo += "\"" + raiz.getValue() + ". " + raiz.getValue() + " = " + raiz.GetValue()
                         + "\"->\"" + child.getValue() + ". " + " = " + child.getValue() + "\"" + "\n";
@@ -1534,7 +1534,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             myWriter.append(error + "\n");
             myWriter.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+          //  System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
@@ -1570,7 +1570,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
                     break;
                 case "MAIN":
-                    System.out.println("Excuse me?");
+                   
                     this.cuadruplos.add(new Cuadruplos("Func", n.getValue(), "", ""));
                     n.getHijos().forEach((hijo)
                             -> {
@@ -1601,7 +1601,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
                     break;
                 case "BOOLEAN STATEMENT":
-                    System.out.println("BOOLEX");
+                   // System.out.println("BOOLEX");
                     this.exp_bool.clear();
                     //System.out.println(n.getVerdadero());
                     //System.out.println(n.getFalso());
@@ -1624,7 +1624,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     for (int i = 0; i < n.getHijos().size(); i++) {
                         counter++;
                     }
-                    System.out.println(counter);
+                   // System.out.println(counter);
                     if (counter == 2) {
                         //CASO 1: SOLO ES UN IF
                         //System.out.println("TESTER");
@@ -1727,7 +1727,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case "DO":
                     
-                    System.out.println("DO");
+                  //  System.out.println("DO");
                     //this.cuadruplos.add(new Cuadruplos("PROTO","prototipo", "lel", "aiudaaa"));
                     n.getHijos().forEach((hijo)
                             -> {
@@ -1943,8 +1943,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         int hasOPREL = 0;
         boolean bandera = false;
         //System.out.println(n.getFalso());
-        System.out.println("WHAT IS MY VALUE?");
-        System.out.println(n.getValue());
+     
+     //   System.out.println(n.getValue());
         
         int pos = 0;
         if (temp != null) {
@@ -1972,14 +1972,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
 
             }
-            System.out.println(hasOPREL);
+           // System.out.println(hasOPREL);
             switch (hasOPREL) {
                 case 0:
                     //REALIZAR EL BOOL STATEMENT
                     String ExtractType = temp.getValue();
                     if (ExtractType.equals("|")) {
                         if (counterRef == 6) {
-                            System.out.println("WENAAA");
+                           
                             this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                     temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                             this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
@@ -1991,9 +1991,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
 
                         } else {
-                            System.out.println("");
-                            //System.out.println("ESE");
-                            System.out.println(counterRef);
+                           // System.out.println("");
+                            
+                            //System.out.println(counterRef);
                             this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                     temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                             this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
@@ -2002,7 +2002,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                     } else if (ExtractType.equals("&")) {
                         if (counterRef == 6) {
-                            System.out.println("WENAAA");
+                           
                             this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                     temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                             this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
@@ -2014,9 +2014,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
                             n.setVerdadero(tempTrueForBools);
                         } else {
-                            System.out.println("");
+                          
                             //System.out.println("ESE");
-                            System.out.println(counterRef);
+                          //  System.out.println(counterRef);
                             this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                     temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                             this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
@@ -2024,9 +2024,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
 
                     } else {
-                        System.out.println("");
-                        //System.out.println("ESE");
-                        System.out.println(counterRef);
+                      //  System.out.println("");
+                      
+                       // System.out.println(counterRef);
                         this.cuadruplos.add(new Cuadruplos("IF" + temp.getHijos().get(1).GetValue(), temp.getHijos().get(0).GetValue(),
                                 temp.getHijos().get(2).getValue(), temp.getVerdadero()));
                         this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
@@ -2050,15 +2050,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         //this.cuadruplos.add(new Cuadruplos("GOTO", temp.))
                     } else {
 
-                        System.out.println("Salio Recursivo");
+                      
                         this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(), "", ""));
                     }
                     break;
                 case 2:
                     //ES AND
                     //temp.getHijos().get()
-                    System.out.print("VERDADERO");
-                    System.out.println(temp.getVerdadero());
+                   // System.out.print("VERDADERO");
+                   // System.out.println(temp.getVerdadero());
                     temp.getHijos().get(pos).setVerdadero(nuevaEtiqueta());
                     temp.getHijos().get(pos).setFalso(temp.getFalso());
                     PROCEDURE_BOOLEAN_STATE_INTER(temp.getHijos().get(pos));
@@ -2079,7 +2079,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     temp.getHijos().get(pos).setVerdadero(temp.getFalso());
                     temp.getHijos().get(pos).setFalso(temp.getVerdadero());
                     PROCEDURE_BOOLEAN_STATE_INTER(temp.getHijos().get(pos));
-                    System.out.println("Salio Recursivo");
+                   // System.out.println("Salio Recursivo");
                     //this.cuadruplos.add(new Cuadruplos("GOTO", temp.getFalso(),"",""));
                     break;
                 case 1000:
@@ -2129,7 +2129,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }*/
     
     public void codigo_final() throws Exception {
-        System.out.println("CODIGO FINAL");
+       // System.out.println("CODIGO FINAL");
         int contambitos = 0;
         int contMSG = 0;
         ArrayList<Temporal> temporales = new ArrayList();
@@ -2147,12 +2147,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         code += "   .text\n"
                 + "   .globl main\n";
-        System.out.println(code);
+       // System.out.println(code);
         //Recorrer cuadruplos
         for (Cuadruplos cuad : this.cuadruplos) {
             
-            System.out.println(cuad.operador);
-            System.out.println(cuad.arg1);
+            //System.out.println(cuad.operador);
+           // System.out.println(cuad.arg1);
             switch (cuad.getOperador()) {
                 case "END":
                     if (this.ambito_final.equals("MAIN")) {
@@ -2165,7 +2165,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         code += "       lw $fp, -4($sp)\n"
                                 + "       lw $ra, -8($sp)\n";
                         if(contP>0){
-                            System.out.println("HEY HEY");
+                            
                             for (int i = 0; i < this.stackerss.size(); i++) {
                                 //System.out.println(this.stackerss.get(i));
                                 code += "       lw "+this.stackerss.get(i)+"\n";
@@ -2186,7 +2186,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 case "+":
                 case "-":
                 case "/":
-                    System.out.println("Entro a arithmetics");
+                   // System.out.println("Entro a arithmetics");
                     String numero = "[0-9]+";
                     int t1 = 0;
                     int t2 = 0;
@@ -2330,7 +2330,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             //code += "       sw $t" + asig + ", -" + getOffsetFrame(cuad.getRes()) + "($fp)\n";
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }else{
-                            System.out.println("HOLAAA, AIUDAAAAAAAAAA");
+                           
                             data+="_"+cuad.getRes() +":       .word 0"+"\n";
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }
@@ -2348,7 +2348,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }else if(cuad.getArg1().contains("'")){
                         //Adquirir chars
                         code += "       li $t" + ntemp + ", " + cuad.getArg1() + "\n";
-                        System.out.println("hola soy un char sin asignar");
+                      
                         if (isLocalVar(cuad.res)) {
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }
@@ -2372,7 +2372,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                         variables.clear();
                         PrintVariableData(GlobalAmbitos.get(GlobalAmbitos.size() - 1));
-                        System.out.println(this.ambito_final + " Variables ");
+                       // System.out.println(this.ambito_final + " Variables ");
 
                         for (int i = 0; i < variables.size(); i++) {
                             if (variables.get(i).type.equals("integer")) {
@@ -2396,19 +2396,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         
                         variables.clear();
                         PrintVariableData(GlobalAmbitos.get(contambitos - 1));
-                        System.out.println(this.ambito_final + " Variables ");
+                       // System.out.println(this.ambito_final + " Variables ");
                         for (int i = 0; i < cantparams; i++) {
                             params.add(variables.get(0));
                             variables.remove(0);
                         }
-                        System.out.println("PARAMS");
+                       // System.out.println("PARAMS");
                         for (int i = 0; i < params.size(); i++) {
-                            System.out.println(params.get(i).getId());
+                         //   System.out.println(params.get(i).getId());
 
                         }
-                        System.out.println("VARIABLES");
+                      //  System.out.println("VARIABLES");
                         for (int i = 0; i < variables.size(); i++) {
-                            System.out.println(variables.get(i).id);
+                        //    System.out.println(variables.get(i).id);
                         }
                         this.ambito_final = cuad.getArg1();
                         code += "_" + cuad.getArg1() + ":\n";
@@ -2452,10 +2452,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     break;
                 case "Print":
                     
-                    System.out.println("Hola");
+                   
                     if (cuad.getArg1().contains("#")) {
                         String tempmensaje = cuad.getArg1().substring(1, cuad.getArg1().length() - 1);
-                        System.out.println("Es un comment");
+                       // System.out.println("Es un comment");
                         boolean flag = false;
                         int contm = 0;
                         for (int i = 0; i < mensajes.size(); i++) {
@@ -2482,8 +2482,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
 
                     } else {
-                        System.out.println(cuad.arg1);
-                        System.out.println("Aqui estoy");
+                       // System.out.println(cuad.arg1);
+                       
                         /*
                         for (int i = 0; i < variables.size(); i++) {
                             if (cuad.arg1.equals(variables.get(i).id)) {
@@ -2571,7 +2571,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     }
                     break;
                 case "call":
-                    System.out.println("");
+                    
                     code += "       jal _"+cuad.arg1+  " \n";
                     break;
                 default:
@@ -2605,13 +2605,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                code += "       li $t" + t_der + ", " + cuad.getArg1() + "\n";
                         } else {
                             if (isLocalVar(cuad.getArg1())) {
-                                System.out.println("ENcontro local");
+                               
                                 //code += "       lw $t" + t_izq + ", -" + getOffsetFrame(cuad.getArg1()) + "($fp)\n";
                                 code += "       lw $t" + t_izq + ", _" + cuad.getArg1() + "\n";
                             } else {
                                 
-                                System.out.println("Aiudaa");
-                                System.out.println(cuad.getArg1());
+                               
+                               // System.out.println(cuad.getArg1());
                                 code += "       lw $t" + t_izq + ", _" + cuad.getArg1() + "\n";
                             }
                         }
@@ -2627,7 +2627,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 code += "       lw $t" + t_der + ", _" + cuad.getArg2() + "\n";
                             } else {
                                 
-                                System.out.println("Aiuda");
+                                
                             }
                         }
                         switch (operator) {
@@ -2652,16 +2652,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         }
                         temporales.get(t_izq).setVivo(false);
                         temporales.get(t_der).setVivo(false);
-                        System.out.println(" ");
+                       
 
-                        System.out.println(code);
+                        //System.out.println(code);
 
                     }
             }
         }
         data += code;
         code = data;
-        System.out.println(code);
+       // System.out.println(code);
         this.ta_codigo_final.setText(code);
         guardar_codigoF();
 
@@ -2669,7 +2669,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public boolean isLocalVar(String variable) {
         boolean retValue = false;
-        System.out.println(this.ambito_final);
+       // System.out.println(this.ambito_final);
         /*
         for (int i = 0; this.variables.size() < 10; i++) {
             System.out.println(i);
