@@ -1,12 +1,2 @@
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
+Error Semantico: variable: x ya existe en el ambito.
+ERROR SEMANTICO: La variable [integer] no es del mismo tipo que el parametro del OpenMatch [character]

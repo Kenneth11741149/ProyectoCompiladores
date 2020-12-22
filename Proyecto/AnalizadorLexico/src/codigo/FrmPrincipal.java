@@ -629,6 +629,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 case "CHAR-CASE":{
                                     Node CharCaseHijoTHEN = hijoOpenMatchActual.getHijos().get(1);
                                     recorrerArbolA(CharCaseHijoTHEN, OpenMatch, 0);
+                                    if(SwitchCaseParameterType.equals("character")){
+                                        
+                                    } else {
+                                        ReportError("ERROR SEMANTICO: La variable ["+SwitchCaseParameterType+"] no es del mismo tipo que el parametro del OpenMatch [character]");
+                                    }
+                                    break;
+                                }
+                                case "NUM-CASE":{
+                                    Node NumCaseHijoTHEN = hijoOpenMatchActual.getHijos().get(1);
+                                    recorrerArbolA(NumCaseHijoTHEN, OpenMatch, 0);
+                                    if(SwitchCaseParameterType.equals("integer")){
+                                        
+                                    } else {
+                                        ReportError("ERROR SEMANTICO: La variable ["+SwitchCaseParameterType+"] no es del mismo tipo que el parametro del OpenMatch [integer]");
+                                    }
                                     break;
                                 }
                                 case "CASE" :{

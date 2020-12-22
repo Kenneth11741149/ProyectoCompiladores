@@ -1,110 +1,18 @@
 MAIN
        DECLARATION
               integer
-              x
-       DECLARATION
-              integer
-              y
-       DECLARATION
-              integer
-              op
-              1
-       DECLARATION
-              integer
-              result
-       UNTIL
-              BOOLEAN STATEMENT
-                     x
-                     ==
-                     5
-              DO
-                     THROW
-                            #\n#
-                     THROW
-                            #Ingrese el primer numero  \n#
-                     EAT
-                            x
-                     THROW
-                            #Ingrese el segundo numero \n#
-                     EAT
-                            y
-                     THROW
-                            #Ingrese 1 para sumar \n#
-                     THROW
-                            #Ingrese 2 para restar \n#
-                     THROW
-                            #Ingrese 3 para  multiplicar \n#
-                     THROW
-                            #Ingrese 4 para dividir \n#
-                     THROW
-                            #Ingrese 5 para salir\n#
-                     EAT
-                            op
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   1
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          +
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n#
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   2
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          -
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n#
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   3
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          *
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n#
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   4
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          /
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n#
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   >
-                                   5
-                            THEN
-                                   THROW
-                                          #Opcion no valida#
+              letra
+       OPENMATCH
+              letra
+              NUM-CASE
+                     7
+                     THEN
+                            DECLARATION
+                                   integer
+                                   x
+              CHAR-CASE
+                     z
+                     THEN
+                            DECLARATION
+                                   integer
+                                   x

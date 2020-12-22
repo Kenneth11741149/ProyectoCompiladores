@@ -6173,7 +6173,7 @@ class CUP$Sintax$actions {
                 for(int i = 0;i<((Node)h1).getHijos().size();i++){
                 raiz.addHijo(((Node)h1).getHijos().get(i));
                 }
-                Node x = new Node("CASE",false);
+                Node x = new Node("NUM-CASE",false);
                 x.addHijo(new Node(h2.toString(),false));
                 Node THEN = new Node("THEN",false);
                 for(int i = 0;i<((Node)h3).getHijos().size();i++){
@@ -6199,7 +6199,7 @@ class CUP$Sintax$actions {
 		Object h2 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).value;
 		
                 Node raiz = new Node("Raiz",false);
-                Node x = new Node("CASE",false);
+                Node x = new Node("NUM-CASE",false);
                 x.addHijo(new Node(h1.toString(),false));
                 Node THEN = new Node("THEN",false);
                 for(int i = 0;i<((Node)h2).getHijos().size();i++){
