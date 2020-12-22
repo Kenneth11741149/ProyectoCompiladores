@@ -1632,6 +1632,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     this.cuadruplos.add(new Cuadruplos("ETIQ", n.getHijos().get(1).getVerdadero(), "", ""));
                     codigo_intermedio(n.getHijos().get(3));
                     this.cuadruplos.add(new Cuadruplos("GOTO", etiqTemp, "", ""));
+                    this.cuadruplos.add(new Cuadruplos("ETIQ", n.getSiguiente(), "", ""));
                     break;
                 case "UNTIL":
                     n.setSiguiente(nuevaEtiqueta());//Crear etiqueta de salida
@@ -2056,6 +2057,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         code += "       li $v0,10\n"
                                 + "       syscall\n";
                     }else{
+                        code += "       b _" + this.ambito_final+"Ender\n";
                         code+="_"+this.ambito_final+"Ender:\n";
                         code += "       move $sp, $fp\n";
                         code += "       lw $fp, -4($sp)\n"
@@ -2227,6 +2229,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }else{
                             System.out.println("HOLAAA, AIUDAAAAAAAAAA");
+                            data+="_"+cuad.getRes() +":       .word 0"+"\n";
+                            code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }
                         temporales.get(asig).setVivo(false);
                         temporales.get(asig).setActivado("");
@@ -2243,6 +2247,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         //Adquirir chars
                         //code +=
                         System.out.println("hola soy un char sin asignar");
+                        
+                    }else if(cuad.getArg1().contains("false")|| cuad.getArg1().contains("true")){
+                        if(cuad.getArg1().contains("false")){
+                            code += "       li $t" + ntemp + ", " + 0 + "\n";
+                        }else{
+                            code += "       li $t" + ntemp + ", " + 1 + "\n";
+                        }
+                        if (isLocalVar(cuad.res)) {
+                            code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
+                        }
                     }
                      
                     break;
@@ -2257,6 +2271,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                         for (int i = 0; i < variables.size(); i++) {
                             if (variables.get(i).type.equals("integer")) {
+                                data+="_"+variables.get(i).id +":       .word 0"+"\n";
+                            }else if (variables.get(i).type.equals("boolean")){
                                 data+="_"+variables.get(i).id +":       .word 0"+"\n";
                             }
                         }
@@ -2473,6 +2489,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 
                                 System.out.println("Aiudaa");
                                 System.out.println(cuad.getArg1());
+                                code += "       lw $t" + t_izq + ", _" + cuad.getArg1() + "\n";
                             }
                         }
 
@@ -2484,6 +2501,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 //code += "       lw $t" + t_der + ", -" + getOffsetFrame(cuad.getArg2()) + "($fp)\n";
                                 code += "       lw $t" + t_der + ", _" + cuad.getArg2() + "\n";
                             } else {
+                                
                                 System.out.println("Aiuda");
                             }
                         }

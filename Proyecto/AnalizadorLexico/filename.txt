@@ -47,6 +47,22 @@ MAIN
               THEN
                      THROWLN
                             x
+       FOR
+              FOR STATEMENT
+                     i
+                     0
+              BOOLEAN STATEMENT
+                     i
+                     <
+                     6
+              FOR DECLARATION
+                     i
+                     ++
+              THEN
+                     THROWLN
+                            i
+                     THROWLN
+                            #ASTRONOMIA#
        METHOD-CALL
               f2
               PARAMETROS
