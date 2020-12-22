@@ -1,9 +1,0 @@
-open-main()
-    define x as integer := 5+3/(5-2);
-     throwln(f2(2;x;e;w;3;5););
-close-main
-open-method integer f2(integer x1)
-    define x as integer := x1 + 1;
-    return := x;
- 
-close-method

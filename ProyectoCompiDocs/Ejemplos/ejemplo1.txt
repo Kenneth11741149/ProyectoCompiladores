@@ -1,0 +1,49 @@
+open-main()
+   define x as integer;
+   define y as integer;
+   define op as integer:= 1;
+   define result as integer;
+  
+   open-until(x==5)   do
+             throw(#\n#);
+             throw(#Ingrese el primer numero  \n#);
+             eat(x);
+             throw(#Ingrese el segundo numero \n#);
+             eat(y);
+
+            throw(#Ingrese 1 para sumar \n#);
+            throw(#Ingrese 2 para restar \n#);
+            throw(#Ingrese 3 para  multiplicar \n#);
+            throw(#Ingrese 4 para dividir \n#);
+            throw(#Ingrese 5 para salir\n#);
+            eat(op);
+            open-test(op==1)  then
+	result := x+y;
+                              throw(#El resultado es \n#);
+	throw(result);
+            close-test
+            open-test(op==2)  then
+	result := x-y;
+                              throw(#El resultado es \n#);
+	throw(result);
+            close-test
+           open-test(op==3)  then
+	result := x*y;
+                              throw(#El resultado es \n#);
+	throw(result);
+            close-test
+            open-test(op==4)  then
+	result := x/y;
+                              throw(#El resultado es \n#);
+	throw(result);
+            close-test
+            open-test(op>5)  then
+	
+                              throw(#Opcion no valida#);
+	
+            close-test
+           
+   close-until
+   
+
+close-main

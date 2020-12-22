@@ -1,0 +1,23 @@
+open-main()
+     throw(#INGRESE UN NUMERO#);
+     define varchar as integer;
+     eat(varchar);
+   
+
+   open-for( integer i :=0;i<varchar;i++) do
+	
+	f2();
+                             
+   close-for
+   /*
+    open-until(true) do
+           throw(x);
+     close-until
+   */
+
+close-main
+open-method integer f2()
+    throw(#Hola Mundo \n#);
+     define echelon as integer;
+     return := echelon;
+close-method
