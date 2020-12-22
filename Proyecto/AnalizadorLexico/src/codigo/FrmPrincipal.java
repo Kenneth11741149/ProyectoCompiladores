@@ -615,6 +615,45 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     PROCEDURE_Assignment(hijo, ambito, pos);
                     break;
                 }
+                case "OPENMATCH": {
+                    String OpenMatchAmbito = ambito.getName() + "-OpenMatch-" + pos;
+                    Node OpenMatchNode = hijo;
+                    String variableSwitchCase = OpenMatchNode.getHijos().get(0).GetValue();
+                    Ambito OpenMatch = new Ambito(OpenMatchAmbito,ambito);
+                    ambito.getSubAmbitos().add(OpenMatch);
+                    if(verificar_variable_existenteA(variableSwitchCase, ambito)){
+                        String SwitchCaseParameterType = VariableVerificada.getType();
+                        for (int i = 1; i < OpenMatchNode.getHijos().size(); i++) {
+                            Node hijoOpenMatchActual = OpenMatchNode.getHijos().get(i);
+                            switch(hijoOpenMatchActual.GetValue()){
+                                case "CHAR-CASE":{
+                                    Node CharCaseHijoTHEN = hijoOpenMatchActual.getHijos().get(1);
+                                    recorrerArbolA(CharCaseHijoTHEN, OpenMatch, 0);
+                                    break;
+                                }
+                                case "CASE" :{
+                                    Node CaseElHijoVARIABLE = hijoOpenMatchActual.getHijos().get(0);
+                                    String nombreDeLaVariableDelCase = CaseElHijoVARIABLE.GetValue();
+                                    if(verificar_variable_existenteA(nombreDeLaVariableDelCase, OpenMatch)){
+                                        String Tipo_de_la_variable_del_case = VariableVerificada.getType();
+                                        if(SwitchCaseParameterType.equals(Tipo_de_la_variable_del_case)){
+                                            
+                                        } else {
+                                            ReportError("ERROR SEMANTICO: La variable ["+nombreDeLaVariableDelCase+"] no es del mismo tipo que el parametro del OpenMatch ["+variableSwitchCase+"]");
+                                        }
+                                    } else {
+                                        ReportError("ERROR SEMANTICO: La variable ["+nombreDeLaVariableDelCase+"] utilizada en el OpenMatch no existe.");
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    } else {
+                        ReportError("ERROR SEMANTICO: La variable ["+variableSwitchCase+"] no existe.");
+                    }
+                    break;
+                }
             }
         }
 
