@@ -2088,7 +2088,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.out.println(code);
         //Recorrer cuadruplos
         for (Cuadruplos cuad : this.cuadruplos) {
-            System.out.println("cuadruplooooos");
+            
             System.out.println(cuad.operador);
             System.out.println(cuad.arg1);
             switch (cuad.getOperador()) {
@@ -2455,14 +2455,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                         }*/
                         boolean canPrintInteger = false;
+                        boolean canPrintChar = false;
                         for (int i = 0; i < variables.size(); i++) {
                             if (cuad.arg1.equals(variables.get(i).id) && variables.get(i).type.equals("integer")) {
                                 canPrintInteger = true;
+                            }else if(cuad.arg1.equals(variables.get(i).id) && variables.get(i).type.equals("character")){
+                                canPrintChar = true;
                             }
                         }
                         if (canPrintInteger) {
                             code += "       li $v0, 1\n";
-                            code += "       lw $a0,_" + cuad.getArg1() + "\n";
+                            code += "       lw $a0,_" + cuad.getArg1()+ "\n";
+                            code += "       syscall\n";
+                        }else if(canPrintChar){
+                            code += "       li $v0, 4\n";
+                            code += "       la $a0,_" +cuad.getArg1()+ "\n";
                             code += "       syscall\n";
                         }
                     }

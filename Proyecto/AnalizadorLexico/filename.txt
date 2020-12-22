@@ -1,33 +1,12 @@
 MAIN
-       THROW
-              #INGRESE UN NUMERO#
        DECLARATION
-              integer
-              varchar
+              character
+              c
+       THROW
+              #Ingrese caracter \n#
        EAT
-              varchar
-       FOR
-              FOR STATEMENT
-                     i
-                     0
-              BOOLEAN STATEMENT
-                     i
-                     <
-                     varchar
-              FOR DECLARATION
-                     i
-                     ++
-              THEN
-                     METHOD-CALL
-                            f2
-                            PARAMETROS
-INT METHOD
-       f2
-       BLOQUE
-              THROW
-                     #Hola Mundo \n#
-              DECLARATION
-                     integer
-                     echelon
-       RETURN
-              echelon
+              c
+       THROW
+              #XD \n#
+       THROW
+              c
