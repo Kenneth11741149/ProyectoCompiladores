@@ -2055,6 +2055,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     if (this.ambito_final.equals("MAIN")) {
                         code += "       li $v0,10\n"
                                 + "       syscall\n";
+                    }else{
+                        code+="_"+this.ambito_final+"Ender:\n";
+                        code += "       move $sp, $fp\n";
+                        code += "       lw $fp, -4($sp)\n"
+                                + "       lw $ra, -8($sp)\n";
+                        if(contP>0){
+                            System.out.println("HEY HEY");
+                            for (int i = 0; i < this.stackerss.size(); i++) {
+                                //System.out.println(this.stackerss.get(i));
+                                code += "       lw "+this.stackerss.get(i)+"\n";
+                            }
+                            code += "       jr $ra\n";
+                        }
+                        this.stackerss.clear();
                     }
                     break;
                 case "ETIQ":
@@ -2272,6 +2286,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         for (int i = 0; i < variables.size(); i++) {
                             System.out.println(variables.get(i).id);
                         }
+                        this.ambito_final = cuad.getArg1();
                         code += "_" + cuad.getArg1() + ":\n";
                         code += "       sw $fp, -4($sp)\n"
                                 + "       sw $ra, -8($sp)\n";
@@ -2286,6 +2301,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 xeter = 1;
                             }
                             temporalCount=temporalCount + xeter;
+                            this.stackerss.add("$s"+i+  ", -"+temporalCount +"($sp)");
                             code += "       sw $s"+i+  ", -"+temporalCount +"($sp)\n";
                         }
                         if(variables.size()==0){
@@ -2299,6 +2315,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 code+="       move $a"+i +", $s"+i+"\n";
                             }
                         }
+                        
+                        contP = cantparams;
                     }
                     contambitos++;
 
@@ -2624,6 +2642,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     String ambito_final = "";
     ArrayList<String> mensajes = new ArrayList();
     ArrayList<String> varsdata = new ArrayList();
-    
+    ArrayList<String> stackerss= new ArrayList();
     
 }

@@ -58,3 +58,10 @@ _f2:
        sub $sp, $sp, 16
        move $a0, $s0
        move $a1, $s1
+_f2Ender:
+       move $sp, $fp
+       lw $fp, -4($sp)
+       lw $ra, -8($sp)
+       lw $s0, -12($sp)
+       lw $s1, -16($sp)
+       jr $ra
