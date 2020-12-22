@@ -1232,6 +1232,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
             Node SubHijoActual = hijo.getHijos().get(i);
             if (SubHijoActual.GetValue().equals("BLOQUE")) {
                 recorrerArbolA(hijo.getHijos().get(i), actual.getAmbito(), 0);
+            } else if (SubHijoActual.GetValue().equals("RETURN")){
+                Node variableReturn = SubHijoActual.getHijos().get(0);
+                String nombre_de_la_variable_del_return = variableReturn.GetValue();
+                if(verificar_variable_existenteA(nombre_de_la_variable_del_return, actual.getAmbito())){
+                    String tipo_de_la_variable_del_return = VariableVerificada.getType();
+                    if(tipo_de_la_variable_del_return.equals(functionType)){
+                       
+                    } else {
+                        ReportError("ERROR SEMANTICO: El tipo de la variable de retorno ["+nombre_de_la_variable_del_return+"] no esta permitido en ["+actual.getId()+"]");
+                    }
+                } else {
+                    ReportError("ERROR SEMANTICO: La variable ["+nombre_de_la_variable_del_return+"] no esta declarada.");
+                }
             }
         }
         currentPrototype++;
