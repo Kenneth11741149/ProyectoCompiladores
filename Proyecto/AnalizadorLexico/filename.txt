@@ -70,7 +70,7 @@ INT METHOD
        f2
        BLOQUE
               THROW
-                     #SERE UN PAYASO#
+                     #Sere una funcion?#
               DECLARATION
                      integer
                      echelon

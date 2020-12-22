@@ -1844,6 +1844,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //System.out.println(n.getFalso());
         System.out.println("WHAT IS MY VALUE?");
         System.out.println(n.getValue());
+        
         int pos = 0;
         if (temp != null) {
             int counterRef = 0;
@@ -2245,8 +2246,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         
                     }else if(cuad.getArg1().contains("'")){
                         //Adquirir chars
-                        //code +=
+                        code += "       li $t" + ntemp + ", " + cuad.getArg1() + "\n";
                         System.out.println("hola soy un char sin asignar");
+                        if (isLocalVar(cuad.res)) {
+                            code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
+                        }
                         
                     }else if(cuad.getArg1().contains("false")|| cuad.getArg1().contains("true")){
                         if(cuad.getArg1().contains("false")){
@@ -2274,6 +2278,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 data+="_"+variables.get(i).id +":       .word 0"+"\n";
                             }else if (variables.get(i).type.equals("boolean")){
                                 data+="_"+variables.get(i).id +":       .word 0"+"\n";
+                            }else if (variables.get(i).type.equals("character")){
+                                data+="_"+variables.get(i).id +":       .byte 0"+"\n";
                             }
                         }
                     } else {
@@ -2428,12 +2434,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         for (int i = 0; i < variables.size(); i++) {
                             if (cuad.arg1.equals(variables.get(i).id) && variables.get(i).type.equals("integer")) {
                                 isInteger = true;
+                            }else if(cuad.arg1.equals(variables.get(i).id) && variables.get(i).type.equals("character")){
+                                isChar = true;
                             }
                         }
                             if(isInteger){
                                     code += "       li $v0, 5\n";
                                     code += "       syscall\n";
                                     code += "       sw $v0,_" + cuad.getArg1() + "\n";
+                            }else if(isChar){
+                                code += "       li $v0, 12\n";
+                                code += "       syscall\n";
+                                code += "       sw $v0,_" + cuad.getArg1() + "\n";
                             }
                            
                  

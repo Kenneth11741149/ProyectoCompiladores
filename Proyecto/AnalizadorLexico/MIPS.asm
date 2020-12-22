@@ -1,16 +1,19 @@
 .data
 _varchar:       .word 0
+_varExeter:       .byte 0
 _varEchelon:       .word 0
 _x:       .word 0
 _i:       .word 0
 _msg0:      .asciiz  "ASTRONOMIA"
-_msg1:      .asciiz  "SERE UN PAYASO"
+_msg1:      .asciiz  "Sere una funcion?"
    .text
    .globl main
 main:
        move $fp, $sp
        li $t0, 10
        sw $t0, _varchar
+       li $t0, 'a'
+       sw $t0, _varExeter
        li $t0, 1
        sw $t0, _varEchelon
        li $t0, 5
