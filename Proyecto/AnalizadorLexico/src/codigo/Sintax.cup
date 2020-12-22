@@ -630,6 +630,7 @@ Identificadoroletra ::=
     |
     L:h1
     {:  Node x = new Node(h1.toString(),false);
+        
             x.setType("char");
             RESULT = x;
             :}

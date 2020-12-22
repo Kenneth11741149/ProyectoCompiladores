@@ -2505,6 +2505,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                                 code += "       li $v0, 12\n";
                                 code += "       syscall\n";
                                 code += "       sw $v0,_" + cuad.getArg1() + "\n";
+                                
                             }
                            
                  
@@ -2551,6 +2552,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         if (cuad.getArg1().matches("[0-9]+")) {
                             
                             code += "       li $t" + t_izq + ", " + cuad.getArg1() + "\n";
+                        }else if(cuad.getArg1().contains("'")){
+                               code += "       li $t" + t_der + ", " + cuad.getArg1() + "\n";
                         } else {
                             if (isLocalVar(cuad.getArg1())) {
                                 System.out.println("ENcontro local");
@@ -2567,6 +2570,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         //ARG2
                         if (cuad.getArg2().matches("[0-9]+")) {
                             code += "       li $t" + t_der + ", " + cuad.getArg2() + "\n";
+                        }else if(cuad.getArg2().contains("'")){
+                               code += "       li $t" + t_der + ", " + cuad.getArg2() + "\n";
                         } else {
                             if (isLocalVar(cuad.getArg2())) {
                                 //code += "       lw $t" + t_der + ", -" + getOffsetFrame(cuad.getArg2()) + "($fp)\n";

@@ -1,76 +1,14 @@
 MAIN
        DECLARATION
-              integer
-              varchar
-       ASSIGNMENT
-              varchar
-              10
-       DECLARATION
               character
-              varExeter
-              'a'
-       DECLARATION
-              boolean
-              varEchelon
-              true
-       DECLARATION
-              integer
-              x
-              +
-                     5
-                     /
-                            3
-                            -
-                                   5
-                                   2
-       FOR
-              FOR STATEMENT
-                     i
-                     0
+              varchar
+       EAT
+              varchar
+       TEST
               BOOLEAN STATEMENT
-                     i
-                     <
-                     6
-              FOR DECLARATION
-                     i
-                     ++
+                     varchar
+                     ==
+                     'c'
               THEN
-                     TEST
-                            BOOLEAN STATEMENT
-                                   |
-                                          x
-                                          <
-                                          3
-                                          &
-                                                 !
-                                                        x
-                                                        >
-                                                        15
-                                                 x
-                                                 >
-                                                 10
-                            THEN
-                                   THROWLN
-                                          x
-                            OR
-                                   THROW
-                                          i
-       UNTIL
-              BOOLEAN STATEMENT
-                     true
-              DO
                      THROW
-                            x
-INT METHOD
-       f2
-       PARAMETROS
-              integer
-              x1
-              integer
-              x2
-       BLOQUE
-              DECLARATION
-                     integer
-                     x
-       RETURN
-              y
+                            #PENESOTE#

@@ -1,1 +1,0 @@
-ERROR SEMANTICO: La variable [y] no esta declarada.
