@@ -1,12 +1,1 @@
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unrecognized NodeType in ASSIGNMENT to: [result] + []
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
-Unable to convert [x] to String. 
-Unable to convert [y] to String. 
+Error semantico: llamado a funcion [f2] refiere a una funcion que no existe.

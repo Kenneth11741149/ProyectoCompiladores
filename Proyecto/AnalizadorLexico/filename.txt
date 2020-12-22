@@ -1,112 +1,79 @@
 MAIN
        DECLARATION
               integer
+              varchar
+       ASSIGNMENT
+              varchar
+              10
+       DECLARATION
+              character
+              varExeter
+              'a'
+       DECLARATION
+              boolean
+              varEchelon
+              true
+       DECLARATION
+              integer
               x
-       DECLARATION
-              integer
-              y
-       DECLARATION
-              integer
-              result
-       DECLARATION
-              integer
-              op
-              1
-       THROW
-              #Calculadora Churrito Fiesta \n#
+              +
+                     5
+                     /
+                            3
+                            -
+                                   5
+                                   2
+       FOR
+              FOR STATEMENT
+                     i
+                     0
+              BOOLEAN STATEMENT
+                     i
+                     <
+                     6
+              FOR DECLARATION
+                     i
+                     ++
+              THEN
+                     TEST
+                            BOOLEAN STATEMENT
+                                   |
+                                          x
+                                          <
+                                          3
+                                          &
+                                                 !
+                                                        x
+                                                        >
+                                                        15
+                                                 x
+                                                 >
+                                                 10
+                            THEN
+                                   THROWLN
+                                          x
+                            OR
+                                   THROW
+                                          i
        UNTIL
               BOOLEAN STATEMENT
-                     op
-                     ==
-                     5
+                     true
               DO
                      THROW
-                            #\n#
-                     THROW
-                            #Ingrese el primer numero \n#
-                     EAT
                             x
-                     THROW
-                            #Ingrese el segundo numero numero \n#
-                     EAT
-                            y
-                     THROW
-                            #Ingrese 1 para sumar \n#
-                     THROW
-                            #Ingrese 2 para restar \n#
-                     THROW
-                            #Ingrese 3 para multiplicar \n#
-                     THROW
-                            #Ingrese 4 para dividir \n#
-                     THROW
-                            #Ingrese 5 para salirse \n#
-                     EAT
-                            op
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   1
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          +
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n #
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   2
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          -
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n #
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   3
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          *
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n #
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   ==
-                                   4
-                            THEN
-                                   ASSIGNMENT
-                                          result
-                                          /
-                                                 x
-                                                 y
-                                   THROW
-                                          #El resultado es \n #
-                                   THROW
-                                          result
-                     TEST
-                            BOOLEAN STATEMENT
-                                   op
-                                   >
-                                   5
-                            THEN
-                                   THROW
-                                          #Opcion no valida \n#
+INT METHOD
+       f2
+       PARAMETROS
+              integer
+              x1
+              integer
+              x2
+       BLOQUE
+              DECLARATION
+                     integer
+                     x
+              METHOD-CALL
+                     f2
+                     PARAMETROS
+       RETURN
+              x

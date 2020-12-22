@@ -1,141 +1,60 @@
 .data
+_varchar:       .word 0
 _x:       .word 0
-_y:       .word 0
-_result:       .word 0
-_op:       .word 0
-_msg0:      .asciiz  "Calculadora Churrito Fiesta \n"
-_msg1:      .asciiz  "\n"
-_msg2:      .asciiz  "Ingrese el primer numero \n"
-_msg3:      .asciiz  "Ingrese el segundo numero numero \n"
-_msg4:      .asciiz  "Ingrese 1 para sumar \n"
-_msg5:      .asciiz  "Ingrese 2 para restar \n"
-_msg6:      .asciiz  "Ingrese 3 para multiplicar \n"
-_msg7:      .asciiz  "Ingrese 4 para dividir \n"
-_msg8:      .asciiz  "Ingrese 5 para salirse \n"
-_msg9:      .asciiz  "El resultado es \n "
-_msg10:      .asciiz  "Opcion no valida \n"
    .text
    .globl main
 main:
        move $fp, $sp
-       li $t0, 1
-       sw $t0, _op
-       li $v0, 4
-       la $a0,_msg0
-       syscall
-_etiq2:
-       lw $t0, _op
-       li $t1, 5
-       beq $t0, $t1, _etiq1
-       b _etiq3
-_etiq3:
-       li $v0, 4
-       la $a0,_msg1
-       syscall
-       li $v0, 4
-       la $a0,_msg2
-       syscall
-       li $v0, 5
-       syscall
-       sw $v0,_x
-       li $v0, 4
-       la $a0,_msg3
-       syscall
-       li $v0, 5
-       syscall
-       sw $v0,_y
-       li $v0, 4
-       la $a0,_msg4
-       syscall
-       li $v0, 4
-       la $a0,_msg5
-       syscall
-       li $v0, 4
-       la $a0,_msg6
-       syscall
-       li $v0, 4
-       la $a0,_msg7
-       syscall
-       li $v0, 4
-       la $a0,_msg8
-       syscall
-       li $v0, 5
-       syscall
-       sw $v0,_op
-       lw $t0, _op
-       li $t1, 1
-       beq $t0, $t1, _etiq5
-       b _etiq4
-_etiq5:
-       lw $t0,_x
-       lw $t1,_y
-       add $t2, $t0, $t1
-       sw $t2, _result
-       li $v0, 4
-       la $a0,_msg9
-       syscall
-       li $v0, 1
-       lw $a0,_result
-       syscall
-_etiq4:
-       lw $t0, _op
+       li $t0, 10
+       sw $t0, _varchar
+       li $t0, 5
        li $t1, 2
-       beq $t0, $t1, _etiq7
-       b _etiq6
-_etiq7:
-       lw $t0,_x
-       lw $t1,_y
        sub $t2, $t0, $t1
-       sw $t2, _result
-       li $v0, 4
-       la $a0,_msg9
-       syscall
-       li $v0, 1
-       lw $a0,_result
-       syscall
-_etiq6:
-       lw $t0, _op
-       li $t1, 3
-       beq $t0, $t1, _etiq9
-       b _etiq8
-_etiq9:
-       lw $t0,_x
-       lw $t1,_y
-       mul $t2, $t0, $t1
-       sw $t2, _result
-       li $v0, 4
-       la $a0,_msg9
-       syscall
-       li $v0, 1
-       lw $a0,_result
-       syscall
-_etiq8:
-       lw $t0, _op
-       li $t1, 4
-       beq $t0, $t1, _etiq11
-       b _etiq10
-_etiq11:
-       lw $t0,_x
-       lw $t1,_y
-       div $t2, $t0, $t1
-       sw $t2, _result
-       li $v0, 4
-       la $a0,_msg9
-       syscall
-       li $v0, 1
-       lw $a0,_result
-       syscall
-_etiq10:
-       lw $t0, _op
-       li $t1, 5
-       bgt $t0, $t1, _etiq13
-       b _etiq12
-_etiq13:
-       li $v0, 4
-       la $a0,_msg10
-       syscall
-_etiq12:
+       li $t0, 3
+       div $t1, $t0, $t2
+       li $t0, 5
+       add $t2, $t0, $t1
+       sw $t2, _x
+       li $t0, 0
+       sw $t0, _i
+_etiq2:
+       li $t1, 6
+       blt $t0, $t1, _etiq3
+       b _etiq1
+_etiq4:
+       lw $t0,_i
+       li $t1, 1
+       add $t2, $t0, $t1
        b _etiq2
-_etiq1:
+_etiq3:
+       lw $t0, _x
+       li $t1, 15
+       bgt $t0, $t1, _etiq7
+       b _etiq8
+       b _etiq5
+_etiq6:
+       li $v0, 1
+       lw $a0,_x
+       syscall
+       b _etiq9
+_etiq5:
+_etiq9:
+       b _etiq4
+_etiq11:
+_etiq12:
+       li $v0, 1
+       lw $a0,_x
+       syscall
+       b _etiq11
+_etiq10:
        li $v0,10
        syscall
+_f2:
+       sw $fp, -4($sp)
+       sw $ra, -8($sp)
+       sw $s0, -12($sp)
+       sw $s1, -16($sp)
+       move $fp, $sp
+       sub $sp, $sp, 16
+       move $a0, $s0
+       move $a1, $s1

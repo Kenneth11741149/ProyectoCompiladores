@@ -2025,7 +2025,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }*/
     
-    public void codigo_final() {
+    public void codigo_final() throws Exception {
         System.out.println("CODIGO FINAL");
         int contambitos = 0;
         int contMSG = 0;
@@ -2224,6 +2224,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             code += "       sw $t" + asig + ", _" + cuad.getRes() + "\n";
                         }
                         
+                    }else if(cuad.getArg1().contains("'")){
+                        //Adquirir chars
+                        //code +=
+                        System.out.println("hola soy un char sin asignar");
                     }
                      
                     break;
@@ -2251,6 +2255,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             }
 
                         }
+                        
                         variables.clear();
                         PrintVariableData(GlobalAmbitos.get(contambitos - 1));
                         System.out.println(this.ambito_final + " Variables ");
@@ -2266,6 +2271,33 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         System.out.println("VARIABLES");
                         for (int i = 0; i < variables.size(); i++) {
                             System.out.println(variables.get(i).id);
+                        }
+                        code += "_" + cuad.getArg1() + ":\n";
+                        code += "       sw $fp, -4($sp)\n"
+                                + "       sw $ra, -8($sp)\n";
+                        int temporalCount = 8;
+                        
+                        for (int i = 0; i < cantparams; i++) {
+                            int xeter=0;
+                            if(params.get(i).type.equals("integer")||params.get(i).type.equals("boolean")){
+                                xeter = 4;
+                                
+                            }else{
+                                xeter = 1;
+                            }
+                            temporalCount=temporalCount + xeter;
+                            code += "       sw $s"+i+  ", -"+temporalCount +"($sp)\n";
+                        }
+                        if(variables.size()==0){
+                            code += "       move $fp, $sp\n"
+                                + "       sub $sp, $sp, " + temporalCount + "\n";
+                        }else{
+                            //System.out.println("KENNETH AIUDAAAAA");
+                            code += "       move $fp, $sp\n"
+                                + "       sub $sp, $sp, " + temporalCount + "\n";
+                            for (int i = 0; i < cantparams; i++) {
+                                code+="       move $a"+i +", $s"+i+"\n";
+                            }
                         }
                     }
                     contambitos++;
@@ -2370,6 +2402,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             }
                            
                  
+                    break;
+                case "param":
+                    String argParam = cuad.getArg1();
+                    if(isLocalVar(argParam)){
+                        if(arg<=4){
+                            code += "       lw $a"+arg+ ",_"+argParam+"\n";
+                            arg++;
+                        }else{
+                            throw new Exception("OutOfMemory");
+                        }
+                    }
+                    break;
+                case "call":
+                    System.out.println("");
+                    arg=0;
                     break;
                 default:
                     if (cuad.getOperador().contains("IF")) {
