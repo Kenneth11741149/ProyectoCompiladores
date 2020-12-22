@@ -1,52 +1,11 @@
 MAIN
+       THROW
+              #INGRESE UN NUMERO#
        DECLARATION
               integer
               varchar
-       ASSIGNMENT
+       EAT
               varchar
-              10
-       DECLARATION
-              character
-              varExeter
-              'a'
-       DECLARATION
-              boolean
-              varEchelon
-              true
-       DECLARATION
-              integer
-              x
-              +
-                     5
-                     /
-                            varchar
-                            -
-                                   5
-                                   2
-       UNTIL
-              BOOLEAN STATEMENT
-                     x
-                     >
-                     3
-              DO
-                     THROW
-                            x
-       TEST
-              BOOLEAN STATEMENT
-                     |
-                            |
-                                   x
-                                   >
-                                   3
-                                   x
-                                   >
-                                   4
-                            x
-                            >
-                            10
-              THEN
-                     THROWLN
-                            x
        FOR
               FOR STATEMENT
                      i
@@ -54,23 +13,19 @@ MAIN
               BOOLEAN STATEMENT
                      i
                      <
-                     6
+                     varchar
               FOR DECLARATION
                      i
                      ++
               THEN
-                     THROWLN
-                            i
-                     THROWLN
-                            #ASTRONOMIA#
-       METHOD-CALL
-              f2
-              PARAMETROS
+                     METHOD-CALL
+                            f2
+                            PARAMETROS
 INT METHOD
        f2
        BLOQUE
               THROW
-                     #Sere una funcion?#
+                     #Hola Mundo \n#
               DECLARATION
                      integer
                      echelon

@@ -4535,7 +4535,7 @@ class CUP$Sintax$actions {
 		int h3right = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object h3 = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		 
-                    Node x = new Node("BOOLEANA STATEMENT",false);
+                    Node x = new Node("BOOLEAN STATEMENT",false);
                     
                     Node x3 = new Node(h2.toString(),false);
                     Node x4 = new Node(h3.toString(),false);

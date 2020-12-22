@@ -1510,7 +1510,7 @@ SENTENCIA_BOOLEANA ::=
      |
     Identificadoroletra:h1 Op_relacional:h2 Identificador:h3
                {: 
-                    Node x = new Node("BOOLEANA STATEMENT",false);
+                    Node x = new Node("BOOLEAN STATEMENT",false);
                     
                     Node x3 = new Node(h2.toString(),false);
                     Node x4 = new Node(h3.toString(),false);
