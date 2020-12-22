@@ -1723,6 +1723,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     });
                     break;
                 case "OPENMATCH":
+                    executeMatcher(n);
                     break;
                 case "DO":
                     
@@ -1797,6 +1798,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     }
 
+    public void executeMatcher(Node n){
+        Node temp = n;
+        String tempRes = temp.getHijos().get(0).getValue();
+        String exitEtiq = nuevaEtiqueta();
+        String etiqHexer = nuevaEtiqueta();
+        this.cuadruplos.add(new Cuadruplos("GOTO", etiqHexer,"",""));
+        int counter = 0;
+        for (int i = 0; i < temp.getHijos().size(); i++) {
+            counter++;
+            if(temp.getHijos().get(i).GetValue().contains("CASE")){
+                
+                Node temp2 = temp.getHijos().get(i);
+                
+                this.cuadruplos.add(new Cuadruplos("ETIQ", etiqHexer, "", ""));
+                etiqHexer = nuevaEtiqueta();
+                this.cuadruplos.add(new Cuadruplos("IF==", tempRes, temp2.getHijos().get(0).getValue(), etiqHexer));
+                String elyium = etiqHexer;
+                etiqHexer = nuevaEtiqueta();
+                if(counter==temp.getHijos().size()){
+                    this.cuadruplos.add(new Cuadruplos("GOTO", exitEtiq,"",""));
+                }else{
+                    this.cuadruplos.add(new Cuadruplos("GOTO", etiqHexer,"",""));
+                }
+                this.cuadruplos.add(new Cuadruplos("ETIQ", elyium, "", ""));
+                codigo_intermedio(temp2.getHijos().get(1));
+                //if()
+                this.cuadruplos.add(new Cuadruplos("GOTO", exitEtiq,"" , ""));
+                
+            }
+        }
+        this.cuadruplos.add(new Cuadruplos("ETIQ", exitEtiq, "", ""));
+    }
+    
     public String Arithmetics_Inter(Node n, String signo) {
         //System.out.println("ARITHMS");
         //System.out.println(n.getHijos().get(0).GetValue());

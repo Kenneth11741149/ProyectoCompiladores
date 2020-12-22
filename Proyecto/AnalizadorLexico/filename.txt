@@ -1,18 +1,45 @@
 MAIN
        DECLARATION
               integer
+              varchar
+       ASSIGNMENT
+              varchar
+              10
+       DECLARATION
+              character
+              varExeter
+              'a'
+       DECLARATION
+              boolean
+              varEchelon
+              true
+       DECLARATION
+              integer
+              x
+              +
+                     5
+                     /
+                            varchar
+                            -
+                                   5
+                                   2
+       DECLARATION
+              character
               letra
+              'c'
+       DECLARATION
+              integer
+              z
+              1
        OPENMATCH
-              letra
+              varchar
               NUM-CASE
-                     7
+                     10
                      THEN
-                            DECLARATION
-                                   integer
-                                   x
-              CHAR-CASE
-                     z
+                            THROW
+                                   #SooS#
+              NUM-CASE
+                     11
                      THEN
-                            DECLARATION
-                                   integer
-                                   x
+                            THROW
+                                   #ses#

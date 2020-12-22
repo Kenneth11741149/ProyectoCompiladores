@@ -1,2 +1,1 @@
-Error Semantico: variable: x ya existe en el ambito.
-ERROR SEMANTICO: La variable [integer] no es del mismo tipo que el parametro del OpenMatch [character]
+Unable to convert [varchar] to String. 

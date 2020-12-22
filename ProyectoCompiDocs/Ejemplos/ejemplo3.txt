@@ -1,0 +1,41 @@
+open-main()
+    define varchar as integer;
+    varchar := 10;
+    define varExeter as character := 'a';
+    define varEchelon as boolean := true;
+    define x as integer := 5+varchar/(5-2);
+
+   open-until(x>3) do
+	throw(x);
+   close-until
+
+   open-match(varchar)
+ 	do
+          when  10 :=  throw(#SoS#);
+		stop;
+          when  11 :=  throw(#Hey hey#);
+		stop;
+         close-match
+
+   open-test(x>3 | x>4 | x>10) then
+	    throwln(x);
+                       close-test
+
+   
+   open-for( integer i :=0;i<6;i++) do
+	throwln(i);
+	throwln(#ASTRONOMIA#);
+                             
+   close-for
+   /*
+    open-until(true) do
+           throw(x);
+     close-until
+   */
+    f2();
+close-main
+open-method integer f2()
+    throw(#Sere una funcion?#);
+     define echelon as integer;
+     return := echelon;
+close-method
